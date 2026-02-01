@@ -144,7 +144,7 @@ Now, you can explore the files that have been downloaded and saved in `raw_data/
 The next subsection will teach you how you could have downloaded sequences manually -- this step is important because, without knowing which buttons you need to click on the NCBI/ENSEMBL websites or which sections data are archived... You cannot write your script! If you are already familiar with these steps, you can then continue with the next task: [generating MSAs with both nucleotide and protein data!](README.md#nucleotide-and-protein-sequence-alignments)
 
 <details>
-<summary><b>How can you use the web browser for data download?</b></summary>
+<summary><b>[[ Click here to learn how to use the web browser for data download ]]</b></summary>
 <br>
 
 ### Web browser
@@ -262,7 +262,6 @@ If you open these files using your preferred text editor (e.g., Notepad++, VSC, 
 * **Pan troglodites** (Ensembl:ENSPTRG00000013927): `Chimpanzee.fasta`.
 
 Hope that these steps have helped you understand how we wrote the python scripts and... You are now ready to infer your sequence alignments!
-
 </details>
 <br>
 
