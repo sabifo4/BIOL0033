@@ -1,0 +1,23 @@
+{
+    "name": "mixture",
+    "synonyms":["Mixture"],
+    "result_type": "MixtureModel[a]",
+    "call": "SModel.mixture[@models,@frequencies]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "models",
+            "arg_type": "List[MixtureModel[a]]",
+	    "description": "The models to mix"
+        },
+        {
+            "arg_name": "frequencies",
+            "arg_type": "List[Double]",
+            "default_value": "~symmetric_dirichlet[length[@models],3]",
+	    "description": "The frequencies for each model"
+        }
+    ],
+    "title": "Mixture model",
+    "description": "A scaled and weighted mixture of other mixture models.",
+    "extract": "all"
+}

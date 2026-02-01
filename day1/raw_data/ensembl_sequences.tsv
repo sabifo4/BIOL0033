@@ -1,0 +1,4 @@
+# Ensembl Mx1 sequences
+# Format: gene_id	name	fasta_header	output_filename
+ENSMMUG00000015329	Macaca_mulata	Rhesus_macaque_Mx	Rhesus_macaque.fasta
+ENSPTRG00000013927	Pan_troglodites	Chimpanzee_Mx	Chimpanzee.fasta

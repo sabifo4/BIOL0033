@@ -1,0 +1,44 @@
+# The `--imodel` command:
+
+-I       [partitions:]<model>               Insertion-deletion model.
+--imodel [partitions:]<model>
+
+The insertion deletion model can be `rs07`, `rs05`, or `none`.  The
+default is `rs07`.  A value of `none` means that the alignment is
+fixed.
+
+rs07 and rs05 have optional parameters.  These parameters have 
+default priors that come into play if the parameters are not
+specified.  For example, rs07 defaults to:
+
+   rs07[log_lambda~laplace[-4,0.707],mean_length=~exponential[10,1]]
+
+See help on "parameters" for information on specifying priors or
+values.
+
+If no partitions are specified, then every partition gets a separate
+unlinked) copy of the model.
+
+If multiple partitions are specified, then the partitions are linked.
+That is, they share the same parameter values for the model.
+
+The --imodel command can be given multiple times, but the same
+partition cannot be referenced twice.
+
+# Examples:
+
+   -I rs07
+
+   --imodel=rs07
+
+   -I none
+
+   --imodel=none
+
+   -I 1,3:rs07 -I 2:none
+
+In the last example, the indel models of partitions 1 and 3 are linked.
+
+# See also:
+
+   rs07, rs05

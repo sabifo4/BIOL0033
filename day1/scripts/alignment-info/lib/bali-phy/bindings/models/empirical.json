@@ -1,0 +1,18 @@
+{
+    "name": "empirical",
+    "synonyms": ["Empirical"],
+    "result_type": "ExchangeModel[a]",
+    "call": "SModel.empirical[@a,@filename]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "filename",
+            "arg_type": "String"
+        },
+        {
+            "arg_name": "a",
+            "arg_type": "a",
+            "default_value": "get_state[alphabet]"
+        }
+    ]
+}

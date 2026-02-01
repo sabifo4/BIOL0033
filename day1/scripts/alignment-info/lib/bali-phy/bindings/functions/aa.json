@@ -1,0 +1,9 @@
+{
+    "name": "aa",
+    "synonyms": ["AA"],
+    "result_type": "AA",
+    "call": "aa",
+    "import": ["Bio.Alphabet"],
+    "args": [],
+    "title": "The amino-acid alphabet"
+}

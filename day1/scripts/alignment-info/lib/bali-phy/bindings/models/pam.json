@@ -1,0 +1,14 @@
+{
+    "name": "pam",
+    "synonyms": ["PAM"],
+    "result_type": "ExchangeModel[AA]",
+    "call": "SModel.pam[@a]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "a",
+            "arg_type": "a",
+            "default_value": "get_state[alphabet]"
+        }
+    ]
+}

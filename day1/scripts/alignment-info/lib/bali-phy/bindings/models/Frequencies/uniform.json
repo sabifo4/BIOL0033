@@ -1,0 +1,15 @@
+{
+    "name": "Frequencies.uniform",
+    "result_type": "List[Tuple[String,Double]]",
+    "call": "SModel.uniform_frequencies_dict[@a]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "a",
+            "arg_type": "a",
+            "default_value": "get_state[alphabet]"
+        }
+    ],
+    "examples": ["hky85[pi=Frequencies.uniform]"],
+    "extract": "all"
+}

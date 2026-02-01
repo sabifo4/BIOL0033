@@ -1,0 +1,9 @@
+{
+    "name": "rna",
+    "synonyms": ["RNA"],
+    "result_type": "RNA",
+    "call": "rna",
+    "import": ["Bio.Alphabet"],
+    "args": [],
+    "title": "The RNA alphabet"
+}

@@ -1,0 +1,13 @@
+{
+    "name": "num_branches",
+    "result_type": "Int",
+    "no_log": true,
+    "call": "numBranches[@t]",
+    "import": ["Tree"],
+    "args": [
+        {
+            "arg_name": "t",
+            "arg_type": "Tree"
+        }
+    ]
+}

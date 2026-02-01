@@ -1,0 +1,21 @@
+{
+    "name": "normal",
+    "synonyms": ["Normal"],
+    "result_type": "Distribution[Double]",
+    "call": "normal[@mean,@sigma]",
+    "import": ["Probability"],
+    "args": [
+        {
+            "arg_name": "mean",
+            "arg_type": "Double",
+	    "description": "The mean parameter"
+        },
+        {
+            "arg_name": "sigma",
+            "arg_type": "Double",
+	    "description": "The standard deviation parameter"
+        }
+    ],
+    "title": "The normal distribution",
+    "examples": ["~normal[0,1]","~iid[10,normal[0,1]]"]
+}

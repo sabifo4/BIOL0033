@@ -1,0 +1,30 @@
+{
+    "name": "hky85_sym",
+    "title": "The Hasegawa-Kishino-Yano (1985) nucleotide exchangabilty matrix",
+    "result_type": "ExchangeModel[a]",
+    "constraints": ["Nucleotides[a]"],
+    "citation":{"type": "article",
+		"title": "Dating of the human-ape splitting by a molecular clock of mitochondrial DNA",
+		"year": "1985",
+		"author": [{"name": "Hasegawa, Masami"}, {"name": "Kishino, Hirohisa"}, {"name": "Yano, Taka-aki"}],
+		"journal": {"name": "Journal of molecular evolution", "volume": "22", "number": "2", "pages": "160--174"},
+		"identifier": [{"type":"doi","id":"10.1007/BF02101694"}]
+	       },
+    "call": "hky85_sym[@a,@kappa]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "kappa",
+            "arg_type": "Double",
+            "default_value": "~log_normal[log[2],0.25]",
+            "description": "Transition\/transversion ratio"
+        },
+        {
+            "arg_name": "a",
+            "arg_type": "a",
+	    "default_value": "get_state[alphabet]"
+        }
+    ],
+    "description":"Symmetric exchangability matrix from HKY",
+    "extract": "all"
+}

@@ -1,0 +1,20 @@
+{
+    "name": "shifted_exponential",
+    "result_type": "Distribution[Double]",
+    "call": "shifted_exponential[@mean,@shift]",
+    "import": ["Probability"],
+    "title": "The Exponential distribution",
+    "args": [
+        {
+            "arg_name": "mean",
+            "arg_type": "Double",
+	    "description": "The mean parameter"
+        },
+	{
+	    "arg_name": "shift",
+	    "arg_type": "Double",
+	    "description": "The shift parameter"
+	}
+    ],
+    "see": ["shifted_exponential"]
+}

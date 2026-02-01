@@ -1,0 +1,20 @@
+{
+    "name": "symmetric_dirichlet",
+    "synonyms": [ "Dirichlet"],
+    "result_type": "Distribution[List[Double]]",
+    "call": "symmetric_dirichlet[@n,@x]",
+    "import": ["Probability"],
+    "args": [
+        {
+            "arg_name": "n",
+            "arg_type": "Int"
+        },
+        {
+            "arg_name": "x",
+            "arg_type": "Double"
+        }
+    ],
+    "title":"The Dirichlet distribution",
+    "examples": ["~symmetric_dirichlet[2,4.0]"],
+    "description": "This is a Dirichlet with identical weight in all categories"
+}

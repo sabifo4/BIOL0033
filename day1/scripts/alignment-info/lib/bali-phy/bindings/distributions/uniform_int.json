@@ -1,0 +1,18 @@
+{
+    "name": "uniform_int",
+    "synonyms": ["UniformInt"],
+    "result_type": "Distribution[Int]",
+    "call": "uniform_int[@low,@high]",
+    "import": ["Probability"],
+    "args": [
+        {
+            "arg_name": "low",
+            "arg_type": "Int"
+        },
+        {
+            "arg_name": "high",
+            "arg_type": "Int"
+        }
+    ],
+    "title": "Uniform distribution on integers"
+}

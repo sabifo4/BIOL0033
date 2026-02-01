@@ -1,0 +1,36 @@
+{
+    "name": "Rates.gamma",
+    "synonyms": ["Rates.Gamma"],
+    "result_type": "MixtureModel[a]",
+    "call": "SModel.gamma_rates[@alpha,@n,@submodel]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "n",
+            "arg_type": "Int",
+            "default_value": "4",
+            "description": "The number of bins for discretizing the Gamma distribution"
+        },
+        {
+            "arg_name": "alpha",
+            "arg_type": "Double",
+            "default_value": "~log_laplace[6,2]",
+            "description": "The shape parameter for the Gamma distribution"
+        },
+        {
+            "arg_name": "submodel",
+            "arg_type": "MixtureModel[a]",
+            "description": "The model being scaled"
+        }
+    ],
+    "examples": ["gtr+Rates.gamma[4]+inv"],
+    "title": "The discrete-Gamma rate heterogeneity model",
+    "description": "The describes rate-heterogeneity across sites, where the rates for each site follow a Gamma distribution",
+    "citation":{"type": "article",
+		"title": "Maximum likelihood phylogenetic estimation from DNA sequences with variable rates over sites: approximate methods",
+		"year": "1994",
+		"author": [{"name": "Yang, Ziheng"}],
+		"journal": {"name": "Journal of molecular evolution", "volume": "39", "number": "3", "pages": "306--314"},
+		"identifier": [{"type":"doi","id":"10.1007/BF00160154"}]
+	       }
+}

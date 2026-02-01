@@ -1,0 +1,18 @@
+{
+    "name": "laplace",
+    "synonyms": [ "Laplace" ],
+    "result_type": "Distribution[Double]",
+    "call": "laplace[@m,@s]",
+    "import": ["Probability"],
+    "args": [
+        {
+            "arg_name": "m",
+            "arg_type": "Double"
+        },
+        {
+            "arg_name": "s",
+            "arg_type": "Double"
+        }
+    ],
+    "title": "The Laplace distribution"
+}

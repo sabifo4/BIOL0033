@@ -1,0 +1,14 @@
+{
+    "name": "unit_mixture",
+    "synonyms": ["UnitMixture"],
+    "result_type": "MixtureModel[a]",
+    "no_log": true,
+    "call": "unit_mixture[@submodel]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "submodel",
+            "arg_type": "RevCTMC[a]"
+        }
+    ]
+}

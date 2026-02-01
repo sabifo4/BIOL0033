@@ -1,0 +1,20 @@
+{
+    "name": "uniform",
+    "synonyms": ["Uniform"],
+    "result_type": "Distribution[Double]",
+    "call": "uniform[@low,@high]",
+    "import": ["Probability"],
+    "args": [
+        {
+            "arg_name": "low",
+            "arg_type": "Double",
+	    "description": "The lower bound"
+        },
+        {
+            "arg_name": "high",
+            "arg_type": "Double",
+	    "description": "The upper bound"
+        }
+    ],
+    "title": "The Uniform distribution"
+}

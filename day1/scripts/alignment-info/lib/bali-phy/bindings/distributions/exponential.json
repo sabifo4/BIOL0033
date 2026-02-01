@@ -1,0 +1,16 @@
+{
+    "name": "exponential",
+    "synonyms": [ "Exponential" ],
+    "result_type": "Distribution[Double]",
+    "call": "exponential[@mean]",
+    "import": ["Probability"],
+    "title": "The Exponential distribution",
+    "args": [
+        {
+            "arg_name": "mean",
+            "arg_type": "Double",
+	    "description": "The mean parameter"
+        }
+    ],
+    "see": ["shifted_exponential"]
+}

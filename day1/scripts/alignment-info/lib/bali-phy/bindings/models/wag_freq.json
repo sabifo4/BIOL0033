@@ -1,0 +1,26 @@
+{
+    "title": "The WAG amino-acid frequencies",
+    "name": "wag_freq",
+    "result_type": "List[Tuple[String,Double]]",
+    "call": "wag_frequencies[@a]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "a",
+            "arg_type": "a",
+            "default_value": "get_state[alphabet]",
+            "description": "The alphabet"
+        }
+    ],
+    "description": "A fixed frequency vector from the dataset in the WAG paper.",
+    "citation":{"type": "article",
+		"title": "A General Empirical Model of Protein Evolution Derived from Multiple Protein Families Using a Maximum-Likelihood Approach",
+		"year": "2001",
+		"author": [{"name": "Whelan, Simon"}, {"name": "Goldman, Nick"}],
+		"journal": {"name": "Molecular Biology and Evolution", "volume": "18", "number": "5", "pages": "691--699"},
+		"identifier": [{"type":"doi","id":"10.1093/oxfordjournals.molbev.a003851"}]
+	       },
+    "examples": ["wag+f[wag_frequencies]"],
+    "see": ["wag"],
+    "extract": "all"
+}

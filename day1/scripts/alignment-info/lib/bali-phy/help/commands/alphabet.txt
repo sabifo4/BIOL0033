@@ -1,0 +1,33 @@
+# The `--alphabet` command:
+
+-A         [partitions:]<alphabet>          The alphabet.
+--alphabet [partitions:]<alphabet>
+
+The alphabet can be:
+
+   `DNA`, `RNA`, `Amino-Acids`, `Numeric`, `Doublets`,
+   `Triplets`, or `Codons`
+
+If no partitions are specified, then the alphabet is applied to
+every partition.  The `--alphabet` command can be given multiple times,
+but the same partition cannot be referenced twice.
+
+The Doublets alphabet takes an optional extra argument specifying
+the nucleotide alphabet:
+
+     Doublets[DNA]            Doublets[RNA]
+
+The Triplets and Codons alphabets take optional
+extra arguments specifying the nucleotide alphabet and genetic code:
+
+     Triplets[DNA]            Codons[RNA,standard]
+
+# Examples:
+
+   --alphabet=DNA
+   -A RNA
+   --alphabet=1,3:DNA --alphabet=2:Codons
+
+# See also:
+
+   alphabets, Triplets, Codons, Doublets

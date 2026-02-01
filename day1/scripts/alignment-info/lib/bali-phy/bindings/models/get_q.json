@@ -1,0 +1,12 @@
+{
+    "name": "get_q",
+    "result_type": "Matrix[a]",
+    "call": "get_q[@q]",
+    "import": ["SModel"],
+    "args": [
+        {
+            "arg_name": "q",
+            "arg_type": "RevCTMC[a]"
+        }
+    ]
+}

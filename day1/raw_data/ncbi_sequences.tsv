@@ -1,0 +1,12 @@
+# NCBI Mx1 sequences
+# Format: accession_number	name	fasta_header	output_filename
+NM_002462	Homo_sapiens	Human_Mx	Human.fasta
+CR860897	Pongo_abeli	Orangutan_Mx	Orangutan.fasta
+X66093	Ovis_aries	Sheep_Mx	Sheep.fasta
+NM_173940	Bos_taurus	Cow_Mx	Cow.fasta
+AF239823	Canis_familiaris	Dog_Mx	Dog.fasta
+BC099784	Rattus_norvegicus	Rat_Mx	Rat.fasta
+AB164037	Sus_scrofa	Pig_Mx	Pig.fasta
+NM_010846	Mus_musculus	Mouse_Mx	Mouse.fasta
+NM_204609	Gallus_gallus	Chicken_Mx	Chicken.fasta
+Z21549	Anas_platyrhynchos	Duck_Mx	Duck.fasta
