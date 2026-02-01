@@ -497,7 +497,7 @@ mkdir log_info
 ../scripts/alignment-info/bin/alignment-info aln_nuc_mafft.fasta > log_info/log_info_nuc_mafft.txt
 ../scripts/alignment-info/bin/alignment-info aln_nuc_ppp_muscle.fasta > log_info/log_info_nuc_ppp_muscle.txt
 ../scripts/alignment-info/bin/alignment-info aln_nuc_super5_muscle.fasta > log_info/log_info_nuc_super5_muscle.txt
-../scripts/alignment-info/bin/alignment-info aln_prot_mafft.fasta >log_info/log_info_prot_mafft.txt
+../scripts/alignment-info/bin/alignment-info aln_prot_mafft.fasta > log_info/log_info_prot_mafft.txt
 ../scripts/alignment-info/bin/alignment-info aln_prot_ppp_muscle.fasta > log_info/log_info_prot_ppp_muscle.txt
 ../scripts/alignment-info/bin/alignment-info aln_prot_super5_muscle.fasta > log_info/log_info_prot_super5_muscle.txt
 ```
