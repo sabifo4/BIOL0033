@@ -46,19 +46,19 @@ Sequences for **human**, **orangutan**, **sheep**, **cow**, **dog**, **rat**, **
 ```txt
 # NCBI
 ##> Only nucleotide data with STOP codons
-<path_to_scipt>/scripts/download_ncbi_sequences.py <path_to_tsv>/ncbi_sequences.tsv <path_to_outdir>/data1/
+<path_to_script>/scripts/download_ncbi_sequences.py <path_to_tsv>/ncbi_sequences.tsv <path_to_outdir>/data1/
 ##> Nucleotide data with STOP codons and amino acid data
-<path_to_scipt>/scripts/download_ncbi_sequences.py <path_to_tsv>/ncbi_sequences.tsv <path_to_outdir>/data1/ --protein
+<path_to_script>/scripts/download_ncbi_sequences.py <path_to_tsv>/ncbi_sequences.tsv <path_to_outdir>/data1/ --protein
 ##> Nucleotide data with STOP codons, without STOP codons, and amino acid data
-<path_to_scipt>/scripts/download_ncbi_sequences.py <path_to_tsv>/ncbi_sequences.tsv <path_to_outdir>/data1/ --protein --rmstop
+<path_to_script>/scripts/download_ncbi_sequences.py <path_to_tsv>/ncbi_sequences.tsv <path_to_outdir>/data1/ --protein --rmstop
 
 # ENSEMBL
 ##> Only nucleotide data with STOP codons
-<path_to_scipt>/scripts/download_ensembl_sequences.py <path_to_tsv>/ensembl_sequences.tsv <path_to_outdir>/data1
+<path_to_script>/scripts/download_ensembl_sequences.py <path_to_tsv>/ensembl_sequences.tsv <path_to_outdir>/data1
 ##> Nucleotide data with STOP codons and amino acid data
-<path_to_scipt>/scripts/download_ensembl_sequences.py <path_to_tsv>/ensembl_sequences.tsv <path_to_outdir>/data1/ --protein
+<path_to_script>/scripts/download_ensembl_sequences.py <path_to_tsv>/ensembl_sequences.tsv <path_to_outdir>/data1/ --protein
 ##> Nucleotide data with STOP codons, without STOP codons, and amino acid data
-<path_to_scipt>/scripts/download_ensembl_sequences.py <path_to_tsv>/ensembl_sequences.tsv <path_to_outdir>/data1/ --protein --rmstop
+<path_to_script>/scripts/download_ensembl_sequences.py <path_to_tsv>/ensembl_sequences.tsv <path_to_outdir>/data1/ --protein --rmstop
 
 ```
 
@@ -142,6 +142,10 @@ Congratulations, you have now downloaded all sequence data and generated files w
 Now, you can explore the files that have been downloaded and saved in `raw_data/data1` as well as the files you have generated -- remember that you can click the filename on the bottom right panel and the file will appear on the top left panel! If you want to download files to your PC, you will need to click button `More` on the bottom right panel followed by `Export...`. Then, you can choose the location on your PC where you want a specific file to be saved. You have more tips about uploading and downloading files to/from the server in the [README.md file in the `server` directory](../server/README.md#uploading-files-to-the-server).
 
 The next subsection will teach you how you could have downloaded sequences manually -- this step is important because, without knowing which buttons you need to click on the NCBI/ENSEMBL websites or which sections data are archived... You cannot write your script! If you are already familiar with these steps, you can then continue with the next task: [generating MSAs with both nucleotide and protein data!](README.md#nucleotide-and-protein-sequence-alignments)
+
+<details>
+<summary><b>How can you use the web browser for data download?</b></summary>
+<br>
 
 ### Web browser
 
@@ -257,7 +261,10 @@ If you open these files using your preferred text editor (e.g., Notepad++, VSC, 
 * **Macaca mulata** (Ensembl:ENSMMUG00000015329): `Rhesus_macaque.fasta`.
 * **Pan troglodites** (Ensembl:ENSPTRG00000013927): `Chimpanzee.fasta`.
 
-Hope that these steps have helped you understand how we wrote the python scripts and... You are now ready to infer  your sequence alignments!
+Hope that these steps have helped you understand how we wrote the python scripts and... You are now ready to infer your sequence alignments!
+
+</details>
+<br>
 
 ## Nucleotide and protein sequence alignments
 
