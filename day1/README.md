@@ -263,7 +263,6 @@ If you open these files using your preferred text editor (e.g., Notepad++, VSC, 
 
 Hope that these steps have helped you understand how we wrote the python scripts and... You are now ready to infer your sequence alignments!
 </details>
-<br>
 
 ## Nucleotide and protein sequence alignments
 
