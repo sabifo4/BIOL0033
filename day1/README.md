@@ -446,7 +446,7 @@ More documentation at:
     https://drive5.com/muscle
 ```
 
-We will use the [`PPP` algorithm](https://drive5.com/muscle5/manual/cmd_align.html) and the [`super5`]algorithm(https://drive5.com/muscle5/manual/cmd_super5.html) to infer both alignments, and then we will compare the differences:
+We will use the [`PPP` algorithm](https://drive5.com/muscle5/manual/cmd_align.html) and the [`super5`algorithm](https://drive5.com/muscle5/manual/cmd_super5.html) to infer both alignments, and then we will compare the differences:
 
 ```sh
 # Run from my_session/day1/raw_data/data1
