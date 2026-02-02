@@ -37,7 +37,6 @@ Click the `Terminal` tab that you will see next to `Console` and type the follow
 
 ```sh
 ls
-cd biol0033-tutorial/
 mkdir test
 ls
 cd test
@@ -45,13 +44,13 @@ mkdir test
 ```
 
 <p align="center">
-<img width="600" height="200" src="../figs/server_3.png">
+<img width="550" height="150" src="../figs/server_3.png">
 </p>
 
-Firstly, you list the content of the main directory you have been given access to: there is a directory called `biol0033-tutorial` where the practical sessions will take place. The file structure may change once all the data are available but, in the meantime, it looks like it is empty. We then create a new directory called `test` and, once we move inside directory `test`, we create a new directory called `scripts`. You can see how these changes take place by looking at the bottom right panel under tab `Files`:
+Firstly, you list the content of the main directory you have been given access to: there is a directory called `biol0033-tutorial` where the software and data for the course are stored -- you will only have "read" permissions to this folder! The file structure may change once all the data are available but, in the meantime, it looks like it is empty. We then create a new directory called `test` and, once we move inside directory `test`, we create a new directory called `scripts`. You can see how these changes take place by looking at the bottom right panel under tab `Files`:
 
 <p align="center">
-<img width="600" height="200" src="../figs/server_4.png">
+<img width="550" height="150" src="../figs/server_4.png">
 </p>
 
 Now... Let's see what we should do if we want to upload some files from our own PC to the server!
@@ -60,10 +59,10 @@ Now... Let's see what we should do if we want to upload some files from our own 
 
 We will use the bottom right panel to show you how you can upload files to the server! You can click the button `Upload` and a pop-up window will show up: you can see the `Target directory` where the file is to be uploaded, a button `Browse` to change this directory if need be, another button `Choose File` that you can use to select the file that you want to upload, and buttons `OK` (press to confirm the upload) and `Cancel` (press to cancel the upload).
 
-When you first try to upload a file, the target directory may be `~/biol0033-tutorial`. In our case, we will show you how to upload some scripts that we will later run, so we want to save them in the `scripts` directory we just created:
+When you first try to upload a file, the target directory may be `~/biol0033-tutorial` (or, perhaps, `~`). In our case, we will show you how to upload some scripts that we will later run, so we want to save them in the `scripts` directory we just created:
 
 <p align="center">
-<img width="600" height="250" src="../figs/server_5.png">
+<img width="600" height="300" src="../figs/server_5.png">
 </p>
 
 Once you press `Choose`, then you will see the path has changed:
@@ -87,13 +86,13 @@ Once you find the file you want to upload, press `Open`. Then, you will see the 
 Now, if you use the bottom right panel to navigate inside directory `scripts`, you will see that this file has been successfully uploaded!
 
 <p align="center">
-<img width="400" height="100" src="../figs/server_9.png">
+<img width="450" height="100" src="../figs/server_9.png">
 </p>
 
 If you press the name of the script on the panel, you will also see the script on the top left panel -- this is very useful if you need to quickly modify a file that has already been transferred to the server!
 
 <p align="center">
-<img width="600" height="200" src="../figs/server_10.png">
+<img width="600" height="300" src="../figs/server_10.png">
 </p>
 
 If you had run some programs on the server and you wanted to retrieve some of the output files, you would just need to click on the file you would like to download on the bottom right panel. Then, click button `More` and `Export...` as shown below:
@@ -105,7 +104,7 @@ If you had run some programs on the server and you wanted to retrieve some of th
 You will then need to confirm the name of the file you want to download in the next pop-up window:
 
 <p align="center">
-<img width="400" height="250" src="../figs/server_11.png">
+<img width="400" height="250" src="../figs/server_12.png">
 </p>
 
 Lastly, you will be redirected to another tab where you can select where you want this file to be saved on your PC.
@@ -119,13 +118,13 @@ At the moment, we have uploaded a python script that will allow us to download s
 If you have followed all the steps abovementioned, you will have created a directory `test` and, inside this directory, another one called `scripts` (the python script was uploaded there!). Now, we will create another directory inside `test` where our input sequence data will be saved: `raw_data`.
 
 <p align="center">
-<img width="400" height="100" src="../figs/server_13.png">
+<img width="450" height="100" src="../figs/server_13.png">
 </p>
 
-Nevertheless, we first need to upload a tab-separated file (`ensembl_sequences.py`) that we have created with the information this python script will retrieve to download sequences from `ENSEMBL`:
+Nevertheless, we first need to upload a tab-separated file (`ensembl_sequences.tsv`) that we have created with the information this python script will retrieve to download sequences from `ENSEMBL`. We will follow the same steps as described above and save it inside directory `raw_data`:
 
 <p align="center">
-<img width="600" height="250" src="../figs/server_14.png">
+<img width="550" height="250" src="../figs/server_14.png">
 </p>
 <p align="center">
 <img width="400" height="250" src="../figs/server_15.png">
@@ -138,7 +137,7 @@ If you click this file, you can see how it is structured:
 * The next two lines have the details required to retrieve two specific sequences of gene Mx1 for two taxa: rhesus macaque and chimpanzee.
 
 <p align="center">
-<img width="500" height="250" src="../figs/server_16.png">
+<img width="400" height="250" src="../figs/server_16.png">
 </p>
 
 > [!NOTE]
@@ -175,3 +174,5 @@ If you now use the bottom right panel to navigate to directory `raw_data`, you w
 <p align="center">
 <img width="450" height="200" src="../figs/server_19.png">
 </p>
+
+You are now ready to start the practical sessions!
