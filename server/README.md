@@ -25,7 +25,7 @@ Once you manage to successfully log in the server, you shall see something like 
 </p>
 
 > [!TIP]
-> When you first access your server, the background will be white. You can customise the background of your interface by clicking `Tools> GlobalOptions> Appearance>`. Then, you can modify the editor theme, the font size, etc. Please click `Apply` every time you want to check whether you are happy with the settings you have selected. Once everything looks fine, then press `OK` to confirm all changes.
+> When you first access the server, the background will be white. You can customise the background of your interface by clicking `Tools> GlobalOptions> Appearance>`. Then, you can modify the editor theme, the font size, etc. Please click `Apply` every time you want to check whether you are happy with the settings you have selected. Once everything looks fine, then press `OK` to confirm all changes.
 
 Now, you are ready to interact with the server!
 
@@ -114,7 +114,7 @@ You now have learnt how to upload and download files to/from the server so... No
 
 ## Running software on the server
 
-At the moment, we have uploaded a python script that will allow us to download some sequence data from `ENSEMBL` -- this is one of the scripts you will be using during the practical sessions! We will show you how you can execute software on a server using this python script as an example.
+At the moment, we have uploaded a python script that will allow us to download some sequence data from `ENSEMBL` -- this is one of the scripts you will be using during the practical sessions! We will show you how you can execute software on the server using this python script as an example.
 
 If you have followed all the steps abovementioned, you will have created a directory `test` and, inside this directory, another one called `scripts` (the python script was uploaded there!). Now, we will create another directory inside `test` where our input sequence data will be saved: `raw_data`. 
 
