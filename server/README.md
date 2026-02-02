@@ -1,6 +1,6 @@
 # Accessing the `biol0033` server
 
-This year, to avoid software installation issues and compatibility problems resulting from using different operating systems, we will all be using the same remote server! We have been lucky enough to have [Stephen Lang](https://profiles.ucl.ac.uk/104417-stephen-lang) and [Werner Van Niekerk](https://profiles.ucl.ac.uk/60984-werner-van-niekerk) from [UCL's Advanced Research Computing Centre](https://www.ucl.ac.uk/advanced-research-c) design the server you will be using during all the practical sessions -- we are truly grateful to them! :smile:
+This year, to avoid software installation issues and compatibility problems resulting from using different operating systems, we will all be using the same remote server! We have been lucky enough to have [Stephen Lang](https://profiles.ucl.ac.uk/104417-stephen-lang) and [Werner Van Niekerk](https://profiles.ucl.ac.uk/60984-werner-van-niekerk) from [UCL's Advanced Research Computing Centre](https://www.ucl.ac.uk/advanced-research-c) develop the server you will be using during all the practical sessions -- we are truly grateful to them! :smile:
 
 We have put together the following step-by-step tutorial with some examples that show you how to access the server, upload/download files, run scripts on the server, and use the R console to run in-house scripts. Please make sure you get familiar with this interface before the practical sessions.
 
