@@ -9,7 +9,7 @@ If you have any questions... Just post them on Moodle!
 ## Connecting to the server
 
 Please type the following URL on your preferred web browser to access the server: https://biol0033.arc.ucl.ac.uk/
-You will be asked to enter your username (i.e., please enter **only** your UCL ID, e.g., `ucbd10`) and your passowrd (i.e., the same password you use to access your UCL account):
+<br>You will be asked to enter your username (i.e., please enter **only** your UCL ID, e.g., `ucbd10`) and your passowrd (i.e., the same password you use to access your UCL account):
 
 <p align="center">
 <img width="400" height="200" src="../figs/server_1.png">
