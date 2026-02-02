@@ -48,7 +48,7 @@ mkdir test
 <img width="600" height="200" src="../figs/server_3.png">
 </p>
 
-Firstly, you list the content of the main directory you have given access to: there is a directory called `biol0033-tutorial` where the practical sessions will take place. The file structure may change once all the data are available but, in the meantime, it looks like it is empty. We then create a new directory called `test` and, once we move inside directory `test`, we create a new directory called `scripts`. You can see how these changes take place by looking at the bottom right panel under tab `Files`:
+Firstly, you list the content of the main directory you have been given access to: there is a directory called `biol0033-tutorial` where the practical sessions will take place. The file structure may change once all the data are available but, in the meantime, it looks like it is empty. We then create a new directory called `test` and, once we move inside directory `test`, we create a new directory called `scripts`. You can see how these changes take place by looking at the bottom right panel under tab `Files`:
 
 <p align="center">
 <img width="600" height="200" src="../figs/server_4.png">
