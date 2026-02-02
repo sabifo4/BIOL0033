@@ -56,7 +56,7 @@ Firstly, you are listing the content of the main directory you have given access
 
 Now... Let's see what we should do if we want to upload some files from our own PC to the server!
 
-## Uploading files to the server
+## Uploading/Downloading files to/from the server
 
 We will use the bottom right panel to show you how to upload files onto the server! You can click the button `Upload` and a pop-up window will show you up: you can see the `Target directory` where the file is to be uploaded, a button `Browse` to change this directory if need be, another button `Choose File` that you can use to select the file that you want to upload, and buttons `OK` (press to confirm the upload) and `Cancel` (press to cancel the upload).
 
