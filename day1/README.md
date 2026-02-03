@@ -509,6 +509,120 @@ You can compare metrics such as gaps, indels, minimum sequence identity, sequenc
 
 After discussing the quality of your nucleotide and protein alignments, you are ready to start your journey with structural data! The next sections will show you how to download structural data and how to generate structure-based alignments!
 
-## Download structural data
+## Structure Based Alignments
 
-## Structure-based sequence alignment
+An alternative way to align proteins is to align them based on their 3D structures.  In the past this was rare because few proteins had high resolution Crystal structures, but in recent years, improvements in X-ray Crystallography, Cryogenic Electron Microscopy (Cryo-EM) and, importantly, machine learning-based structure predictions using tools such as Alphafold (link) have made structural alignments much easier.  
+
+There are various methods for making structural alignments including: 
+
+* USalign: Slower alignment that minimizes the TM-score (a measure of structural similarity) between two structures (link)
+
+* Foldseek: Fast alignment that enables large scale structure-based searches (analogous to blast), by encoding structures as a 1 dimensional embedded object (link). 
+
+* Chimera Matchmaker:  Aligns structures beginning with a sequence-based alignment and then refining to minimise distances between core atom pairs (link).
+
+We will be using the USalign algorithm.  
+
+### Obtain Simulated Structures
+
+The first step is to obtain structures for the proteins we are interested in.  
+
+An important place to find protein structures is the Uniprot database (link).  This is a large database containing information on proteins.  In particular it has links to known structures and predicted structures.  Most gene accessions will link to a Uniprot protein.  Also the AlphafoldDB has calculated predicted structures for all Uniprot structures.  
+
+
+Example: 
+<Gene accession for Chimpanzee (Ensemble)>
+
+#example screenshot
+#<p align="center">
+#<img width="600" height="200" src="../figs/ncbi_download_nuc_fasta.png">
+#</p>
+
+Some will link to two PDBs
+
+<Gene accession for Mx1 from mouse (GenBank)>
+
+We have provide a table containing our proteins of interest and the relevant Uniprot accession numbers.  <protein_metadata.csv> 
+
+If you have one or two pdb files to download, the easiest way is to download them directly from the Uniprot web interface.  If you want to look at many files, it is easier to write a script.  
+
+We will download simulated structures from the Alphafold DB using the following code: 
+
+```sh
+Use the script XXXX.py
+```
+
+The metadata file is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
+
+
+2) Extract the .pdb url from the metadata and use that to download each .pdb file. 
+
+```sh
+Use the script XXXX.py
+```
+
+### Structure of a PDB file
+
+PDB files contain metadata about the structure/simulated structure, the protein sequence, and the location of each atom in the protein.  
+
+For the atom locations, there is some other information in the field: 
+
+<screenshot>
+
+*Atom number
+*Atom type:  Eg. N for nitrogen, CA for C-alpha. 
+*Residue type: Eg. MET for methionine. 
+*Chain Identifier:  Usually a letter e.g. A, B, C
+*Chain Number:  The residue's index in the protein.  This should correspond to the sequence alignment. 
+*X, Y and Z location
+*Occupancy:  A number between 0 to 1 indicating the fraction of molecules in a crystal that contain that specific atom at that specific coordinate.  This is always 1 for our simulated structures. 
+*B-Factor:  A measure of the confidence for that residue in a given structure.  For crystal structures, a lower number (<30) is good, but for simulated structures this indicates the pLDDT (between 0-100), and a higher value (>80) indicates a more structurally stable residue.  
+
+For more on pdb files see: [This primer from Johns Hopkins University](https://www.biostat.jhsph.edu/~iruczins/teaching/260.655/links/pdbformat.pdf)
+
+### Construct the alignment.  
+
+To make an alignment we will use the US-align program (https://aideepmed.com/US-align/help/), US-align makes a series of pairwise alignments and then optimizes those to minimize the overall TM-score for all the alignments.  
+
+We will show you how to do a pairwise alignment, and then how to align all structures to output a multiple sequence alignment with USalign. 
+
+To make a pairwise alignment between the human and the mouse structures, run: 
+
+USalign Human_P20591.pdb Mouse_P09922.pdb -o sup
+
+The flag -o sup tells USalign to output a new PDB for the human protein with coordinates aligned to the mouse structure. 
+
+[Images illistrating alignment]
+
+This images were visualized using the program ChimeraX which you can download from (). 
+
+In addition to outputting the pdb, it also outputs various .pml files which help visualize the superposition using the program Pymol.  
+
+
+One can make a pairwise sequence alignment by running: 
+
+USalign Human_P20591.pdb Mouse_P09922.pdb > human_mouse.txt
+
+This will output a file that shows which residues from each structure align with residues from the other structure
+
+[screenshot]
+
+the number of dots between each residue indicates how close that residue was to its aligned partner.  Two dots is less than 5 Angstroms and one dot is greater than 5 Angstroms. 
+
+It also gives a final TM score as well as an RMSD score (another common metric for structural similarity).
+
+Finally, we will make a structural alignment for all our structures.  To do this, it is easiest to make a file containing a list of the files that we want to include.  
+
+To make a file called pdb_list.txt listing all the .pdb files in this directory you can run the commands: 
+
+xxxx
+
+Once you have that file, run: USalign -dir ~/my_session/pdb pdb_list.txt -suffix .pdb -mm 4 > ~/my_session/pdb/us_align.fasta
+
+This will output a .fasta file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.   
+
+> [!IMPORTANT]
+> How does this alignment compare to your sequence-based alignments? 
+
+
+
