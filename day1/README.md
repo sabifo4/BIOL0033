@@ -144,7 +144,7 @@ Now, you can explore the files that have been downloaded and saved in `raw_data/
 The next subsection will teach you how you could have downloaded sequences manually -- this step is important because, without knowing which buttons you need to click on the NCBI/ENSEMBL websites or which sections data are archived... You cannot write your script! If you are already familiar with these steps, you can then continue with the next task: [generating MSAs with both nucleotide and protein data!](README.md#nucleotide-and-protein-sequence-alignments)
 
 <details>
-<summary><b>[[ Click here to learn how to use the web browser for data download ]]</b></summary>
+<summary><b>[ Click here to learn how to use the web browser for data download ]</b></summary>
 <br>
 
 ### Web browser
@@ -511,15 +511,15 @@ After discussing the quality of your nucleotide and protein alignments, you are 
 
 ## Structure Based Alignments
 
-An alternative way to align proteins is to align them based on their 3D structures.  In the past this was rare because few proteins had high resolution Crystal structures, but in recent years, improvements in X-ray Crystallography, Cryogenic Electron Microscopy (Cryo-EM) and, importantly, machine learning-based structure predictions using tools such as Alphafold (link) have made structural alignments much easier.  
+An alternative way to align proteins is to align them based on their 3D structures.  In the past this was rare because few proteins had high-resolution crystal structures.  In recent years, however, improvements in X-ray Crystallography, Cryogenic Electron Microscopy (Cryo-EM) and, importantly, machine learning-based structure predictions using tools such as [Alphafold](https://alphafold.ebi.ac.uk/) have made structural alignments much more common.  
 
 There are various methods for making structural alignments including: 
 
-* USalign: Slower alignment that minimizes the TM-score (a measure of structural similarity) between two structures (link)
+* [USalign](https://aideepmed.com/US-align/): A precise alignment algorithm that minimizes the TM-score (a measure of structural similarity) between two structures.
 
-* Foldseek: Fast alignment that enables large scale structure-based searches (analogous to blast), by encoding structures as a 1 dimensional embedded object (link). 
+* [Foldseek](https://foldseek.com/): This is a fast search algorithm that determines structural similarity between proteins by first encoding the protein structure into a linear sequence in a 3D interaction (3Di) alphabet which can then be compared with other encoded structures using similar principles to sequence-based searches.   
 
-* Chimera Matchmaker:  Aligns structures beginning with a sequence-based alignment and then refining to minimise distances between core atom pairs (link).
+* [ChimeraX Matchmaker](https://www.cgl.ucsf.edu/chimera/docs/ContributedSoftware/matchmaker/matchmaker.html):  Aligns structures beginning with a sequence-based alignment and then refining the position to identify core atom pairs and minimize the distance between those core atom pairs.
 
 We will be using the USalign algorithm.  
 
@@ -527,22 +527,70 @@ We will be using the USalign algorithm.
 
 The first step is to obtain structures for the proteins we are interested in.  
 
-An important place to find protein structures is the Uniprot database (link).  This is a large database containing information on proteins.  In particular it has links to known structures and predicted structures.  Most gene accessions will link to a Uniprot protein.  Also the AlphafoldDB has calculated predicted structures for all Uniprot structures.  
+An important place to find protein structures is the [Uniprot](https://www.uniprot.org/) database.  This is a large database containing information on proteins.  In particular it has links to known experimentally determined and predicted structures.  Most gene accessions will link to a Uniprot protein.  Also the AlphafoldDB has calculated predicted structures for all Uniprot structures.  
 
+
+<details>
+<summary><b>[ Below we have instructions to download a pre-assembled list of pdb ids.  Click here for an example on how to use the web browser to download individual .pdb files.]</b></summary>
 
 Example: 
-<Gene accession for Chimpanzee (Ensemble)>
 
-#example screenshot
+[Gene accession for Chimpanzee](http://www.ensembl.org/Pan_troglodytes/Gene/Summary?db=core;g=ENSPTRG00000013927;r=21:27867000-27965931) from Ensembl. 
+
+<p align="center">
+<img width="658" height="395" src="../figs/ensemble_uniprot_screenshot.png">
+</p>
+
+Note this gene has several possible translations.  We select the "canonical" translation. 
+
+You have to click through a few more screens if you are searching from ncbi: 
+
+Example: Gene accession [NM_010846](https://www.ncbi.nlm.nih.gov/nuccore/NM_010846) for Mouse.  
+
+<p align="center">
+<img width="700" height="450" src="../figs/ncbi_mouse_gene_page.png">
+</p>
+
+First follow the protein link to get to the [NCBI protein page](https://www.ncbi.nlm.nih.gov/protein/6996930) 
+
+<p align="center">
+<img width="740" height="416" src="../figs/ncbi_mouse_protein_page.png">
+</p>
+
+Then follow the link to get to the [UniprotKB page on NCBI](https://www.ncbi.nlm.nih.gov/protein/127567)
+
+<p align="center">
+<img width="535" height="235" src="../figs/ncbi_mouse_uniprot_page.png">
+</p>
+
+You can also search from Uniprot with the gene id (either from Ensemble or NCBI).  
+
+<p align="center">
+<img width="815" height="330" src="../figs/uniprot_search_mouse.png">
+</p>
+
+This will sometimes link to multiple uniprot ids.  You should aim to choose ids that have been reviewed (see the Gold page Icon next to the ID). 
+
+This will take you to the [Uniprot page](https://www.uniprot.org/uniprotkb/P09922/entry):
+
+<p align="center">
+<img width="795" height="335" src="../figs/uniprot_page_mouse.png">
+</p>
+
+From theere, you can go down to the structure section and download available structures:
+
+<p align="center">
+<img width="800" height="490" src="../figs/uniprot_alphafold_download.png">
+</p>
+
+You can also get simulated structures directly from the [AlphafoldDB page](https://alphafold.ebi.ac.uk/entry/P09922)
+
 #<p align="center">
-#<img width="600" height="200" src="../figs/ncbi_download_nuc_fasta.png">
+#<img width="820" height="395" src="../figs/alphafold_download.png">
 #</p>
 
-Some will link to two PDBs
-
-<Gene accession for Mx1 from mouse (GenBank)>
-
-We have provide a table containing our proteins of interest and the relevant Uniprot accession numbers.  <protein_metadata.csv> 
+</details>
+We have provided a table containing our proteins of interest and the relevant Uniprot accession numbers.  <protein_metadata.csv> 
 
 If you have one or two pdb files to download, the easiest way is to download them directly from the Uniprot web interface.  If you want to look at many files, it is easier to write a script.  
 
@@ -623,6 +671,7 @@ This will output a .fasta file that is very similar to the multiple sequence ali
 
 > [!IMPORTANT]
 > How does this alignment compare to your sequence-based alignments? 
+
 
 
 
