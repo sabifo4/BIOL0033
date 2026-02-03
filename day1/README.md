@@ -529,9 +529,10 @@ The first step is to obtain structures for the proteins we are interested in.
 
 An important place to find protein structures is the [Uniprot](https://www.uniprot.org/) database.  This is a large database containing information on proteins.  In particular it has links to known experimentally determined and predicted structures.  Most gene accessions will link to a Uniprot protein.  Also the AlphafoldDB has calculated predicted structures for all Uniprot structures.  
 
+If you have one or two pdb files to download, the easiest way is to download them directly from the Uniprot web interface.  If you want to look at many files, it is easier to write a script. 
 
 <details>
-<summary><b>[ Below we have instructions to download a pre-assembled list of pdb ids.  Click here for an example on how to use the web browser to download individual .pdb files.]</b></summary>
+<summary><b>[Click here for an example on how to use the web browser to download individual .pdb files.]</b></summary>
 
 Example: 
 
@@ -590,23 +591,28 @@ You can also get simulated structures directly from the [AlphafoldDB page](https
 #</p>
 
 </details>
-We have provided a table containing our proteins of interest and the relevant Uniprot accession numbers.  <protein_metadata.csv> 
 
-If you have one or two pdb files to download, the easiest way is to download them directly from the Uniprot web interface.  If you want to look at many files, it is easier to write a script.  
+We have provided a table mapping our genes of interest to the relevant Uniprot accession numbers in the file `protein_metadata.csv`.  We have also provided scripts to download simulaed structures from alphafold.  
 
-We will download simulated structures from the Alphafold DB using the following code: 
+First make a directory to put the metadata, and then download the metadata for each simulated structure from AlphafoldDB using the following command: 
 
 ```sh
-Use the script XXXX.py
+mkdir ~/mysession/day1/structure/metadata
+python alphafold_metadata_download.py
 ```
 
 The metadata file is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
 
-
-2) Extract the .pdb url from the metadata and use that to download each .pdb file. 
+Now extract the .pdb url from the metadata and use that to download each .pdb file. 
 
 ```sh
-Use the script XXXX.py
+mkdir ~/mysession/day1/structure/pdb
+alphafold_pdb_download.py
+```
+this should save your data into the folder `my_session/day1/pdb`.  Check to see if you have all the files. 
+
+```sh
+ls ~/mysession/day1/structure/pdb
 ```
 
 ### Structure of a PDB file
@@ -671,6 +677,7 @@ This will output a .fasta file that is very similar to the multiple sequence ali
 
 > [!IMPORTANT]
 > How does this alignment compare to your sequence-based alignments? 
+
 
 
 
