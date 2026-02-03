@@ -137,7 +137,7 @@ If you click this file, you can see how it is structured:
 * The next two lines have the details required to retrieve two specific sequences of gene Mx1 for two taxa: rhesus macaque and chimpanzee.
 
 <p align="center">
-<img width="400" height="250" src="../figs/server_16.png">
+<img width="300" height="150" src="../figs/server_16.png">
 </p>
 
 > [!NOTE]
