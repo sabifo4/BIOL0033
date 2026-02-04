@@ -6,8 +6,7 @@ Ouputs .json files named <uniprot_id>.json in the specified output directory.
 """
 
 import os
-import pandas as pd
-import numpy as np
+#import pandas as pd
 import argparse
 import sys
 import json
@@ -128,11 +127,20 @@ def main():
     # successful = 0
     # failed = 0
     
-    protein_metadata = pd.read_csv(args.input_file, dtype=str)
+    #protein_metadata = pd.read_csv(args.input_file, dtype=str)
     
-    for idx, row in protein_metadata.iterrows():
-        uniprot_id = row['uniprot'].strip()  # Remove any whitespace
-        species_name = row['species_common_name']
+    protein_metadata = {}
+    with open(args.input_file, 'r') as f_in: 
+        next(f_in)
+        for line in f_in: 
+            linesp = line.strip().split(',')
+            print(linesp)
+            protein_metadata[linesp[0]]=linesp[5]
+
+    #for idx, row in protein_metadata.iterrows():
+    for species_name, uniprot_id in protein_metadata.items():
+        #uniprot_id = row['uniprot'].strip()  # Remove any whitespace
+        #species_name = row['species_common_name']
         
         download_alphafold_metadata(uniprot_id, species_name, model_metadata_dir)
         download_pdb(uniprot_id, species_name, model_metadata_dir, pdb_dir)

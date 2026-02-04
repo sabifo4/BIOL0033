@@ -32,6 +32,8 @@ cp -R ~/biol0033-tutorial/day1 .
 ls
 ```
 
+> Remember to run `chmod 775 *.py` and `chmod 775 one_line_fasta.pl` and `chmod 775 alignment-info/bin/alignment-info` from your `scripts` directory so that you have permission to run those programs.  
+
 Now, you have just copied everything that you will need for today's practical session on your own working directory called `my_session`. Let's get started with data download!
 
 We have created two input files with all the information our python scripts will need to retrieve nucleotide and amino acid sequences from the `NCBI` and `ENSEMBL` databases and then save them in FASTA format with our preferred output filenames. These files start with two commented lines with information about the content of the file followed by as many tab-separated lines (i.e., each element in each row is separated by a tab, `\t`; there are four columns) as sequences we want to download. The information we require for each sequence is as follows:
@@ -69,10 +71,10 @@ In order to run these scripts from the server, go back to the `Terminal` tab and
 # Change directories if you are not
 # there yet
 
-## Download sequences from NCBI
+## Download sequences from ENSEMBL
 scripts/download_ensembl_sequences.py raw_data/ensembl_sequences.tsv raw_data/data1/ --protein --rmstop
 
-## Download sequences from ENSEMBL
+## Download sequences from NCBI
 scripts/download_ncbi_sequences.py raw_data/ncbi_sequences.tsv raw_data/data1/ --protein --rmstop
 
 # Now, move to `raw_data/data1` to
@@ -597,7 +599,11 @@ We have provided a table mapping our genes of interest to the relevant Uniprot a
 First make a directory to put the metadata, and then download the metadata and pdb for each simulated structure from AlphafoldDB using the following command: 
 
 ```sh
-python alphafold_download.py ~/my_session/day1/protein_metadata.csv ~/my_session/day1
+# Run from my_session/day1/aln
+# Change directories if you are not
+# there yet
+
+scripts/alphafold_download.py raw_data/protein_metadata.csv .
 ```
 
 The metadata files will be saved in `~/my_session/day1/pdb` and the pdb files will be saved in `~/my_session/day1/pdb`.  The metadata is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
@@ -634,7 +640,12 @@ You will first do a pairwise alignment as an exercise, and then do align all str
 To make a pairwise alignment between the human and the mouse structures, run: 
 
 ```sh
-USalign pdb/Human_P20591.pdb Chicken_Q90597.pdb -o human_aligned
+cd pdb
+mkdir human_aligned
+USalign Human_P20591.pdb Chicken_Q90597.pdb -o human_aligned/human_aligned
+
+#Check that the files are created
+ls human_aligned
 ```
 
 The flag `-o human_aligned` tells USalign to output a new PDB for the human protein to the file `human_aligned.pdb` with coordinates aligned to the chicken structure. 
@@ -654,7 +665,8 @@ These images were visualized using the program [ChimeraX](https://www.cgl.ucsf.e
 One can make a pairwise sequence alignment by running: 
 
 ```sh
-USalign pdb/Human_P20591.pdb pdb/Chicken_Q90597.pdb > human_chicken.txt
+#run from my_session/day1/pdb
+USalign Human_P20591.pdb Chicken_Q90597.pdb > ~/my_session/day1/aln/human_chicken.txt
 ```
 
 This will output a file that shows which residues from each structure align with residues from the other structure
@@ -668,13 +680,27 @@ Finally, we will make a structural alignment for all our structures.  To do this
 To make a file called pdb_list.txt listing all the .pdb files in this directory you can run the commands: 
 
 ```sh
-ls pdb > pdb_list.txt
+#run from my_session/day1/pdb
+ls *.pdb > pdb_list.txt
 ```
 Once you have that file, run: 
 
 ```sh
-USalign -dir pdb pdb_list.txt -suffix .pdb -mm 4 > pdb/us_align.fasta
+#run from my_session/day1
+USalign -dir pdb pdb/pdb_list.txt -suffix .pdb -mm 4 > ~/my_session/day1/aln/aln_prot_usalign.fasta
 ```
+
+
+```sh
+#run from my_session/aln
+
+#first we need to extract all lines that are not part of the standard fasta format.
+../scripts/usalign_fasta_parse.py aln_prot_usalign.fasta aln_prot_usalign_clean.fasta
+
+#Now run alignment-info
+~/my_session/day1/scripts/alignment-info/bin/alignment-info aln_prot_usalign_clean.fasta > log_info/log_info_prot_usalign_clean.txt
+```
+
 
 This will output a .fasta file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.   
 
