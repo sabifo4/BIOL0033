@@ -611,7 +611,7 @@ PDB files contain metadata about the structure/simulated structure, the protein 
 For the lines containing information about each `atom` there is more information about that atom:  
 
 <p align="center">
-<img width="370" height="152" src="../figs/uniprot_alphafold_download.png">
+<img width="370" height="152" src="../figs/pdb_screenshot.png">
 </p>
 
 * Atom number
