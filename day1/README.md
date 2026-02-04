@@ -594,74 +594,72 @@ You can also get simulated structures directly from the [AlphafoldDB page](https
 
 We have provided a table mapping our genes of interest to the relevant Uniprot accession numbers in the file `protein_metadata.csv`.  We have also provided scripts to download simulaed structures from alphafold.  
 
-First make a directory to put the metadata, and then download the metadata for each simulated structure from AlphafoldDB using the following command: 
+First make a directory to put the metadata, and then download the metadata and pdb for each simulated structure from AlphafoldDB using the following command: 
 
 ```sh
-mkdir ~/mysession/day1/structure/metadata
-python alphafold_metadata_download.py
+python alphafold_download.py ~/my_session/day1/protein_metadata.csv ~/my_session/day1
 ```
 
-The metadata file is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
+The metadata files will be saved in `~/my_session/day1/pdb` and the pdb files will be saved in `~/my_session/day1/pdb`.  The metadata is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
 
-Now extract the .pdb url from the metadata and use that to download each .pdb file. 
-
-```sh
-mkdir ~/mysession/day1/structure/pdb
-alphafold_pdb_download.py
-```
-this should save your data into the folder `my_session/day1/pdb`.  Check to see if you have all the files. 
-
-```sh
-ls ~/mysession/day1/structure/pdb
-```
+The .pdb file represents the simulated structure of the protein.
 
 ### Structure of a PDB file
 
 PDB files contain metadata about the structure/simulated structure, the protein sequence, and the location of each atom in the protein.  
 
-For the atom locations, there is some other information in the field: 
+For the lines containing information about each `atom` there is more information about that atom:  
 
-<screenshot>
+<p align="center">
+<img width="370" height="152" src="../figs/uniprot_alphafold_download.png">
+</p>
 
-*Atom number
-*Atom type:  Eg. N for nitrogen, CA for C-alpha. 
-*Residue type: Eg. MET for methionine. 
-*Chain Identifier:  Usually a letter e.g. A, B, C
-*Chain Number:  The residue's index in the protein.  This should correspond to the sequence alignment. 
-*X, Y and Z location
-*Occupancy:  A number between 0 to 1 indicating the fraction of molecules in a crystal that contain that specific atom at that specific coordinate.  This is always 1 for our simulated structures. 
-*B-Factor:  A measure of the confidence for that residue in a given structure.  For crystal structures, a lower number (<30) is good, but for simulated structures this indicates the pLDDT (between 0-100), and a higher value (>80) indicates a more structurally stable residue.  
+* Atom number
+* Atom type:  Eg. N for nitrogen, CA for C-alpha. 
+* Residue type: Eg. MET for methionine. 
+* Chain Identifier:  Usually a letter e.g. A, B, C
+* Chain Number:  The residue's index in the protein.  This should correspond to the sequence alignment. 
+* X, Y and Z location
+* Occupancy:  A number between 0 to 1 indicating the fraction of molecules in a crystal that contain that specific atom at that specific coordinate.  This is always 1 for our simulated structures. 
+* B-Factor:  A measure of the confidence for that residue in a given structure.  For crystal structures, a lower number (<30) is good, but for simulated structures this indicates the pLDDT (between 0-100), and a higher value (>80) indicates a more structurally stable residue.  
 
-For more on pdb files see: [This primer from Johns Hopkins University](https://www.biostat.jhsph.edu/~iruczins/teaching/260.655/links/pdbformat.pdf)
+For more on pdb files see: This [primer](https://www.biostat.jhsph.edu/~iruczins/teaching/260.655/links/pdbformat.pdf) from Johns Hopkins University.
 
 ### Construct the alignment.  
 
-To make an alignment we will use the US-align program (https://aideepmed.com/US-align/help/), US-align makes a series of pairwise alignments and then optimizes those to minimize the overall TM-score for all the alignments.  
+To make an alignment we will use [US-align](https://aideepmed.com/US-align/help/).  US-align makes a series of pairwise alignments and then optimizes those to minimize the overall TM-score for all the alignments.  
 
-We will show you how to do a pairwise alignment, and then how to align all structures to output a multiple sequence alignment with USalign. 
+You will first do a pairwise alignment as an exercise, and then do align all structures to output a multiple sequence alignment with USalign. 
 
 To make a pairwise alignment between the human and the mouse structures, run: 
 
-USalign Human_P20591.pdb Mouse_P09922.pdb -o sup
+```sh
+USalign pdb/Human_P20591.pdb Chicken_Q90597.pdb -o human_aligned
+```
 
-The flag -o sup tells USalign to output a new PDB for the human protein with coordinates aligned to the mouse structure. 
+The flag `-o human_aligned` tells USalign to output a new PDB for the human protein to the file `human_aligned.pdb` with coordinates aligned to the chicken structure. 
 
-[Images illistrating alignment]
+>Before alignment (Human blue, Chicken yellow):
+<p align="center">
+<img width="278" height="355" src="../figs/human_chicken_unaligned.png">
+</p>
 
-This images were visualized using the program ChimeraX which you can download from (). 
+>After alignment (Human blue, Chicken yellow):
+<p align="center">
+<img width="227" height="359" src="../figs/human_chicken_aligned.png">
+</p>
 
-In addition to outputting the pdb, it also outputs various .pml files which help visualize the superposition using the program Pymol.  
-
+These images were visualized using the program [ChimeraX](https://www.cgl.ucsf.edu/chimerax/). In addition to outputting the pdb, it also outputs various .pml files which help visualize the superposition using another structural visualization program, [Pymol](https://www.pymol.org/).  
 
 One can make a pairwise sequence alignment by running: 
 
-USalign Human_P20591.pdb Mouse_P09922.pdb > human_mouse.txt
+```sh
+USalign pdb/Human_P20591.pdb pdb/Chicken_Q90597.pdb > human_chicken.txt
+```
 
 This will output a file that shows which residues from each structure align with residues from the other structure
 
-[screenshot]
-
-the number of dots between each residue indicates how close that residue was to its aligned partner.  Two dots is less than 5 Angstroms and one dot is greater than 5 Angstroms. 
+The number of dots between each residue indicates how close that residue was to its aligned partner.  Two dots is less than 5 Angstroms and one dot is greater than 5 Angstroms. 
 
 It also gives a final TM score as well as an RMSD score (another common metric for structural similarity).
 
@@ -669,16 +667,16 @@ Finally, we will make a structural alignment for all our structures.  To do this
 
 To make a file called pdb_list.txt listing all the .pdb files in this directory you can run the commands: 
 
-xxxx
+```sh
+ls pdb > pdb_list.txt
+```
+Once you have that file, run: 
 
-Once you have that file, run: USalign -dir ~/my_session/pdb pdb_list.txt -suffix .pdb -mm 4 > ~/my_session/pdb/us_align.fasta
+```sh
+USalign -dir pdb pdb_list.txt -suffix .pdb -mm 4 > pdb/us_align.fasta
+```
 
 This will output a .fasta file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.   
 
 > [!IMPORTANT]
 > How does this alignment compare to your sequence-based alignments? 
-
-
-
-
-
