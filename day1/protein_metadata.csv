@@ -1,0 +1,13 @@
+﻿species_common_name,species_name,gene_name,database,accession,uniprot
+Human,Homo sapiens,Mx1,GenBank,NM_002462,P20591
+Rhesus_macaque,Macaca mulata,Mx1,Ensembl,ENSMMUT00000021494,H9FUQ9 
+Chimpanzee,Pan troglodites,Mx1,Ensembl,ENSPTRG00000013927,H2QL17
+Orangutan,Pongo abeli,,GenBank,CR860897,Q5R5G3
+Sheep,Ovis aries,Mx homologue,GenBank,X66093,P33237
+Cow,Bos taurus,Mx1,GenBank,NM_173940,P79135
+Dog,Canis familiaris,Mx1,GenBank,AF239823,Q9N0Y3
+Rat,Rattus norvegicus,Mx1,GenBank,BC099784,F7EXA4 
+Pig,Sus scrofa,Mx1,GenBank,AB164037,P27594
+Mouse,Mus musculus,MX1B_Mouse,GenBank,NM_010846,P09922
+Chicken,Gallus gallus,Mx1,GenBank,NM_204609.1,Q90597
+Duck,Anas platyrhynchos,Mx protein,GenBank,Z21549,P33238
