@@ -71,6 +71,10 @@ In order to run these scripts from the server, go back to the `Terminal` tab and
 # Change directories if you are not
 # there yet
 
+# Give permissions to all python scripts
+# in case you have not done this yet
+chmod 775 scripts/*
+
 ## Download sequences from ENSEMBL
 scripts/download_ensembl_sequences.py raw_data/ensembl_sequences.tsv raw_data/data1/ --protein --rmstop
 
@@ -495,6 +499,10 @@ To compare the different alignments, we will use one of the tools available as p
 # Create directory for log info
 mkdir log_info
 
+# Give permissions to run alignment-info
+# in case you have not done this yet
+chmod 775 ../scripts/alignment-info/bin/alignment-info
+
 # Run `alignment-info`
 ../scripts/alignment-info/bin/alignment-info aln_nuc_mafft.fasta > log_info/log_info_nuc_mafft.txt
 ../scripts/alignment-info/bin/alignment-info aln_nuc_ppp_muscle.fasta > log_info/log_info_nuc_ppp_muscle.txt
@@ -515,13 +523,13 @@ After discussing the quality of your nucleotide and protein alignments, you are 
 
 An alternative way to align proteins is to align them based on their 3D structures.  In the past this was rare because few proteins had high-resolution crystal structures.  In recent years, however, improvements in X-ray Crystallography, Cryogenic Electron Microscopy (Cryo-EM) and, importantly, machine learning-based structure predictions using tools such as [Alphafold](https://alphafold.ebi.ac.uk/) have made structural alignments much more common.  
 
-There are various methods for making structural alignments including: 
+There are various methods for making structural alignments including:
 
 * [USalign](https://aideepmed.com/US-align/): A precise alignment algorithm that minimizes the TM-score (a measure of structural similarity) between two structures.
 
-* [Foldseek](https://foldseek.com/): This is a fast search algorithm that determines structural similarity between proteins by first encoding the protein structure into a linear sequence in a 3D interaction (3Di) alphabet which can then be compared with other encoded structures using similar principles to sequence-based searches.   
+* [Foldseek](https://foldseek.com/): This is a fast search algorithm that determines structural similarity between proteins by first encoding the protein structure into a linear sequence in a 3D interaction (3Di) alphabet which can then be compared with other encoded structures using similar principles to sequence-based searches.
 
-* [ChimeraX Matchmaker](https://www.cgl.ucsf.edu/chimera/docs/ContributedSoftware/matchmaker/matchmaker.html):  Aligns structures beginning with a sequence-based alignment and then refining the position to identify core atom pairs and minimize the distance between those core atom pairs.
+* [ChimeraX Matchmaker](https://www.cgl.ucsf.edu/chimera/docs/ContributedSoftware/matchmaker/matchmaker.html): Aligns structures beginning with a sequence-based alignment and then refining the position to identify core atom pairs and minimize the distance between those core atom pairs.
 
 We will be using the USalign algorithm.  
 
@@ -531,22 +539,22 @@ The first step is to obtain structures for the proteins we are interested in.
 
 An important place to find protein structures is the [Uniprot](https://www.uniprot.org/) database.  This is a large database containing information on proteins.  In particular it has links to known experimentally determined and predicted structures.  Most gene accessions will link to a Uniprot protein.  Also the AlphafoldDB has calculated predicted structures for all Uniprot structures.  
 
-If you have one or two pdb files to download, the easiest way is to download them directly from the Uniprot web interface.  If you want to look at many files, it is easier to write a script. 
+If you have one or two pdb files to download, the easiest way is to download them directly from the Uniprot web interface.  If you want to look at many files, it is easier to write a script.
 
 <details>
 <summary><b>[Click here for an example on how to use the web browser to download individual .pdb files.]</b></summary>
 
-Example: 
+Example:
 
-[Gene accession for Chimpanzee](http://www.ensembl.org/Pan_troglodytes/Gene/Summary?db=core;g=ENSPTRG00000013927;r=21:27867000-27965931) from Ensembl. 
+[Gene accession for Chimpanzee](http://www.ensembl.org/Pan_troglodytes/Gene/Summary?db=core;g=ENSPTRG00000013927;r=21:27867000-27965931) from Ensembl.
 
 <p align="center">
 <img width="658" height="395" src="../figs/ensemble_uniprot_screenshot.png">
 </p>
 
-Note this gene has several possible translations.  We select the "canonical" translation. 
+Note this gene has several possible translations.  We select the "canonical" translation.
 
-You have to click through a few more screens if you are searching from ncbi: 
+You have to click through a few more screens if you are searching from ncbi:
 
 Example: Gene accession [NM_010846](https://www.ncbi.nlm.nih.gov/nuccore/NM_010846) for Mouse.  
 
@@ -554,13 +562,13 @@ Example: Gene accession [NM_010846](https://www.ncbi.nlm.nih.gov/nuccore/NM_0108
 <img width="700" height="450" src="../figs/ncbi_mouse_gene_page.png">
 </p>
 
-First follow the protein link to get to the [NCBI protein page](https://www.ncbi.nlm.nih.gov/protein/6996930) 
+First follow the protein link to get to the [NCBI protein page](https://www.ncbi.nlm.nih.gov/protein/6996930).
 
 <p align="center">
 <img width="740" height="416" src="../figs/ncbi_mouse_protein_page.png">
 </p>
 
-Then follow the link to get to the [UniprotKB page on NCBI](https://www.ncbi.nlm.nih.gov/protein/127567)
+Then follow the link to get to the [UniprotKB page on NCBI](https://www.ncbi.nlm.nih.gov/protein/127567).
 
 <p align="center">
 <img width="535" height="235" src="../figs/ncbi_mouse_uniprot_page.png">
@@ -572,7 +580,7 @@ You can also search from Uniprot with the gene id (either from Ensemble or NCBI)
 <img width="815" height="330" src="../figs/uniprot_search_mouse.png">
 </p>
 
-This will sometimes link to multiple uniprot ids.  You should aim to choose ids that have been reviewed (see the Gold page Icon next to the ID). 
+This will sometimes link to multiple uniprot ids.  You should aim to choose ids that have been reviewed (see the Gold page Icon next to the ID).
 
 This will take you to the [Uniprot page](https://www.uniprot.org/uniprotkb/P09922/entry):
 
@@ -596,7 +604,7 @@ You can also get simulated structures directly from the [AlphafoldDB page](https
 
 We have provided a table mapping our genes of interest to the relevant Uniprot accession numbers in the file `protein_metadata.csv`.  We have also provided scripts to download simulaed structures from alphafold.  
 
-First make a directory to put the metadata, and then download the metadata and pdb for each simulated structure from AlphafoldDB using the following command: 
+First make a directory to put the metadata, and then download the metadata and pdb for each simulated structure from AlphafoldDB using the following command:
 
 ```sh
 # Run from my_session/day1/aln
@@ -620,24 +628,24 @@ For the lines containing information about each `atom` there is more information
 <img width="370" height="152" src="../figs/pdb_screenshot.png">
 </p>
 
-* Atom number
-* Atom type:  Eg. N for nitrogen, CA for C-alpha. 
-* Residue type: Eg. MET for methionine. 
-* Chain Identifier:  Usually a letter e.g. A, B, C
-* Chain Number:  The residue's index in the protein.  This should correspond to the sequence alignment. 
-* X, Y and Z location
-* Occupancy:  A number between 0 to 1 indicating the fraction of molecules in a crystal that contain that specific atom at that specific coordinate.  This is always 1 for our simulated structures. 
+* Atom number.
+* Atom type:  Eg. N for nitrogen, CA for C-alpha.
+* Residue type: Eg. MET for methionine.
+* Chain Identifier:  Usually a letter e.g. A, B, C.
+* Chain Number:  The residue's index in the protein.  This should correspond to the sequence alignment.
+* X, Y and Z location.
+* Occupancy:  A number between 0 to 1 indicating the fraction of molecules in a crystal that contain that specific atom at that specific coordinate.  This is always 1 for our simulated structures.
 * B-Factor:  A measure of the confidence for that residue in a given structure.  For crystal structures, a lower number (<30) is good, but for simulated structures this indicates the pLDDT (between 0-100), and a higher value (>80) indicates a more structurally stable residue.  
 
 For more on pdb files see: This [primer](https://www.biostat.jhsph.edu/~iruczins/teaching/260.655/links/pdbformat.pdf) from Johns Hopkins University.
 
-### Construct the alignment.  
+### Construct the alignment
 
 To make an alignment we will use [US-align](https://aideepmed.com/US-align/help/).  US-align makes a series of pairwise alignments and then optimizes those to minimize the overall TM-score for all the alignments.  
 
-You will first do a pairwise alignment as an exercise, and then do align all structures to output a multiple sequence alignment with USalign. 
+You will first do a pairwise alignment as an exercise, and then do align all structures to output a multiple sequence alignment with USalign.
 
-To make a pairwise alignment between the human and the mouse structures, run: 
+To make a pairwise alignment between the human and the mouse structures, run:
 
 ```sh
 cd pdb
@@ -648,9 +656,9 @@ USalign Human_P20591.pdb Chicken_Q90597.pdb -o human_aligned/human_aligned
 ls human_aligned
 ```
 
-The flag `-o human_aligned` tells USalign to output a new PDB for the human protein to the file `human_aligned.pdb` with coordinates aligned to the chicken structure. 
+The flag `-o human_aligned` tells USalign to output a new PDB for the human protein to the file `human_aligned.pdb` with coordinates aligned to the chicken structure.
 
->Before alignment (Human blue, Chicken yellow):
+> Before alignment (Human blue, Chicken yellow):
 <p align="center">
 <img width="278" height="355" src="../figs/human_chicken_unaligned.png">
 </p>
@@ -662,7 +670,7 @@ The flag `-o human_aligned` tells USalign to output a new PDB for the human prot
 
 These images were visualized using the program [ChimeraX](https://www.cgl.ucsf.edu/chimerax/). In addition to outputting the pdb, it also outputs various .pml files which help visualize the superposition using another structural visualization program, [Pymol](https://www.pymol.org/).  
 
-One can make a pairwise sequence alignment by running: 
+One can make a pairwise sequence alignment by running:
 
 ```sh
 #run from my_session/day1/pdb
@@ -671,25 +679,25 @@ USalign Human_P20591.pdb Chicken_Q90597.pdb > ~/my_session/day1/aln/human_chicke
 
 This will output a file that shows which residues from each structure align with residues from the other structure
 
-The number of dots between each residue indicates how close that residue was to its aligned partner.  Two dots is less than 5 Angstroms and one dot is greater than 5 Angstroms. 
+The number of dots between each residue indicates how close that residue was to its aligned partner.  Two dots is less than 5 Angstroms and one dot is greater than 5 Angstroms.
 
 It also gives a final TM score as well as an RMSD score (another common metric for structural similarity).
 
 Finally, we will make a structural alignment for all our structures.  To do this, it is easiest to make a file containing a list of the files that we want to include.  
 
-To make a file called pdb_list.txt listing all the .pdb files in this directory you can run the commands: 
+To make a file called pdb_list.txt listing all the .pdb files in this directory you can run the commands:
 
 ```sh
 #run from my_session/day1/pdb
 ls *.pdb > pdb_list.txt
 ```
-Once you have that file, run: 
+
+Once you have that file, run:
 
 ```sh
 #run from my_session/day1
 USalign -dir pdb pdb/pdb_list.txt -suffix .pdb -mm 4 > ~/my_session/day1/aln/aln_prot_usalign.fasta
 ```
-
 
 ```sh
 #run from my_session/aln
@@ -701,8 +709,7 @@ USalign -dir pdb pdb/pdb_list.txt -suffix .pdb -mm 4 > ~/my_session/day1/aln/aln
 ~/my_session/day1/scripts/alignment-info/bin/alignment-info aln_prot_usalign_clean.fasta > log_info/log_info_prot_usalign_clean.txt
 ```
 
-
-This will output a .fasta file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.   
+This will output a .fasta file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.
 
 > [!IMPORTANT]
-> How does this alignment compare to your sequence-based alignments? 
+> How does this alignment compare to your sequence-based alignments?
