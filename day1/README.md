@@ -33,7 +33,7 @@ ls
 ```
 
 > [!NOTE]
-> Remember to run `chmod 775 *.py` and `chmod 775 one_line_fasta.pl` and `chmod 775 alignment-info/bin/alignment-info` from your `scripts` directory so that you have permission to run those programs.  
+> Remember to run `chmod 775 *` and `chmod 775 alignment-info/bin/alignment-info` from your `scripts` directory so that you have permission to run these tools during the practical session.
 
 Now, you have just copied everything that you will need for today's practical session on your own working directory called `my_session`. Let's get started with data download!
 
