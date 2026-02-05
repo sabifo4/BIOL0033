@@ -608,7 +608,7 @@ We have provided a table mapping our genes of interest to the relevant Uniprot a
 First make a directory to put the metadata, and then download the metadata and pdb for each simulated structure from AlphafoldDB using the following command:
 
 ```sh
-# Run from my_session/day1/aln
+# Run from my_session/day1
 # Change directories if you are not
 # there yet
 
