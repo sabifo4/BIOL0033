@@ -615,7 +615,7 @@ First make a directory to put the metadata, and then download the metadata and p
 scripts/alphafold_download.py raw_data/protein_metadata.csv .
 ```
 
-The metadata files will be saved in `~/my_session/day1/pdb` and the pdb files will be saved in `~/my_session/day1/pdb`.  The metadata is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
+The metadata files will be saved in `~/my_session/day1/model_metadata` and the pdb files will be saved in `~/my_session/day1/pdb`.  The metadata is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
 
 The .pdb file represents the simulated structure of the protein.
 
