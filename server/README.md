@@ -1,6 +1,6 @@
 # Accessing the `biol0033` server
 
-This year, to avoid software installation issues and compatibility problems resulting from using different operating systems, we will all be using the same remote server! We have been lucky enough to have [Stephen Lang](https://profiles.ucl.ac.uk/104417-stephen-lang) and [Werner Van Niekerk](https://profiles.ucl.ac.uk/60984-werner-van-niekerk) from [UCL's Advanced Research Computing Centre](https://www.ucl.ac.uk/advanced-research-c) develop the server you will be using during all the practical sessions -- we are truly grateful to them! :smile:
+This year, to avoid software installation issues and compatibility problems resulting from using different operating systems, we will all be using the same remote server! We have been lucky enough to have [Stephen Lang](https://profiles.ucl.ac.uk/104417-stephen-lang) and [Werner Van Niekerk](https://profiles.ucl.ac.uk/60984-werner-van-niekerk) from [UCL's Advanced Research Computing Centre](https://www.ucl.ac.uk/advanced-research-computing) develop the server you will be using during all the practical sessions -- we are truly grateful to them! :smile:
 
 We have put together the following step-by-step tutorial with some examples that show you how to access the server, upload/download files, run scripts on the server, and use the R console to run in-house scripts. Please make sure you get familiar with this interface before the practical sessions.
 
@@ -9,7 +9,7 @@ If you have any questions... Just post them on Moodle!
 ## Connecting to the server
 
 Please type the following URL on your preferred web browser to access the server: https://biol0033.arc.ucl.ac.uk/
-<br>You will be asked to enter your username (i.e., please enter **only** your UCL ID, e.g., `ucbd10`) and your passowrd (i.e., the same password you use to access your UCL account):
+<br>You will be asked to enter your username (i.e., please enter **only** your UCL ID, e.g., `ucbd10`) and your password (i.e., the same password you use to access your UCL account):
 
 <p align="center">
 <img width="400" height="200" src="../figs/server_1.png">
