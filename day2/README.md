@@ -72,7 +72,7 @@ Once you have spent some time discussing the results, you may reveal the followi
 <summary><b>[ Click here to learn more about the model selection results ]</b></summary>
 <br>
 
-### Best-fitting models
+### Interpreting model selection results with `IQ-TREE`
 
 #### DNA alignment
 
@@ -102,13 +102,13 @@ The preferred model for the DNA alignment is `Q.plant+I+R3`. Let's evaluate each
 | Invariant sites     | Implicit (slow gamma)      | Explicit (+I)                     |
 | Evolutionary signal | Mixed functional + neutral | Mostly functional                 |
 
-### How should we interpret these results?
+#### How should we interpret these results?
 
 * The MX dynamin like GTPase 1 (MX1) protein-coding gene seems to be a conserved catalytic core.
 * There seems to be flexible, lineage-specific surface regions.
 * Structural constraints seem to be dominating AA evolution, and thus selection may be acting differently from the DNA level.
 
-### Notes on the `IQ-GPT`
+#### Notes on the `IQ-GPT`
 
 Rob Lanfear has recently developed [a GPT that tries to help users with `IQ-TREE` analyses](https://chatgpt.com/g/g-aZvnPPUW1-iq-gpt). Please feel free to try this AI tool but, as always with AI tools, please proceed with care and be critical of the results obtained. Should you have any queries and/or experience any issue, please check the documentation. If you cannot find the answer to your question there, you may want to check whether your issue has already been posted and discussed in the [`IQ-TREE GitHub`](https://github.com/iqtree/iqtree2/issues). If not, you may want to open a new issue.
 
