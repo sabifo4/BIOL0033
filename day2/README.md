@@ -10,7 +10,7 @@ After inspecting the different alignments we generated during the first practica
 
 We will be using `IQ-TREE` for inferring the best-scoring maximum-likelihood tree with two different alignments: the codon-aware alignment `aln_nuc_against_protsuper5.fasta` (**DNA alignment**) and the structure-based alignment `aln_prot_usalign_clean.fasta` (**AA alignment**). If time allows, we will see how to partition the DNA alignment according to codon positions -- if not, all the information is here and you can revise this at home!
 
-Please note that, at this stage, we only have sequence alignments, but we still do not know which model of evolution may fit better these datasets. Do not worry: `IQ-TREE` has a model selection algorithm that can help you find **the best-fitting substitution model** for both your DNA and AA alignments! In addition, you will be able to simultaneously run a bootstrap analysis to calculate bootstrap support values for each of the clades in the inferred phylogeny.
+Please note that, at this stage, we only have sequence alignments, but we still do not know which model of evolution will better fit these datasets. Do not worry: `IQ-TREE` has a model selection algorithm that can help you find **the best-fitting substitution model** for both your DNA and AA alignments! In addition, you will be able to simultaneously run a bootstrap analysis to calculate bootstrap support values for each of the clades in the inferred phylogeny.
 
 > [!IMPORTANT]
 > Remember that bootstrap support values (or bootstrap proportions) do not reflect uncertainty: **they are not confidence intervals**. Bootstrap support values can help you interpret the support for the clades inferred in your phylogeny: clades with higher values (e.g., >60% or >70%) will have stronger support than those with lower values.
@@ -47,16 +47,16 @@ iqtree2 -s aln_dna.fasta -B 1000 -T AUTO
 
 # Now, let's run another analysis for the AA alignment
 cd ../aa
-cp ../../../day1/aln/aln_nuc_against_protsuper5.fasta aln_aa.fasta
+cp ../../../day1/aln/aln_prot_usalign_clean.fasta aln_aa.fasta
 iqtree2 -s aln_aa.fasta -B 1000 -T AUTO
 ```
 
 The log output files are self explanatory and consist of the following:
 
 * `<aln_file_name>.iqtree`: all your results will be summarised and explained in this file, include a textual representation of the best-scoring ML tree and consensus tree.
-* `<aln_file_name>.treefile`: the best-scoring ML tree is saved in Newick format (unrooted). You shall see both branch lengths and bootstrap support values printed on the tree.
-* `<aln_file_name>.contree`: the consensus tree with both branch lengths and bootstrap support values is saved in Newick format (unrooted).
-* `<aln_file_name>.bionj`: starting tree based on an improved neighbour-joining (NJ) tree that `IQ-TREE` will use for ML optimisation. There are no support values, only branch lengths that are not ML-optimised.
+* `<aln_file_name>.treefile`: the best-scoring ML tree is saved in Newick format (unrooted). You will see both branch lengths and bootstrap support values printed on the tree.
+* `<aln_file_name>.contree`: the consensus tree with both branch lengths and bootstrap support values are saved in Newick format (unrooted).
+* `<aln_file_name>.bionj`: starting tree based on an improved neighbour-joining (NJ) tree that `IQ-TREE` uses for ML optimisation. There are no support values, only branch lengths that are not ML-optimised.
 * `<aln_file_name>.log`: same content as the screen output.
 * `<aln_file_name>.mldist`: ML pairwise distance matrix estimated under the best-fitting substitution model. You may want to use this output file to check whether taxa are extremely divergent, check whether there are any LBA artifacts, or obtain ML-based distances required for running other programs.
 * `<aln_file_name>.model.gz`: compressed file with information regarding all tested substitution models and their statistics. E.g.: log-likelihood, number of parameters, AIC/AICc/BIC, estimated model parameters, rate-heterogeneity settings. You should not delete it if you want to re-run or extend the analysis.
@@ -78,7 +78,7 @@ Once you have spent some time discussing the results, you may reveal the followi
 
 The preferred model for the DNA alignment is `TIM3+F+G4`. Let's evaluate each part:
 
-* `TIM3` is a **restricted GTR-like model** that allows for different transition/transversion rates. While you may think this is similar to the HKY85 model, the TIM3 model differs because transitions (i.e., A↔G and C↔T) are different from each other. In other words, the number of transitions A↔G is different from C↔T. Nevertheless, the number of transversion is equal. Consequently, instead of having one parameter $\kappa$, there are three rate parameters: one for A↔G, another for C↔T, and another for transversions. If we were to think about nested models, the order would be as follows (from simpler to more complex): HKY  ⊂  TIM3  ⊂  GTR. HKY is a special case of TIM3 and TIM3 is a restricted version of GTR.
+* `TIM3` is a **restricted GTR-like model** that allows for different transition/transversion rates. While you may think this is similar to the HKY85 model, the TIM3 model differs because transitions (i.e., A↔G and C↔T) are different from each other. In other words, the number of A↔G transitions is different from the number of C↔T transitions. Nevertheless, the number of transversions is equal. Consequently, instead of having one parameter $\kappa$, there are three rate parameters: one for A↔G, another for C↔T, and another for transversions. If we were to think about nested models, the order would be as follows (from simpler to more complex): HKY  ⊂  TIM3  ⊂  GTR. HKY is a special case of TIM3 and TIM3 is a restricted version of GTR.
 * `F` means that the observed base frequencies of the sequence alignment fit better than assuming equilibrium, reflecting lineage-specific nucleotide composition.
 * `G4` relates to the Gamma distribution with 4 categories, thus assumes site-rate heterogeneity. Each category can accommodate the rate variability across a dynamic GTPase (i.e., highly conserved sites will evolve very slowly, while loop regions and variable surface residues will evolve much faster).
 
@@ -88,8 +88,8 @@ Most protein-coding genes in vertebrates tend to present different rates for A�
 
 The preferred model for the DNA alignment is `Q.plant+I+R3`. Let's evaluate each part:
 
-* `Q.plant`: this model is not linked to plant datasets. Instead, the AA substitution matrix designed for this model ([Minh et al. 2021](https://doi.org/10.1093/sysbio/syab010)) was inferred from large sets of plant nuclear proteins, many of which are structurally constrained (e.g., suppression of radical canges; preference for conservative substitutions such as I↔L, D↔E, K↔R; etc.). In other words, **`Q.plant` captures fold-driven evolution, not taxonomy**, which is exactly what fits a folded, dynamic GTPase domain wit extremely conserved core residues such as the one we are analysing! A structure-based alignment tends to focus on better aligning secondary structures such as helices and sheets. Nevertheless, spurious homology in loops will be removed. To this end, there may be a strong signal of structural constraint and fewer apparent radical AA changes, the main reason why this matrix outperforms other general models.
-* `I`: it seems that there are many positions that remain invariant across the alignment. `IQ-TREE` seems to think these positions are truly invariant class and not just slow rates.
+* `Q.plant`: this model is not linked to plant datasets. Instead, the AA substitution matrix designed for this model ([Minh et al. 2021](https://doi.org/10.1093/sysbio/syab010)) was inferred from large sets of plant nuclear proteins, many of which are structurally constrained (e.g., suppression of radical changes; preference for conservative substitutions such as I↔L, D↔E, K↔R; etc.). In other words, **`Q.plant` captures fold-driven evolution, not taxonomy**, which is exactly what fits a folded, dynamic GTPase domain with extremely conserved core residues such as the one we are analysing! A structure-based alignment tends to focus on better aligning secondary structures such as helices and sheets. Nevertheless, spurious homology in loops will be removed. To this end, there may be a strong signal of structural constraint and fewer apparent radical AA changes.  This is the main reason why this matrix outperforms other general models.
+* `I`: it seems that there are many positions that remain invariant across the alignment. `IQ-TREE` models these positions as a truly invariant class and not just slow rates.
 * `R3`: instead of using a Gamma distribution to model rate evolution, `RX` is related to the free-rate model ([Yang 1995](http://www.genetics.org/content/139/2/993.abstract)). In our case, it looks like a total of 3 categories for classifying rate variation seem to be a better bit than Gamma-distributed rates (e.g., "core", "flexible", "very flexible").
 
 #### Summary of model selection for both datasets
@@ -155,12 +155,12 @@ cd dna/topology_test
 iqtree2 -s ../aln_dna.fasta -m TIM3+F+G4 -z ../../candidates.tree -n 0 -zb 10000 -au -pre dna_AUtest
 
 # Do the same for AA data
-cd ../../aa/tree_topology
+cd ../../aa/topology_test
 iqtree2 -s ../aln_aa.fasta -m Q.plant+I+R3 -z ../../candidates.tree -n 0 -zb 10000 -au -pre aa_AUtest
 ```
 
 > [!IMPORTANT]
-> Discuss the results you have obtained for both datasets and how they may complement each other -- you may want to check the `*iqtree` files! You may visit the [`IQ-TREE` website](https://iqtree.github.io/doc/Substitution-Models) to learn more about additional nucleotide and amino acid models that have not been discussed during the lectures. You can also navigate the different sections in [their documentation](https://iqtree.github.io/doc/) to get familiar with the settings and other FAQ.
+> Discuss the results you have obtained for both datasets and how they may complement each other -- you may want to check the `*.iqtree` files! You may visit the [`IQ-TREE` website](https://iqtree.github.io/doc/Substitution-Models) to learn more about additional nucleotide and amino acid models that have not been discussed during the lectures. You can also navigate the different sections in [their documentation](https://iqtree.github.io/doc/) to get familiar with the settings and other FAQ.
 
 Once you have spent some time discussing the results, you may reveal the following section:
 
@@ -168,7 +168,7 @@ Once you have spent some time discussing the results, you may reveal the followi
 <summary><b>[ Click here to learn more about the results when comparing tree topologies ]</b></summary>
 <br>
 
-Inside the relevant `*iqtree` files, you shall see these tables:
+Inside the relevant `*.iqtree` files, you should see these tables:
 
 > DNA alignment
 
@@ -190,7 +190,7 @@ Tree      logL    deltaL  bp-RELL    p-KH     p-SH       c-ELW       p-AU
   2  -9828.07342       0   0.758 +  0.779 +      1 +     0.747 +    0.803 + 
 ```
 
-When comparing the tree topologies for the AA alignment, we see the opposite: tree 2 is preferred, but tree 1 is statistically compatible with the data.
+When comparing the tree topologies for the AA alignment, we see the opposite: tree 2 (generated with the AA alignment) is preferred, but tree 1 is statistically compatible with the data.
 
 </details><br>
 
@@ -228,8 +228,8 @@ iqtree2 -s ../aln_dna.fasta -st DNA -p part12_3.nex -m MFP -B 1000 -pre dna_part
 cat *treefile ../*treefile > ../../candidates_dna_concVSpart.tree
 mkdir compare_partVSconc
 cd compare_partVSconc
-iqtree2 -s ../aln_dna.fasta -m TIM3+F+G4 -z ../../candidates_dna_concVSpart.tree -n 0 -zb 10000 -au -pre dna_conc_AUtest
-iqtree2 -s ../aln_dna.fasta -p dna_partCP12CP3.best_model.nex -z ../../candidates_dna_concVSpart.tree -n 0 -zb 10000 -au -pre dna_part_AUtest
+iqtree2 -s ../../aln_dna.fasta -m TIM3+F+G4 -z ../../../candidates_dna_concVSpart.tree -n 0 -zb 10000 -au -pre dna_conc_AUtest
+iqtree2 -s ../../aln_dna.fasta -p ../dna_partCP12CP3.best_model.nex -z ../../../candidates_dna_concVSpart.tree -n 0 -zb 10000 -au -pre dna_part_AUtest
 ```
 
 > [!IMPORTANT]
