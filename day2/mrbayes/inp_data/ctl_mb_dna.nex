@@ -1,0 +1,59 @@
+#NEXUS
+
+[-------------]
+[Start MrBayes]
+[-------------]
+begin mrbayes;
+
+[-------------------------------]
+[Load data and specify log file ]
+[-------------------------------]
+	log start filename=dna_mb_log.txt;		     	           [Start log file to save output]
+	execute aln_dna.nex;							           [Load data defined in nexus file]
+
+[----------------------------------------]
+[Define MCMC analysis 1 - (unpartitioned)]
+[----------------------------------------]
+	lset nst=2 rates=gamma;						  	               [Define HKY+G4 - applied uniformly to all sitesl default is G4 (use "lset ngammacat=X" to change this)]
+	                                                               [We will keep default priors, no need to use "prset"]
+	mcmc                                                           [Define settings for the MCMC:]
+	ngen=300000 printfreq=1000 samplefreq=100 	                    [a: 300,000 iterations | print info in output file every 1,000 it and sample parameter values every 100 iterations]
+	diagnfreq=1000 diagnstat=maxstddev				                [b: calculate diagnostics every 1,000 iterations]
+	nchains=4 savebrlens=yes 					 	                [c: default 4 chains (1 cold + 3 hot) | Save branch lengths on sampled trees]
+	filename=dna-conc;                                              [d: specify file name to save results of mcmc]
+
+[-----------------------------------------------------]
+[Define MCMC analysis 3 - (by gene and codon position)]
+[-----------------------------------------------------]
+	charset CP12=1-.\3 2-.\3;                                       [Define character sets: one for CP12 and another for CP3]
+    charset CP3=3-.\3;
+	partition by-codpos=2: CP12,CP3;                                [Define partition scheme for the four alignment blocks]
+	set partition=by-codpos;						    	        [Set the partition scheme previously defined]
+	lset applyto=(all) nst=2 rates=gamma;	    		    	    [Define HKY+G4 -- apply same model to all partitions]
+	unlink 							    				            	[Estimate for each partition the following parameter values:]
+	statefreq=(all)					    			         		     [b: stationary frequencies]
+	tratio=(all)							    	         		     [c: kappa (transition/tansversion) parameter]
+	shape=(all);							    	         		     [c: alpha (shape) parameter -- shape of the gamma used to model ASRV]
+	prset applyto=(all) ratepr=variable;		        	     	    [Only for partitioned analyses | Allow overall substitution rate to vary across partitions]
+	mcmc                                                                [Define settings for the MCMC:]
+	ngen=300000 printfreq=1000 samplefreq=100 	                    [a: 300,000 iterations | print info in output file every 1,000 it and sample parameter values every 100 iterations]
+	diagnfreq=1000 diagnstat=maxstddev				                     [b: calculate diagnostics every 1,000 iterations]
+	nchains=4 savebrlens=yes 					         	             [c: default 4 chains (1 cold + 3 hot) | Save branch length on sampled trees]
+	filename=dna-part;                                              [d: specify file name to save results of mcmc]
+
+[--------------------------------------------------------------]
+[Summarise trees and other model parameters sampled during MCMC]
+[--------------------------------------------------------------]
+	[Summarise parameter values for each analysis - point to output files]
+	sump filename=dna-conc;
+	sump filename=dna-part;
+	
+	[Summarise tree topologies and branch lengths for each analysis - point to output files]
+	sumt filename=dna-conc;
+	sumt filename=dna-part;
+
+[---------------]
+[END OF ANALYSIS]
+[---------------]
+quit;
+END;
