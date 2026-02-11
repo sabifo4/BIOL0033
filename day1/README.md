@@ -615,9 +615,9 @@ First make a directory to put the metadata, and then download the metadata and p
 scripts/alphafold_download.py raw_data/protein_metadata.csv .
 ```
 
-The metadata files will be saved in `~/my_session/day1/model_metadata` and the pdb files will be saved in `~/my_session/day1/pdb`.  The metadata is in .json format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
+The metadata files will be saved in `~/my_session/day1/model_metadata` and the pdb files will be saved in `~/my_session/day1/pdb`.  The metadata is in `.json` format and gives information on the simulated structure including the overall predicted Local Distance Difference Test (pLDDT) value ("globalMetricValue"), a measure of the quality of the prediction, and the link to the pdb file on Alphafold DB ("pdbUrl").
 
-The .pdb file represents the simulated structure of the protein.
+The `.pdb` file represents the simulated structure of the protein.
 
 ### Structure of a PDB file
 
@@ -649,11 +649,14 @@ You will first do a pairwise alignment as an exercise, and then do align all str
 To make a pairwise alignment between the human and the mouse structures, run:
 
 ```sh
+# Run from my_session/day1
+# Change directories if you are not
+# there yet
 cd pdb
 mkdir human_aligned
 USalign Human_P20591.pdb Chicken_Q90597.pdb -o human_aligned/human_aligned
 
-#Check that the files are created
+# Check that the files are created
 ls human_aligned
 ```
 
@@ -674,7 +677,9 @@ These images were visualized using the program [ChimeraX](https://www.cgl.ucsf.e
 One can make a pairwise sequence alignment by running:
 
 ```sh
-#run from my_session/day1/pdb
+# Run from my_session/day1/pdb
+# Change directories if you are not
+# there yet
 USalign Human_P20591.pdb Chicken_Q90597.pdb > ~/my_session/day1/aln/human_chicken.txt
 ```
 
@@ -689,28 +694,105 @@ Finally, we will make a structural alignment for all our structures.  To do this
 To make a file called pdb_list.txt listing all the .pdb files in this directory you can run the commands:
 
 ```sh
-#run from my_session/day1/pdb
+# Run from my_session/day1/pdb
+# Change directories if you are not
+# there yet
 ls *.pdb > pdb_list.txt
 ```
 
 Once you have that file, run:
 
 ```sh
-#run from my_session/day1
+# Run from my_session/day1
+# Change directories if you are not
+# there yet
 USalign -dir pdb pdb/pdb_list.txt -suffix .pdb -mm 4 > ~/my_session/day1/aln/aln_prot_usalign.fasta
 ```
 
 ```sh
-#run from my_session/aln
+# Run from my_session/aln
+# Change directories if you are not
+# there yet
 
-#first we need to extract all lines that are not part of the standard fasta format.
+# First, we need to extract all lines that are not part of the standard fasta format.
 ../scripts/usalign_fasta_parse.py aln_prot_usalign.fasta aln_prot_usalign_clean.fasta
 
-#Now run alignment-info
+# Modify the headers so that they match the other alignments
+sed -i -e 's/\///g' -e 's/_[A-Z]+*..*/_Mx/g' aln_prot_usalign_clean.fasta
+
+# Now run alignment-info
 ~/my_session/day1/scripts/alignment-info/bin/alignment-info aln_prot_usalign_clean.fasta > log_info/log_info_prot_usalign_clean.txt
 ```
 
-This will output a .fasta file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.
+This will output a `.fasta` file that is very similar to the multiple sequence alignments you made using sequence-based methods. It also includes TM-scores for each structure in the alignment.
 
 > [!IMPORTANT]
 > How does this alignment compare to your sequence-based alignments?
+
+## Which alignment/s do we keep?
+
+This is a very hard question that does not have a right or wrong answer. Nevertheless, below you can find some guidance regarding what you can pay attention to:
+
+* **Gaps**: you may find gaps that are clearly "indels" (blocks that correspond to insertions or deletions) and/or are clustered at the ends of your alignment, which are not detrimental. Nevertheless, if you find lots of gaps throughout your alignment, you may be dealing with signals of poor homology and/or alignment uncertainty. It is preferable to have long clean blocks of gaps instead of scattered gappy regions.
+* **Missing data per sequence and per column**: an alignment with (i) few taxa having many blocks of many gaps and/or (ii) many columns where most taxa are just gaps can heavily impact phylogeny inference.
+* **Issues with preserving the reading frame with nucleotide-based alignments**: if you find many random gaps consisting of 1 or 2 base pairs and/or many blocks of base pairs that are not divisible by 3, this is a red flag. Have you used a protein alignment as a guide for aligning your nucleotide sequences to help preserve the reading frame? If your answer is no, **please note that codon-aware alignments (or in-frame alignments) should take precedence over less "gappier" but frame-broken alignments**.
+
+> [!CAUTION]
+> The three nucleotide-based alignments that we inferred, regardless of the approach used for this purpose, seem to have at least one of the issues described above. The main issue, however, seems to be the **lack of "codon awareness"**: we did not align the nucleotide sequences to a protein alignment, which may affect the reading frame.
+
+Below, we will show you how you can infer codon-aware alignments!
+
+### Codon-aware alignments
+
+There are various tools that you can use to align your nucleotide sequences against a protein alignment. Here, you will learn how to use [pal2nal](https://www.bork.embl.de/pal2nal/) ([Suyama et al. 2006](https://academic.oup.com/nar/article/34/suppl_2/W609/2505720)). The commands below show you how to copy this program onto your `day1` directory:
+
+```sh
+# Run from my_session/day1
+# Change directories if you are not
+# there yet
+
+# Copy `pal2nal` software and give executable
+# permissions
+cp -R ~/biol0033-tutorial/day1/scripts/pal2nal.v14 scripts/
+chmod 775 scripts/
+```
+
+To keep it simple, we will only align the nucleotide sequences to one of the three protein-based alignments:
+
+* `aln_prot_super5_muscle.fasta`: we have chosen this protein alignment because, despite having the longest gaps (i.e., check the log files generated by `alignment-info`), this is also the alignment that has inferred less indels if compared to `mafft` or `muscle5-ppp`.
+
+> [!NOTE]
+> You can also align the nucleotide sequences against the other two alignments if you wanted to compare the differencces!
+
+```sh
+# Run from my_session/day1
+# Change directories if you are not
+# there yet
+
+# Move to `aln` directory
+cd aln
+# Run `pal2nal`
+# The first argument takes the protein alignment,
+# followed by the unaligned nucleotide sequences
+# We want the output in `FASTA` format, but we will
+# need to then reformat this to a one-line FASTA
+# file
+
+## Align against protein aln inferred with muscle-super5
+../scripts/pal2nal.v14/pal2nal.pl aln_prot_super5_muscle.fasta ../raw_data/data1/unaln_nuc.fasta -output fasta > aln_nuc_against_protsuper5.fasta
+../scripts/one_line_fasta.pl aln_nuc_against_protsuper5.fasta
+mv aln_nuc_against_protsuper5_one_line.fa aln_nuc_against_protsuper5.fasta
+
+## Align against protein aln inferred with usalign
+../scripts/pal2nal.v14/pal2nal.pl aln_prot_usalign_clean.fasta ../raw_data/data1/unaln_nuc.fasta -output fasta > aln_nuc_against_protusalign.fasta
+../scripts/one_line_fasta.pl aln_nuc_against_protsuper5.fasta
+mv aln_nuc_against_protsuper5_one_line.fa aln_nuc_against_protsuper5.fasta
+```
+
+> [!NOTE]
+> You can now compare this codon-aware alignment against the nucleotide-based alignment inferred by `Muscle5` using the same algorithm: `super5`. What differences do you see?
+
+> [!IMPORTANT]
+> After inspecting your alignments, you could also further trim them. While some people with lots of expertise may prefer manual trimming, such a process can be hard to reproduce unless thoroughly documented -- and it is also quite time consuming! There are many tools that have been developed over the years that can trim your alignments based on different algorithms and user-specified settings (e.g., penalty scores, trimming thresholds, etc.). Some of the most widely used tools that could be useful for codon-aware alignments are `TrimAl` ([Capella-Gutiérrez et al. 2009](https://doi.org/10.1093/bioinformatics/btp348)) or `MACSE` ([Ranwez et al. 2018](https://doi.org/10.1093/molbev/msy159)). For deep phylogenies and conserved regions, `TrimAl`. `Gblocks` ([Castresana 2000](https://doi.org/10.1093/oxfordjournals.molbev.a026334); [Talavera & Castresana, 2007](https://doi.org/10.1080/10635150701472164)), or `BMGE` ([Criscuolo & Gribaldo, 2010](https://doi.org/10.1186/1471-2148-10-210)) are preferred. While this is out of the scope of this module, please feel free to dive deeper into this topic if you are interested in learning more about trimming tools and their impact on sequence alignments! :smiley:
+
+Now, we have everything we need to reconstruct our phylogeny! You can now continue the tutorial [in day 2](../day2/README.md) :muscle:
