@@ -488,6 +488,8 @@ alias figtree1.4.4='java -jar <path_to_Tracer>/FigTree_v1.4.4/lib/figtree.jar'
 figtree1.4.4
 ```
 
+</details><br>
+
 Now, you can launch `FigTree` to view the file with the consensus tree that `MrBayes` has output (i.e., file names that end with `*con.tre`). The tree will be displayed in the `FigTree` window. On the left hand side, you can find the options and settings which control how the tree is displayed. We will see together the main options you can use to display the tree.
 
 ---
