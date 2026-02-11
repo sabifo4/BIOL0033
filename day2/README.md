@@ -395,7 +395,7 @@ Please run `Tracer` by double clicking on the `Tracer` icon.
 > If you want to run `Tracer` from the command line, you can either (i) set an alias in your `~/.bashrc` or `~/.bash_profile` file, (ii) execute the program from the directory where the `jar` file can be found, or (iii) execute this `jar` file using an absolute or a relative path to the directory where the terminal is running.
 
 <details>
-<summary><b>[ Click here to learn more about how you could run `Tracer` on the terminal ]</b></summary>
+<summary><b>[ Click here to learn more about how you could run <code>Tracer</code> on the terminal ]</b></summary>
 <br>
 
 ```sh
@@ -451,7 +451,7 @@ We will go through the most important features of `Tracer` together but, in gene
 As you have already learnt when visualising the best-scoring ML trees, `FigTree` is a user-friendly, graphical program for viewing trees. You can run it either by double-clicking on the icon or via the command line (you will need to follow the same procedure as described above for Tracer).
 
 <details>
-<summary><b>[ Click here to learn more about how you could run `FigTree` on the terminal ]</b></summary>
+<summary><b>[ Click here to learn more about how you could run <code>FigTree</code> on the terminal ]</b></summary>
 <br>
 
 ```sh
