@@ -794,7 +794,7 @@ mv aln_nuc_against_protsuper5_one_line.fa aln_nuc_against_protsuper5.fasta
 > [!NOTE]
 > You can now compare this codon-aware alignment against the nucleotide-based alignment inferred by `Muscle5` using the same algorithm: `super5`. What differences do you see?
 
-Now do the same thing for the structural alighment
+Now do the same thing for the structural alignment
 
 ```sh
 # Run from my_session/aln
@@ -941,6 +941,6 @@ We could fix this by swapping out the chicken gene we used for [Z23168](https://
 
 
 > [!IMPORTANT]
-> After inspecting your alignments, you could also further trim them. While some people with lots of expertise may prefer manual trimming, such a process can be hard to reproduce unless thoroughly documented -- and it is also quite time consuming! There are many tools that have been developed over the years that can trim your alignments based on different algorithms and user-specified settings (e.g., penalty scores, trimming thresholds, etc.). Some of the most widely used tools that could be useful for codon-aware alignments are `TrimAl` ([Capella-Gutiérrez et al. 2009](https://doi.org/10.1093/bioinformatics/btp348)) or `MACSE` ([Ranwez et al. 2018](https://doi.org/10.1093/molbev/msy159)). For deep phylogenies and conserved regions, `TrimAl`. `Gblocks` ([Castresana 2000](https://doi.org/10.1093/oxfordjournals.molbev.a026334); [Talavera & Castresana, 2007](https://doi.org/10.1080/10635150701472164)), or `BMGE` ([Criscuolo & Gribaldo, 2010](https://doi.org/10.1186/1471-2148-10-210)) are preferred. While this is out of the scope of this module, please feel free to dive deeper into this topic if you are interested in learning more about trimming tools and their impact on sequence alignments! :smiley:
+> After inspecting your alignments, you could also further trim them. While some people with lots of expertise may prefer manual trimming, such a process can be hard to reproduce unless thoroughly documented -- and it is also quite time consuming! There are many tools that have been developed over the years that can trim your alignments based on different algorithms and user-specified settings (e.g., penalty scores, trimming thresholds, etc.). Some of the most widely used tools that could be useful for codon-aware alignments are `TrimAl` ([Capella-Gutiérrez et al. 2009](https://doi.org/10.1093/bioinformatics/btp348)), `MACSE` ([Ranwez et al. 2018](https://doi.org/10.1093/molbev/msy159)), or [`ClipKit`](https://jlsteenwyk.com/ClipKIT/)([Steenwyk et al. 2020](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3001007)). For deep phylogenies and conserved regions, `TrimAl`. `Gblocks` ([Castresana 2000](https://doi.org/10.1093/oxfordjournals.molbev.a026334); [Talavera & Castresana, 2007](https://doi.org/10.1080/10635150701472164)), or `BMGE` ([Criscuolo & Gribaldo, 2010](https://doi.org/10.1186/1471-2148-10-210)) are preferred. While this is out of the scope of this module, please feel free to dive deeper into this topic if you are interested in learning more about trimming tools and their impact on sequence alignments! :smiley:
 
 Now, we have everything we need to reconstruct our phylogeny! You can now continue the tutorial [in day 2](../day2/README.md) :muscle:
