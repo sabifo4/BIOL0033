@@ -893,9 +893,10 @@ To make a proper comparison between sequence and structural alignments, we shoul
 # Copy the script
 cp /opt/shared/biol0033-tutorial/day1/scripts/swap_pig_sequence.py ~/my_session/day1/scripts/swap_pig_sequence.py
 
+# Give executable permissions
 chmod 775 ~/my_session/day1/scripts/swap_pig_sequence.py
 
-# This script uses the library biopython which is installed in the virtual environment py-env, which you need to activate:
+# This script uses the library biopython which is installed in the virtual environment py-env, which you need to activate
 source /opt/py-env/bin/activate
 
 # Run the script to make a new FASTA FILE with unaligned nucleotide sequences
