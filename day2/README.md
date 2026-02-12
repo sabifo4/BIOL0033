@@ -301,7 +301,7 @@ Firstly, we will be looking at the different commands needed to define a sequenc
 
 #### `MrBayes` commands
 
-Once we have defined our input alignment in NEXUS format, we can generate the control file that will execute `MrBayes`, which will also be in NEXUS format. You can find a template control file in [directory `inp_data`](mrbayes/inp_data/ctl_mrabyes.nex). Below, you will find a summary of the commands that we will go through:
+Once we have defined our input alignment in NEXUS format, we can generate the control file that will execute `MrBayes`, which will also be in NEXUS format. You can find a template control file in [directory `inp_data`](mrbayes/inp_data/ctl_mb_dna.nex). Below, you will find a summary of the commands that we will go through:
 
 > **BLOCK 1: Start `MrBayes` and read input data**
 
@@ -364,6 +364,7 @@ Now, we are ready to run `MrBayes`!
 # there yet
 
 # Go to `inp_dat` dir and run `MrBayes`
+cd inp_data
 mb ctl_mb_dna.nex
 
 # Move results to another dir
