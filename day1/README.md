@@ -758,7 +758,7 @@ There are various tools that you can use to align your nucleotide sequences agai
 # Copy `pal2nal` software and give executable
 # permissions
 cp -R ~/biol0033-tutorial/day1/scripts/pal2nal.v14 scripts/
-chmod 775 scripts/
+chmod 775 scripts/*
 ```
 
 To keep it simple, we will only align the nucleotide sequences to one of the three protein-based alignments:
@@ -896,13 +896,17 @@ cp /opt/shared/biol0033-tutorial/day1/scripts/swap_pig_sequence.py ~/my_session/
 # Give executable permissions
 chmod 775 ~/my_session/day1/scripts/swap_pig_sequence.py
 
-# This script uses the library biopython which is installed in the virtual environment py-env, which you need to activate
+# This script uses the library biopython which is
+# installed in the virtual environment py-env, which
+# you need to activate
 source /opt/py-env/bin/activate
 
-# Run the script to make a new FASTA FILE with unaligned nucleotide sequences
-# We need to first create a directory for the output sequence files, which
-# we will call "unaln_nuc_pigseqswap"
-# Then, we will run the script: which will be in day1/raw_data/data1/unaln_nuc_pigseqswap/unaln_nuc
+# Run the script to make a new FASTA FILE with unaligned
+# nucleotide sequences
+# We need to first create a directory for the output
+# sequence files, which we will call "unaln_nuc_pigseqswap"
+# Then, we will run the script, which will be in
+# day1/raw_data/data1/unaln_nuc_pigseqswap/unaln_nuc
 mkdir unaln_nuc_pigseqswap
 ~/my_session/day1/scripts/swap_pig_sequence.py unaln_nuc.fasta unaln_nuc_pigseqswap/
 # You can find the update nucleotide unaligned sequences in
@@ -939,7 +943,7 @@ This time we get a warning that some of the codons for the Chicken sequence do n
 #------------------------------------------------------------------------#
 ```
 
-We could fix this by swapping out the chicken gene we used for [Z23168](https://www.ncbi.nlm.nih.gov/nuccore/Z23168).  For now we will carry on with these errors in the chicken sequence. 
+We could fix this by swapping out the chicken gene we used for [Z23168](https://www.ncbi.nlm.nih.gov/nuccore/Z23168).  For now we will carry on with these errors in the chicken sequence.
 
 We will now get our sequences in one line and update the headers:
 
@@ -953,7 +957,7 @@ We will now get our sequences in one line and update the headers:
 mv aln_nuc_against_protusalign_one_line.fa aln_nuc_against_protusalign.fasta
 
 # Update headers
-sed -i -e 's/\///g' -e 's/_[QHPF]+*..*/_Mx/g'
+sed -i -e 's/\///g' -e 's/_[QHPF]+*..*/_Mx/g' aln_nuc_against_protusalign.fasta
 ```
 
 > [!IMPORTANT]
