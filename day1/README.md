@@ -891,16 +891,22 @@ To make a proper comparison between sequence and structural alignments, we shoul
 # there yet
 
 # Copy the script
-cp ~/biol0033-tutorial/day1/script/swap_pig_sequence.py ~/my_session/day1/scripts/swap_pig_sequence.py
+cp /opt/shared/biol0033-tutorial/day1/scripts/swap_pig_sequence.py ~/my_session/day1/scripts/swap_pig_sequence.py
 
 chmod 775 ~/my_session/day1/scripts/swap_pig_sequence.py
 
 # This script uses the library biopython which is installed in the virtual environment py-env, which you need to activate:
-
 source /opt/py-env/bin/activate
 
-# Run the script to make a new .fasta with unaligned nucleotide sequences which will be in day1/raw_data/data1/unaln_nuc_pigseqswap/unaln_nuc
-~/my_session/day1/scripts/swap_pig_sequence.py unaln_nuc.fasta unaln_nuc_pigseqswap 
+# Run the script to make a new FASTA FILE with unaligned nucleotide sequences
+# We need to first create a directory for the output sequence files, which
+# we will call "unaln_nuc_pigseqswap"
+# Then, we will run the script: which will be in day1/raw_data/data1/unaln_nuc_pigseqswap/unaln_nuc
+mkdir unaln_nuc_pigseqswap
+~/my_session/day1/scripts/swap_pig_sequence.py unaln_nuc.fasta unaln_nuc_pigseqswap/
+# You can find the update nucleotide unaligned sequences in
+# directory "unaln_nuc_pigseqswap"
+ls unaln_nuc_pigseqswap
 ```
 
 Now, we can re-run `pal2nal` to make the codon-informed nucleotide alignment based on the structural alignment:  
@@ -910,10 +916,12 @@ Now, we can re-run `pal2nal` to make the codon-informed nucleotide alignment bas
 # Change directories if you are not
 # there yet
 
-# Align against protein aln inferred with usalign
-../scripts/pal2nal.v14/pal2nal.pl aln_prot_usalign_clean.fasta ../raw_data/data1/unaln_nuc.fasta -output fasta > aln_nuc_against_protusalign.fasta
-../scripts/one_line_fasta.pl aln_nuc_against_protusalign.fasta
-mv aln_nuc_against_protusalign_one_line.fa aln_nuc_against_protusalign.fasta
+# Change name of the previous alignment
+mv aln_nuc_against_protusalign.fasta aln_nuc_against_protusalign_probpig.fasta
+
+# Now, align new file with updated pig sequence
+# against protein aln inferred with usalign
+../scripts/pal2nal.v14/pal2nal.pl aln_prot_usalign_clean.fasta ../raw_data/data1/unaln_nuc_pigseqswap/unaln_nuc_pigseqswap.fasta -output fasta > aln_nuc_against_protusalign.fasta
 ```
 
 This time we get a warning that some of the codons for the Chicken sequence do not correspond to the codon in the protein sequence:
@@ -930,7 +938,22 @@ This time we get a warning that some of the codons for the Chicken sequence do n
 #------------------------------------------------------------------------#
 ```
 
-We could fix this by swapping out the chicken gene we used for [Z23168](https://www.ncbi.nlm.nih.gov/nuccore/Z23168).  For now we will carry on with these errors in the chicken sequence.
+We could fix this by swapping out the chicken gene we used for [Z23168](https://www.ncbi.nlm.nih.gov/nuccore/Z23168).  For now we will carry on with these errors in the chicken sequence. 
+
+We will now get our sequences in one line and update the headers:
+
+```sh
+# Run from my_session/aln
+# Change directories if you are not
+# there yet
+
+# Crate a one-line FASTA file
+../scripts/one_line_fasta.pl aln_nuc_against_protusalign.fasta
+mv aln_nuc_against_protusalign_one_line.fa aln_nuc_against_protusalign.fasta
+
+# Update headers
+sed -i -e 's/\///g' -e 's/_[QHPF]+*..*/_Mx/g'
+```
 
 > [!IMPORTANT]
 > After inspecting your alignments, you could also further trim them. While some people with lots of expertise may prefer manual trimming, such a process can be hard to reproduce unless thoroughly documented -- and it is also quite time consuming! There are many tools that have been developed over the years that can trim your alignments based on different algorithms and user-specified settings (e.g., penalty scores, trimming thresholds, etc.). Some of the most widely used tools that could be useful for codon-aware alignments are `TrimAl` ([Capella-Gutiérrez et al. 2009](https://doi.org/10.1093/bioinformatics/btp348)), `MACSE` ([Ranwez et al. 2018](https://doi.org/10.1093/molbev/msy159)), or [`ClipKit`](https://jlsteenwyk.com/ClipKIT/)([Steenwyk et al. 2020](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3001007)). For deep phylogenies and conserved regions, `TrimAl`, `Gblocks` ([Castresana 2000](https://doi.org/10.1093/oxfordjournals.molbev.a026334); [Talavera & Castresana, 2007](https://doi.org/10.1080/10635150701472164)), or `BMGE` ([Criscuolo & Gribaldo, 2010](https://doi.org/10.1186/1471-2148-10-210)) are preferred. While this is out of the scope of this module, please feel free to dive deeper into this topic if you are interested in learning more about trimming tools and their impact on sequence alignments! :smiley:
