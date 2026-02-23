@@ -425,9 +425,9 @@ beta(p, q),
 > The number of free parameters in the $\omega$ distribution will vary depending on the site model under which data are being analysed:
 >
 > * `M1a`: $p_{0}$ is the proportion of sites with $\omega_{0} < 1$, while $p_{1} = 1 − p_{0}$ is the proportion of sites with $\omega_{1} = 1$.
-> * `M2a`: same as `M1a` except for the fact that `M2a` includes an additional class of sites with $\omega_{2} > 1$ in proportion $p_{2}$, with $p_{0} + p_{1} + p_{2} = 1$. The first test for positive selection that you will run compares model `M1a` (nearly neutral) against the model that accounts for positive selection include an extra class to allow for these sites being considered (i.e.,  $\omega_{2} > 1$ in proportion $p_{2}$): `M2a`.
-> `M7`: this model uses a beta distribution with parameters $p$ and $q$ to describe variable $\omega$ for sites in the range $0 ≤ \omega ≤ 1$.
-> `M8`: $p_{0}$ is the proportion of sites with $\omega$ from $beta(p, q)$ as in `M7`, but now an additional class is added (with proportion $p_{1}$) with $\omega_{s} > 1$. By comparing models `M7` (null) and `M8` (alternative), you can run another test for positive selection. Nevertheless, please note that this test is less stringent than the "M1a-M2a" test described above.
+> * `M2a`: same as `M1a` except for the fact that `M2a` includes an additional class of sites with $\omega_{2} > 1$ in proportion $p_{2}$, with $p_{0} + p_{1} + p_{2} = 1$. The first test for positive selection that you will run compares model `M1a` (nearly neutral) against the model that accounts for positive selection (`M2a`), which includes an extra class to allow for these sites being considered (i.e.,  $\omega_{2} > 1$ in proportion $p_{2}$): `M2a`.
+> * `M7`: this model uses a beta distribution with parameters $p$ and $q$ to describe variable $\omega$ for sites in the range $0 ≤ \omega ≤ 1$.
+> * `M8`: $p_{0}$ is the proportion of sites with $\omega$ from $beta(p, q)$ as in `M7`, but now an additional class is added (with proportion $p_{1}$) with $\omega_{s} > 1$. By comparing models `M7` (null) and `M8` (alternative), you can run another test for positive selection. Nevertheless, please note that this test is less stringent than the "M1a-M2a" test described above.
 
 <!-- Table in markdown format, left here to make LaTeX format has been properly translated into HTML above
 
@@ -502,7 +502,7 @@ When you obtain the final plot, you can click `PLots > Export > Save as PDF...` 
 <img width="400" height="300" src="../figs/CODEML_LRT_sitemods_plot.png">
 </p>
 
-> **[ EXERCISE ]**
+> **[ EXERCISE ]**<br>
 > Open a text editor or any other program you feel comfortable with and write two tables summarising the following:
 >
 > * Table 1: table summarising the log-likelihood values for each of the models being compared, the corresponding free parameters, the degree of freedom, and the LRT statistic. The header could be the following: "Model comparison", "Log-likelihood values, $ℓ_{0}$ and $ℓ_{1}$", "Free parameters", "d.f", "LRT statistic".
@@ -663,7 +663,7 @@ Parameters in M8 (beta&w>1):
 </tr>
 <!-- SECOND ROW -->
 <tr>
-<td>M2a (positive selection)</td>
+<td>M1a (nearly neutral)</td>
 <td>ℓ = −14,440.41</td>
 <td>0.5038</td>
 <td>p<sub>0</sub> = 0.54306 (p<sub>1</sub> = 0.45694)<br>
@@ -703,6 +703,8 @@ p = 0.39466, q = 0.77341<br>
 <br>
 
 Models `M0` (one-ratio) and `M1a` (nearly neutral) are nested and can be compared using the LRT. This is a test for variability of selective pressure among amino acid sites rather than a test of positive selection. `M1a` fits the data much better than `M0`, with $2\Deltaℓ = 912.06$⁠, indicating that the selective pressure reflected by $\omega$ varies hugely among sites. Compared with `M1a`, `M2a` adds a class of sites under positive selection with $\omega_{2} > 1$ (in proportion $p_{2}$). This does not improve the fit of the model significantly as $2\Deltaℓ = 0$. An additional test for positive selection helped us compare `M7` (beta, null model) against `M8` (beta&$\omega$, alternative model). `M8` fits the data better than `M7` at both 5% and 1% significance levels, with $2\Deltaℓ = 39.15$, suggesting the presence of sites under positive selection with $\omega > 1$. The test for sites under positive selection is thus equivocal with the "M1a-M2a" and "M7-M8" comparisons as we have conflicting results. When the evidence for positive selection exists but is not very strong, the "M1a-M2a" test is noted to be more stringent, as sites under weak positive selection tend to be lumped into the site class with $\omega_{1} = 1$ ([Zhang et al. 2005](https://doi.org/10.1093/molbev/msi237)).
+
+Although `M0` assumes the same $\omega$ for all codons in the gene, the site models assume several site classes (i.e., homogenous model VS heterogeneous models). For example, under `M8` (beta&$\omega$), 91.4% of sites (the estimated value of $p_{0} = 0.91379$) have $\omega$ from the $beta(0.395, 0.773)$ distribution (the estimated values of the parameters of the beta distribution, $p = 0.39466$ and $q = 0.77341$), whereas 8.6% sites (the estimated value of $p_{1} = 0.08621$) have $\omega = 2.05744$, which indicates the presence of a small proportion of amino acid residues under positive selection. This information (as well as for the other models) can be found in the output file -- you can use the tips above to extract this information at once using the command line!
 
 </details><br>
 
@@ -760,7 +762,7 @@ Site 6 in the alignment has a posterior probability of 96.8% of coming from the 
 > [!NOTE]
 > In the `CODEML` output, posterior probabilities $P > 0.95$ are indicated with an asterisk, while those with $P > 0.99$ are indicated with two asterisks. You can look at section [“BEB Analysis” Supplementary Material of Álvarez-Carretero et al. 2023](https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/mbe/40/4/10.1093_molbev_msad041/2/msad041_supplementary_data.pdf?Expires=1774651114&Signature=phKHDR~EitWyE~wSuNTBeR1jhwChp3q7E5SFRBv~u9Z1uVP~Q7gUJNs-4vRJxxYdgg7uBidCOFxKOotoLJeJMmFdqTs3AC3VLROgn~mSVgrICce7C6OOE-LqS4Dh3uM9NLhSKEOqtxKMfaTpcgTNXTHW2woP9WHwIP2i-QVV~W9z96ZuDFBg6HhqT3xFyyYmhI2JNDe~L8TGuSLDjI-k2kACz3GBt46-GYSS9dPJ75GexYd-hJ1G-s4Ravm329wSba4UmYdyeNHCV0QB4GKrAx1tIRoE6NOdWMS-4YDJuMdAyq2IdIvOK-xJF2MFFgx5vB5Ip-HJqAWAAlPIFO4RXw__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA) for another example.
 
-Now, we need to remember what happened during the LRTs. The test for positive selection when comparing "M1a-M2a" Was not significant, while the "M7-M8" comparison resulted in the null hypothesis (`M7`) being rejected and model `M8` fitting the data better at both 5% and 1% significant levels. Considering that the first test is more stringent, if only a few sites are under weak positive selection, then the "M1a-M2a" comparison might fail to reach significance, while the "M7-M8" comparison may detect it. In our case, the estimated $\omega$ ratio under `M8` is quite low ($\omega = 2.05744$), and so that could explain the abovementioned. Nevertheless, we can verify this evidence by further doing some of these checks (there are more!):
+Now, we need to remember what happened during the LRTs. The test for positive selection when comparing "M1a-M2a" was not significant, while the "M7-M8" comparison resulted in the null hypothesis (`M7`) being rejected and model `M8` fitting the data better at both 5% and 1% significant levels. Considering that the first test is more stringent, if only a few sites are under weak positive selection, then the "M1a-M2a" comparison might fail to reach significance, while the "M7-M8" comparison may detect it. In our case, the estimated $\omega$ ratio under `M8` is quite low ($\omega = 2.05744$), and so that could explain the abovementioned. Nevertheless, we can verify this evidence by further doing some of these checks (there are more!):
 
 * Running `CODEML` with different starting values for $\omega$ to make sure that the MLEs converge to the same estimated values.
 * Check the sites that have been identified with a probability larger than 95% under the BEB method of coming from the positive-selection class with $\omega > 1$. Structural analyses may reveal whether there is some structural functionality related to these sites that must have been favoured by a selective pressure.
