@@ -1,7 +1,7 @@
 # Day 3 - testing for positive selection
 
 > [!IMPORTANT]
-> **Disclaimer**: this tutorial is based on the article **Beginner's Guide on the Use of PAML to Detect Positive Selection** ([Álvarez-Carretero, Kapli, Yang 2023](https://doi.org/10.1093/molbev/msad041)). Consequently, you may find similarities between the aforementioned paper and its [step-by-step protocol](https://github.com/abacus-gene/paml-tutorial/tree/main/positive-selection) when going through this practical session.
+> **Disclaimer**: this tutorial is based on the article **Beginner's Guide on the Use of PAML to Detect Positive Selection** ([Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041)). Consequently, you may find similarities between the aforementioned paper and its [step-by-step protocol](https://github.com/abacus-gene/paml-tutorial/tree/main/positive-selection) when going through this practical session.
 
 ## Introduction
 
@@ -544,7 +544,8 @@ When you obtain the final plot, you can click `PLots > Export > Save as PDF...` 
 >
 > Now, your turn! How would you find model parameters for the site proportions and the estimated $\omega$ ratios for each site class?
 
-<br><details>
+<br>
+<details>
 <summary><b>[ Click here to find the command that you can use to find model parameters ]</b></summary>
 <br>
 The solution is <code>grep 'Frequency parameters' -A6 out_sites.txt</code>. While some models will have blank lines or lines with other info after printing the third or fourth lines after the pattern is found (<code>Frequency parameters</code>), models <code>M1a</code> and <code>M2a</code> require 6 lines to be printed after the pattern to see all parameter estimates:
@@ -701,8 +702,7 @@ p = 0.39466, q = 0.77341<br>
 <summary><b>[ Click here only when you have finished thinking about the results and proposed an interpretation to those ]</b></summary>
 <br>
 
-
-</details>
+</details><br>
 
 The last output we will pay attention is the **Bayes Empirical Bayes (BEB) method**, used to calculate the posterior probability for each site coming from the different site classes. This approach is printed on the screen when analysing the dataset under `M2a` and `M8` models. Sites with high posterior probabilities for the positively selected class are likely to be under positive selection.
 
