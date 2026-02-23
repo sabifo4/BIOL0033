@@ -121,7 +121,7 @@ During day 1 and day 2, we ran all necessary steps to obtain our codon-aware seq
 
 To complete this practical session on time, we shall use only one of those alignments (`aln_nuc_against_protsuper5.fasta`). Nevertheless, you are more than free to repeat this tutorial using the other alignment too!
 
-Nevertheless, we will need to convert the FASTA-formatted sequence files to PHYLIP. There are many tools that can help you convert these alignments, so please feel free to choose the tool you want for this purpose (you can even write your own script if you want to!). To speed things up, you will find the sequence alignment in PHYLIP format inside `day3/inp_data` (see below when we start with the analyses!).
+Nevertheless, we will need to convert the FASTA-formatted sequence files to PHYLIP. There are many tools that can help you convert these alignments, so please feel free to choose the tool you want for this purpose (you can even write your own script if you want to!). To speed things up, you will find the sequence alignment in PHYLIP format inside `day3/inp_data` that we have already prepared for you (see below when we start with the analyses!).
 
 During day 2, we learnt how to infer the best-scoring maximum-likelihood tree wit `IQ-TREE`. Today, we have learnt how to infer a phylogeny under a Bayesian approach with `MrBayes`. When inferring the trees with alignment `aln_nuc_against_protsuper5.fasta`, we obtain the same **unrooted tree topology** (branch lengths may differ):
 
@@ -135,7 +135,7 @@ If we were to root it by separating birds (Duck and Chicken) from the mammals, w
 ((((((Pig_Mx, (Sheep_Mx, Cow_Mx)), Dog_Mx), (Rhesus_macaque_Mx, (Orangutan_Mx, Human_Mx))), (Rat_Mx, Mouse_Mx)), Chimpanzee_Mx), (Duck_Mx, Chicken_Mx));
 ```
 
-You can clearly see that the inferred topology of this **gene tree** is in conflict with the expected topology of the **species tree** (i.e., "Chimpanzee_Mx" should cluster with the rest of sequences from primates):
+We can clearly see that the inferred topology of this **gene tree** is in conflict with the expected topology of the **species tree** (i.e., "Chimpanzee_Mx" should cluster with the rest of sequences from primates):
 
 <p align="center">
 <img width="400" height="350" src="../figs/CODEML_PhyloTree.jpeg">
@@ -177,7 +177,7 @@ Given all the discussion above, we will be using the species tree in this tutori
 ((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),(Duck_Mx,Chicken_Mx));
 ```
 
-You will find a copy of these input files (and relevant control files to run `CODEML`) in the `day3` directory that you will now copy to your main working directory!
+You will find a copy of these input files (and relevant control files to run `CODEML`) in the `day3` directory that you will need to copy to your main working directory!
 
 ### Running `CODEML`
 
@@ -241,7 +241,7 @@ cd 00_homogeneous_model/Model_M0
 codeml codeml-M0.ctl >(tee logfile_codemlM0.txt >&2)
 ```
 
-As soon as you start the run, you will see that various intermediate files alongside output file `out_M0.txt` start being generated inside directory `Model_M0` while lots of information about this analysis is printed on the screen. Once `CODEML` finishes, you are ready to look at output file `out_M0.txt`:
+As soon as `CODEML` starts running, you will see that various intermediate files alongside output file `out_M0.txt` start being generated inside directory `Model_M0` while lots of information about this analysis is printed on the screen. Once `CODEML` finishes, we are ready to look at our output file `out_M0.txt`:
 
 > **Summary of site patterns in the input sequence alignment**
 
@@ -281,7 +281,7 @@ You can see that, in the snapshot above taken from the `out_M0.txt` file, most s
 
 > **Summary of the input sequence alignment and the model selected**
 
-You will then see the version of `PAML` you are using followed by the path to the sequence alignment file. Then, you will see details about the model specified in the control file: model `M0` (one dN/dS ratio) and "FMutSel" to estimate codon frequencies. Then, you will see the number of species (`ns = 12`) and the number of codons (`ls = 799`; number of base pairs in the alignment [2,397] divided into 3):
+You will then see the version of `PAML` we are using followed by the path to the sequence alignment file. Then, you will see details about the model specified in the control file: model `M0` (one dN/dS ratio) and "FMutSel" to estimate codon frequencies. Then, you will see the number of species (`ns = 12`) and the number of codons (`ls = 799`; number of base pairs in the alignment [2,397] divided into 3):
 
 ```txt
 CODONML (in paml version 4.10.10, 27 Jan 2026)  ../../inp_data/aln_codawdna.phy
@@ -365,7 +365,7 @@ We will now analyse our data under other codon models useful for detecting posit
 
 Now, we will run `CODEML` under various **site models**, which allow $\omega$ to vary across codons. Instead of running `CODEML` once for every different site model, there is a feature that you can enable through variable `NSsites` that will allow you to run a "batch" analysis. In other words, you can instruct `CODEML` to run more than one site model by typing the options that enable the corresponding site model to be enabled (i.e., `CODEML` will run the second analysis once after the first one has finished, the third after the second has finished, etc.).
 
-We will be running a batch analysis under the `M0` model (this is the homogeneous model with one $\omega$ ratio, we have already run an analysis under this model!) and then the following site models: `M1a` (nearly neutral), `M2a` (positive selection), `M7` (beta) and `M8` (beta&$\omega$). You can find a summary of these site models in the table below, including the model comparisons you need to carry out with a **LRT** (the models being compared are **nested**!):
+We will be running a batch analysis under the `M0` model (this is the homogeneous model with one $\omega$ ratio, we have already run an analysis under this model!) and then the following site models: `M1a` (nearly neutral), `M2a` (positive selection), `M7` (beta) and `M8` (beta&$\omega$). You can find a summary of these site models in the table below, including the model comparisons we will carry out when calculating the **LRT statistic** (the models being compared are **nested**!):
 
 > Table 1. Site models for testing positive selection affecting amino acid residues in a protein (from Table 1 in in [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041))
 
@@ -425,9 +425,9 @@ beta(p, q),
 > The number of free parameters in the $\omega$ distribution will vary depending on the site model under which data are being analysed:
 >
 > * `M1a`: $p_{0}$ is the proportion of sites with $\omega_{0} < 1$, while $p_{1} = 1 − p_{0}$ is the proportion of sites with $\omega_{1} = 1$.
-> * `M2a`: same as `M1a` except for the fact that `M2a` includes an additional class of sites with $\omega_{2} > 1$ in proportion $p_{2}$, with $p_{0} + p_{1} + p_{2} = 1$. The first test for positive selection that you will run compares model `M1a` (nearly neutral) against the model that accounts for positive selection (`M2a`), which includes an extra class to allow for these sites being considered (i.e.,  $\omega_{2} > 1$ in proportion $p_{2}$): `M2a`.
+> * `M2a`: same as `M1a` except for the fact that `M2a` includes an additional class of sites with $\omega_{2} > 1$ in proportion $p_{2}$, with $p_{0} + p_{1} + p_{2} = 1$. The first test for positive selection that we will run compares model `M1a` (nearly neutral) against the model that accounts for positive selection (`M2a`), which includes an extra class to allow for these sites being considered (i.e.,  $\omega_{2} > 1$ in proportion $p_{2}$): `M2a`.
 > * `M7`: this model uses a beta distribution with parameters $p$ and $q$ to describe variable $\omega$ for sites in the range $0 ≤ \omega ≤ 1$.
-> * `M8`: $p_{0}$ is the proportion of sites with $\omega$ from $beta(p, q)$ as in `M7`, but now an additional class is added (with proportion $p_{1}$) with $\omega_{s} > 1$. By comparing models `M7` (null) and `M8` (alternative), you can run another test for positive selection. Nevertheless, please note that this test is less stringent than the "M1a-M2a" test described above.
+> * `M8`: $p_{0}$ is the proportion of sites with $\omega$ from $beta(p, q)$ as in `M7`, but now an additional class is added (with proportion $p_{1}$) with $\omega_{s} > 1$. By comparing models `M7` (null) and `M8` (alternative), we can run another test for positive selection. Nevertheless, please note that this test is less stringent than the "M1a-M2a" test described above.
 
 <!-- Table in markdown format, left here to make LaTeX format has been properly translated into HTML above
 
@@ -440,7 +440,7 @@ beta(p, q),
 
 -->
 
-You will see that, under `day3/01_site_models/Site_models`, you have the control file to launch a batch analysis that will analyse your data under the homogeneous (`M0` model) and four additional heterogeneous models (site models, `M1a`, `M2a`, `M7`, and `M8`). The differences between this control file and the control file to run the `M0` model are the following:
+You will see that, under `day3/01_site_models/Site_models`, we have already included the control file that will launch a batch analysis to analyse your data under the homogeneous (`M0` model) and four additional heterogeneous models (site models, `M1a`, `M2a`, `M7`, and `M8`). The differences between this control file and the control file to run the `M0` model are the following:
 
 ```txt
 outfile = out_sites.txt  * Path to output file
@@ -467,7 +467,7 @@ As you learnt during the theoretical session focused on phylogenetic reconstruct
 * `M1a` vs. `M2a` (nearly neutral vs. positive selection): this is a **test for positive selection** given that `M2a` adds a class to consider sites under positive selection: $\omega_{2} > 1$, with a proportion of sites of $p_{2}$.
 * `M7` vs. `M8` (beta vs. beta&$\omega$): this another **test for positive selection** that we will run (null: `M7`, alternative: `M8`), but it is not as stringent as the "M1a-M2a" test described above.
 
-In order to carry out the LRTs for each model comparison, we will need the log-likelihood values. Once our batch analysis finishes, you can extract these values from the output file using the code snippet below:
+In order to carry out the LRTs for each model comparison, we will need the log-likelihood values. Once our batch analysis finishes, we can extract these values from the output file using the code snippet below:
 
 ```sh
 # Run from "01_site_models/Site_models"
@@ -496,14 +496,14 @@ Now, you are ready to run the R script that we have prepared for you to run all 
   * Calculate the LRT statistic and the alpha-critical values at 5% and 1% for each test considering the degree of freedom (i.e., this is calculated based on the difference of model parameters!).
   * Plot the LRT statistic, the alpha-critical values at 5% and 1%, and the p-value for the $\chi^2$ test with the calculated degree of freedom -- there is one plot per model comparison.
 
-When you obtain the final plot, you can click `PLots > Export > Save as PDF...` on the bottom right panel, and then choose "Landscape" and directory `~/my_session/day3/01_site_models` in the last pop-up window. You can save the output file as `LRT_site_models.pdf`. If you want to see the plot after saving it, then tick the box `View plot after saving`:
+When you obtain the final plot, you can click `Plots > Export > Save as PDF...` on the bottom right panel, and then choose "Landscape" and directory `~/my_session/day3/01_site_models` in the last pop-up window. You can save the output file as `LRT_site_models.pdf`. If you want to see the plot after saving it, then tick the box `View plot after saving`:
 
 <p align="center">
 <img width="400" height="300" src="../figs/CODEML_LRT_sitemods_plot.png">
 </p>
 
 > **[ EXERCISE ]**<br>
-> Open a text editor or any other program you feel comfortable with and write two tables summarising the following:
+> Open a text editor or any other program you feel comfortable with and create two tables summarising the following:
 >
 > * Table 1: table summarising the log-likelihood values for each of the models being compared, the corresponding free parameters, the degree of freedom, and the LRT statistic. The header could be the following: "Model comparison", "Log-likelihood values, $ℓ_{0}$ and $ℓ_{1}$", "Free parameters", "d.f", "LRT statistic".
 > * Table 2: table summarising the log-likelihood values and parameter estimates for each model under which data were analysed in this batch analysis. The header could be the following: "Model", "Log-likelihood, $ℓ$", "$d_{N}/d_{s}", and "Estimates of model parameters".
@@ -517,7 +517,7 @@ When you obtain the final plot, you can click `PLots > Export > Save as PDF...` 
 > You can use bash scripting to quickly parse the output files when searching for specific lines that would have information about estimates of model parameters:
 > Example 1: which specific line under the output block for each model can we use to extract information about the $\omega$ ratio? Well, the line starting with " branch" is then followed by two lines that allow us to see the first value of estimated $\omega$ ratio. The estimated $d_{N}/d_{S} value is the same for each branch, thus we only need to see the first line. We can use the following command to find the five instances that match this pattern using command `grep` and option `-A2` (prints two lines after the line that matches the pattern to be found in the file):
 `grep '^ branch' -A2 out_sites.txt`:
-> 
+>
 > ```txt
 >  branch          t       N       S   dN/dS      dN      dS  N*dN  S*dS
 >
@@ -711,7 +711,7 @@ Although `M0` assumes the same $\omega$ for all codons in the gene, the site mod
 The last output we will pay attention to is the **Bayes Empirical Bayes (BEB) method**, which is used to calculate the posterior probability for each site coming from the different site classes. This approach is printed on the screen only when analysing the dataset under `M2a` and `M8` models, not under the null models. Sites with high posterior probabilities for the positively selected class are likely to be under positive selection.
 
 > [!IMPORTANT]
-> **The results for the BEB method will be always printed on the screen and calculated only under models of positive selection, not under the null models**. `CODEML` does not compute any LRT and does not know whether `M2a` or `M8` fit the data better than the null models they are being compared to. Once you have carried out your LRTs, if you cannot reject the null hypotheses (i.e., `M1a` in "M1-M2a" test or `M7` in "M7-M8" test), **the BEB results should be ignored as they refer to a model that does not fit the data better than the null model**. In addition, please ignore all sections in the output file referring to the Naïve Empirical Bayes (NEB) method as it is an older method that does not accommodate the uncertainties in the MLEs that the BEB method does ([Yang et al. 2005](https://doi.org/10.1093/molbev/msi097)).
+> **The results for the BEB method will be always printed on the screen and calculated only under models of positive selection, not under the null models**. `CODEML` does not compute any LRT and does not know whether `M2a` or `M8` fit the data better than the null models they are being compared to. Once you have carried out all LRTs, if we cannot reject the null hypotheses (i.e., `M1a` in "M1-M2a" test or `M7` in "M7-M8" test), **the BEB results should be ignored as they refer to a model that does not fit the data better than the null model**. In addition, please ignore all sections in the output file referring to the Naïve Empirical Bayes (NEB) method as it is an older method that does not accommodate the uncertainties in the MLEs that the BEB method does ([Yang et al. 2005](https://doi.org/10.1093/molbev/msi097)).
 
 In our site model analysis, we cannot look at the BEB results printed under the output block for model `M2a` because the null model `M1a` cannot be rejected. Nevertheless, we can look at the results under `M8` as we can reject the null model `M7`:
 
@@ -771,4 +771,5 @@ Overall, we could say that there seems to be some evidence for sites under posit
 
 #### Branch models
 
+Now, you
 #### Branch-site models
