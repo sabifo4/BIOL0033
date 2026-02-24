@@ -241,6 +241,15 @@ cd 00_homogeneous_model/Model_M0
 codeml codeml-M0.ctl >(tee logfile_codemlM0.txt >&2)
 ```
 
+> [!NOTE]
+> This analysis took 00:03:40 (HH:MM:SS) to run on a PC with the following specs:
+>
+> * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
+> * 23.0GB RAM
+> * WSL: Ubuntu 22.04.4 LTRS (jammy)
+>
+> If we are running out of time, please feel free to continue analysing the results under the `M0` model from directory `my_session/day3/00_homogeneous_model/out_of_time` (this would be equivalent as being inside `Model_M0`!).
+
 As soon as `CODEML` starts running, you will see that various intermediate files alongside output file `out_M0.txt` start being generated inside directory `Model_M0` while lots of information about this analysis is printed on the screen. Once `CODEML` finishes, we are ready to look at our output file `out_M0.txt`:
 
 > **Summary of site patterns in the input sequence alignment**
@@ -348,6 +357,9 @@ This is all the information you will find in the output file! Now, let's remove 
 
 ```sh
 # Run from "00_homogeneous_model/Model_M0"
+# [NOTE]: if you did not have time to run
+# this analysis, then run from
+# "00_homogeneous_model/out_of_time"
 # Change directories if you are not
 # there yet
 
@@ -459,6 +471,15 @@ Note that the name of the output file is now `out_sites.txt` and we are enabling
 codeml codeml-sites.ctl >(tee logfile_codeml-sites.txt >&2)
 ```
 
+> [!NOTE]
+> This analysis took 01:13:58 (HH:MM:SS) to run on a PC with the following specs:
+>
+> * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
+> * 23.0GB RAM
+> * WSL: Ubuntu 22.04.4 LTRS (jammy)
+>
+> We will not have time to run this analysis during the practical session, so please continue analysing the results under `M0` and the rest of site models from directory `my_session/day3/01_site_models/out_of_time` (this would be equivalent as being inside `Site_models`!).
+
 The output file follows the same format as described above for the homogeneous model. The only difference is that now we will have one block of summarising tree scores and model parameters for each of the models under which the data were analysed (i.e., 5 blocks).
 
 As you learnt during the theoretical session focused on phylogenetic reconstruction under maximum likelihood (and as you revised in the latest session on molecular adaptation), we can use the **LRT statistic** to compare **nested models**. The LRT statistic is defined as **twice the difference in log-likelihood between the null and alternative hypotheses**, $2\Deltaℓ = 2(ℓ_{1} − ℓ_{0})$, where $ℓ_{0}$ is the log-likelihood score for the null model and $ℓ_{1}$ is the log-likelihood under the alternative model. The LRT statistic is compared with the **$\chi_{2}$ distribution** with the **degree of freedom (d.f.)** equal to the **difference in the number of free parameters** (which `CODEML` prints in the output file for each model) between the two models being compared. The model comparisons we will carry out are the following:
@@ -471,6 +492,9 @@ In order to carry out the LRTs for each model comparison, we will need the log-l
 
 ```sh
 # Run from "01_site_models/Site_models"
+# [NOTE]: if you did not have time to run
+# this analysis, then run from
+# "01_site_models/out_of_time"
 # Change directories if you are not
 # there yet
 
@@ -771,5 +795,526 @@ Overall, we could say that there seems to be some evidence for sites under posit
 
 #### Branch models
 
-Now, you
+Now, we are ready to analyse our dataset under the next type of codon models: branch models! Their assumption is that **$\omega$ varies among the branches of the tree**. A branch model is specified by **labelling branches in the tree file using tags**. In `CODEML`, these tags are the following: `#0` (default), `#1`, etc. The model currently allows a maximum of 8 branch types with different $\omega$ ratios (i.e., you cannot have more than 7 different labels!).
+
+When analysing our dataset, we will consider two labels to identify the distinguish the following types of branches:
+
+* **Foreground branches**: these are the branches (lineages) that we hypothesis to be under positive selection (i.e., the reason for $\omega$ being different from other branches!). We will use tag `#1`, which assigns the ratio $\omega_{1}$ matching index "1".
+* **Background branches**: there are the rest of the branches (lineages) that we do not believe to be undergoing selection, which we shall then mark with tag `#0`, thus assigning the ratio $\omega_{0}. This tag (`#0`) is the default, and users do not need to include them. In other words, you do not need to label all your background branches with `#0`! :smile:
+
+In order to label the foreground branches in your phylogeny, you will need to locate the relevant lineage in the Newick-formatted tree in your input file. You can either do this manually, with in-house scripts, or using graphical tools such as `PhyloTree` (Shank et al. 2018) or `EasyCodeML` (Gao et al. 2019) to easily locate and label the foreground branches. Some of these online tools might output a Newick tree with different tags to those used in `CODEML`, so please make sure that you reformat the input tree accordingly -- otherwise, you will have data formatting issues and `CODEML` will not run!
+
+For this practical session, we will focus on testing two hypotheses that are compatible with a branch model:
+
+* Q1: **Are the lineages leading to duck and chicken under a different selective pressure than the rest of lineages in the phylogeny?**
+  * Foreground branches: duck and chicken branches.
+  * Unrooted tree.
+  * Newick tree: `((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),Duck_Mx #1,Chicken_Mx #1);`.
+  * Tree file: already prepared and labelled, available in `inp_data/Mx_branch_duckchicken.tree`.
+  * Control file: already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` (i.e., `model = 2` and `NSsites = 2` enables the branch-site model A implemented in `CODEML`). You can locate the control file in `02_branch_models/Branch_model_duckchicken/codeml-branch-duckchicken.ctl`.
+* Q2: **Is the bird lineage under a different selective pressure than the rest of lineages in the phylogeny?**
+  * Foreground branches: branch leading to bird clade, duck branch, and chicken branch.
+  * Rooted tree.
+  * Newick tree: `((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),(Duck_Mx #1,Chicken_Mx #1) #1);`.
+  * Tree file: already prepared and labelled, available in `inp_data/Mx_branch_bird.tree`.
+  * Control file: already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` (i.e., `model = 2` and `NSsites = 0` enables the branch model implemented in `CODEML`). You can locate the control file in `02_branch_models/Branch_model_bird/codeml-branch-bird.ctl`.
+
+> [!IMPORTANT]
+> Please note that **foreground branches should be specified *a priori***. If multiple branches on the tree are tested for positive selection when using the same dataset without *a priori* biological hypothesis, a **correction for multiple testing** may be required ([Anisimova and Yang 2007](https://doi.org/10.1093/molbev/msm042)). The Bonferroni correction may be too conservative, and the Rom's procedure ([Rom 1990](https://doi.org/10.1093/biomet/77.3.663)) has a slightly higher power and is preferred ([Anisimova and Yang 2007](https://doi.org/10.1093/molbev/msm042)). One may also use procedures that control the false discovery rate (FDR), which is the expected proportion of true nulls among all rejected null hypotheses or the proportion of false positive results among all positive test results ([Benjamini and Hochberg 1995](https://doi.org/10.1111/j.2517-6161.1995.tb02031.x), [2000](https://doi.org/10.2307/1165312)). Note that, if sequences are extremely divergent or there are serious model violations, multiple testing correction may be unreliable ([Anisimova and Yang 2007](https://doi.org/10.1093/molbev/msm042)).
+
+You can see that one hypothesis requires an unrooted tree and another a rooted tree. As expanded in section
+"Rooted versus unrooted trees" in the [Supplementary Material of Álvarez-Carretero et al. 2023](https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/mbe/40/4/10.1093_molbev_msad041/2/msad041_supplementary_data.pdf?Expires=1774651114&Signature=phKHDR~EitWyE~wSuNTBeR1jhwChp3q7E5SFRBv~u9Z1uVP~Q7gUJNs-4vRJxxYdgg7uBidCOFxKOotoLJeJMmFdqTs3AC3VLROgn~mSVgrICce7C6OOE-LqS4Dh3uM9NLhSKEOqtxKMfaTpcgTNXTHW2woP9WHwIP2i-QVV~W9z96ZuDFBg6HhqT3xFyyYmhI2JNDe~L8TGuSLDjI-k2kACz3GBt46-GYSS9dPJ75GexYd-hJ1G-s4Ravm329wSba4UmYdyeNHCV0QB4GKrAx1tIRoE6NOdWMS-4YDJuMdAyq2IdIvOK-xJF2MFFgx5vB5Ip-HJqAWAAlPIFO4RXw__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA), choosing whether rooting a tree for tests of positive selection will depend on the biological hypothesis being asked. All codon models that we are going through are time-reversible models and do not assume the molecular clock. Consequently, we should be using unrooted trees because the two branches around the root are assumed to evolve according to the same process (e.g., both branches are foreground branches or both branches are background branches), the root is unidentifiable, and an unrooted tree should be used. Nevertheless, there can be an exception when analysing data under branch and branch-site modes: **if we assume that the two branches around the root are undergoing different evolutionary process (e.g., with different $\omega$), the location of the root is identifiable, and a rooted tree should be used**.
+
+<p align="center">
+<img width="350" height="400" src="../figs/CODEML_rootVSunroot.jpeg">
+</p>
+
+> Figure 3. Rooted and unrooted trees for fitting codon models, from Figure S1 in [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041). Black branches are foreground branches while gray branches are background branches. In A, B, and C, the two branches around the root are assumed to have the same evolutionary process and unrooted trees should be used. In D, the two branches around the root have different evolutionary process (one branch is foreground and the other is background), and the rooted tree on the left should be used. Use of the unrooted tree on the right would specify a different model.
+
+When we formulated "Q2", we were really thinking of a case scenario such as the one depicted in Fig. 3D above. Our hypothesis postulates that the lineage leading to clade bird (i.e., duck and chicken, which would be equivalent to "A" and "B" in Fig. 3D [left] above) and the lineages within that clade (i.e., duck and chicken branches) evolve differently from the lineage leading to clade mammals (i.e., equivalent to "C" in Fig. 3D above). Consequently, we need to use a rooted tree in this case. To address "Q1" we do not need a rooted tree because we only focus on the two branches leading to duck and chicken, respectively, thus the branch where the root is to be placed is not affected (e.g., that would be a case such as the one shown in Fig. 3D [right]). Consequently, Q1 would be linked to a tree such as `(A #1, B #1, C);` and Q2 would want to specify the root so that the two branches leading to the root are identifiable, `((A #1, B #1,) #1, C);` (i.e., $b_{3a}$ and $b_{3b}$).
+
+> [!IMPORTANT]
+> Please note that **estimates of $b_{3a}$ and $b_{3b}$ would not be reliable** as different runs would result in different estimates. Nevertheless, their sum would always be the same, and so this is the estimate we could trust: $b = b_{3a} + b_{3b}$.
+
+Now that we are familiar with the hypotheses we will be testing and have the input tree files labelled, we are ready to run `CODEML`!
+
+```sh
+# Run from "02_branch_models"
+# Change directories if you are not
+# there yet
+
+# First, we will run CODEML under a
+# branch model assuming hypothesis Q1
+cd Branch_model_duckchicken
+codeml codeml-branch-duckchicken.ctl >(tee logfile_codeml-branch-duckchicken.txt >&2)
+
+# Now, do the same but for hypothesis Q1
+cd ../Branch_model_bird
+codeml codeml-branch-bird.ctl >(tee logfile_codeml-branch-bird.txt >&2)
+```
+
+> [!NOTE]
+> These analysis took 00:02:19 (HH:MM:SS) for Q1 and 00:03:29 (HH:MM:SS) for Q2 to run on a PC with the following specs:
+>
+> * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
+> * 23.0GB RAM
+> * WSL: Ubuntu 22.04.4 LTRS (jammy)
+>
+> If we are running out of time, please feel free to continue analysing the results analysing the results under the branch model for Q1 in `my_session/day3/02_branch_models/out_of_time_duckchicken` (this would be equivalent as being inside `Branch_model_duckchicken`!) and in `my_session/day3/02_branch_models/out_of_time_bird` for Q2 (this would be equivalent as being inside `Branch_model_bird`!).
+
+Now... Let's extract some relevant information that we will need to carry out the LRTs! In this case, our null hypothesis will assume no variation of $\omega$ across lineages or sites, which would be model `M0` (we can retrieve log-likelihood values and other estimates from file `00_homogeneous_model/Model_M0/out_M0.txt`):
+
+```sh
+# Run from "02_branch_models"
+# Change directories if you are not
+# there yet
+
+# First, remove unnecessary files 
+rm Branch_model*/2N*
+# [NOTE]: if you did not have time to run
+# this analysis, then run the following 
+# command instead:
+#
+# rm out_of_time*/2N*
+
+# Then, extract the likelihood values to then
+# calculate LRT statistic
+# Alphanumerical order for files being read:
+# bird > duckchicken
+lnL_vals_branch=$( grep 'lnL' Branch_model_*/out_branch*.txt | sed 's/..*\:\ *//' | sed 's/\ ..*//' )
+lnL_vals_branch=$( echo $lnL_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+lnL_vals_M0=$( grep 'lnL' ../00_homogeneous_model/Model_M0/out_M0.txt | sed 's/..*\:\ *//' | sed 's/\ ..*//' )
+echo "$lnL_vals_branch""$lnL_vals_M0" > lnL_branch_mods.txt
+np_vals_branch=$( grep 'lnL' Branch_model_*/out_branch*.txt  | sed 's/..*np\:\ //' | sed 's/)..*//' )
+np_vals_branch=$( echo $np_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+np_vals_M0=$( grep 'lnL' ../00_homogeneous_model/Model_M0/out_M0.txt | sed 's/..*np\:\ //' | sed 's/)..*//' )
+echo "$np_vals_branch""$np_vals_M0" >> lnL_branch_mods.txt
+
+# [NOTE]: if you did not have time to run
+# this analysis, then run the following 
+# command instead:
+#
+# lnL_vals_branch=$( grep 'lnL' out_of_time_*/out_branch*.txt | sed 's/..*\:\ *//' | sed 's/\ ..*//' )
+# lnL_vals_branch=$( echo $lnL_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+# lnL_vals_M0=$( grep 'lnL' ../00_homogeneous_model/out_of_time/out_M0.txt | sed 's/..*\:\ *//' | sed 's/\ ..*//' )
+# echo "$lnL_vals_branch""$lnL_vals_M0" > lnL_branch_mods.txt
+# np_vals_branch=$( grep 'lnL' out_of_time_*/out_branch*.txt  | sed 's/..*np\:\ //' | sed 's/)..*//' )
+# np_vals_branch=$( echo $np_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+# np_vals_M0=$( grep 'lnL' ../00_homogeneous_model/out_of_time/out_M0.txt | sed 's/..*np\:\ //' | sed 's/)..*//' )
+# echo "$np_vals_branch""$np_vals_M0" >> lnL_branch_mods.txt
+```
+
+Now, you are ready to run the R script that we have prepared for you to run all model comparisons! In order to run `Find_best_branch_model.R`, you will need to do the following:
+
+* Go to the bottom right panel and navigate to `my_session/day3/02_branch_models`, then click `Find_best_branch_model.R` to open the R script on your top left panel.
+* Go through the R script and ask questions about commands you do not understand. Basically, this script will do the following general tasks:
+  * Set your working directory
+  * Read the `lnL_sites.txt` file that you have just created with the log-likelihood values and model parameters for each of the branch models (alternative) and the `M0` model (null).
+  * Calculate the LRT statistic and the alpha-critical values at 5% and 1% for each test considering the degree of freedom (i.e., this is calculated based on the difference of model parameters!).
+  * Plot the LRT statistic, the alpha-critical values at 5% and the p-value for the $\chi^2$ test with the calculated degree of freedom -- there is one plot per model comparison.
+
+When you obtain the final plot, you can click `Plots > Export > Save as PDF...` on the bottom right panel, and then choose "Landscape" and directory `~/my_session/day3/02_branch_models` in the last pop-up window. You can save the output file as `LRT_site_models.pdf`. If you want to see the plot after saving it, then tick the box `View plot after saving`.
+
+> **[ EXERCISE ]**<br>
+> Open a text editor or any other program you feel comfortable with and create one table summarising the following:
+>
+> * Table 1: table summarising the log-likelihood values for each of the models being compared, the estimates for the $\omega$ ratio, the degree of freedom, and the LRT statistic. The header could be the following: "Model comparison", "Log-likelihood values, $ℓ_{0}$ and $ℓ_{1}$", "Estimated $\omega$ ratio", "Free parameters", "d.f", "LRT statistic".
+>
+> Then, answer the following questions:
+>
+> * Which is/are the best-fitting model/s according to the LRTs you have carried out?
+> * How would you interpret the model parameters estimated under each model?
+
+> [!TIP]
+> Remember that you can use bash scripting to quickly parse the output files when searching for specific lines that would have information about estimates of model parameters! Think of the pattern you want to look for in the output files that leads to that information.
+
+<details>
+<summary><b>[ Click here only when you have finished compiling your summary table to check its content ]</b></summary>
+<br>
+
+You will need to use the pattern `w (dN/dS) for branches` to extract the relevant $\omega$ ratios for both the foreground and background branches using command `grep`! You can grep pattern `omega` to find the relevant estimate under the `M0` model.
+
+<table>
+
+<!-- HEADER -->
+<tr>
+<th>Model comparison</th>
+<th>Log-likelihood values, $ℓ_{0}$ and $ℓ_{1}$</sub></th>
+<th>Estimated $\omega$ ratio</th>
+<th>Free parameters</th>
+<th>d.f</th>
+<th>LRT statistic<br>
+(2&Delta;ℓ)</th>
+</tr>
+
+<!-- FIRST ROW -->
+<tr>
+<td>M0 (Null model, unrooted tree)</td>
+<td>ℓ<sub>0</sub> = −14,896.44</td>
+<td>&omega; = 0.32919</td>
+<td>26</td>
+<td rowspan="2">1</td>
+<td rowspan="2">62.10</td>
+</tr>
+<!-- SECOND ROW -->
+<tr>
+<td>Branch model with chicken and duck simultaneously as <i>foreground</i> (Alternative model, unrooted tree)</td>
+<td>ℓ<sub>1</sub> = −14,865.39<br>
+<td>&omega;<sub>0</sub> = 0.28414 <i>(background)</i> | &omega;<sub>1</sub> = 0.7603 <i>(foreground)</i></td>
+<td>27</td>
+</tr>
+<!-- THIRD ROW -->
+<tr>
+<td>M0 (Null model, unrooted tree)</td>
+<td>ℓ<sub>0</sub> = −14,896.44</td>
+<td>&omega; = 0.32919</td>
+<td>26</td>
+<td rowspan="2">2</td>
+<td rowspan="2">62.10</td>
+</tr>
+<!-- FOURTH ROW -->
+<tr>
+<td>Branch model with bird clade as <i>foreground</i> (Alternative model, rooted tree)</td>
+<td>ℓ<sub>1</sub> = −14,865.39<br>
+<td>&omega;<sub>0</sub> = 0.28414 <i>(background)</i> | &omega;<sub>1</sub> = 0.7603 <i>(foreground)</i></td>
+<td>28</td>
+</tr>
+
+</table>
+
+</details><br>
+
+In the output file, you will see that now there is a line in which a tree file with $\omega$ ratios is output: you just need to look for pattern `w ratios as node labels` to obtain them:
+
+```sh
+# Run from "02_branch_models"
+# Change directories if you are not
+# there yet
+
+grep 'w ratios as node labels' -A1 Branch_*/out_*txt
+
+# [NOTE]: if you did not have time to run
+# this analysis, then run the following 
+# command instead:
+#
+# grep 'w ratios as node labels' -A1 out_*/out_*txt
+```
+
+You can copy these trees in `FigTree` if you wanted to visualise the $\omega$ ratio values as "branch labels":
+
+> $\omega$ ratio for bird branch
+
+```txt
+((((((Chimpanzee_Mx #0.284141 , Human_Mx #0.284141 ) #0.284141 , Orangutan_Mx #0.284141 ) #0.284141 , Rhesus_macaque_Mx #0.284141 ) #0.284141 , (((Sheep_Mx #0.284141 , Cow_Mx #0.284141 ) #0.284141 , Pig_Mx #0.284141 ) #0.284141 , Dog_Mx #0.284141 ) #0.284141 ) #0.284141 , (Mouse_Mx #0.284141 , Rat_Mx #0.284141 ) #0.284141 ) #0.284141 , (Duck_Mx #0.760311 , Chicken_Mx #0.760311 ) #0.760311 );
+```
+
+> $\omega$ ratio for duck and chicken branches
+
+```txt
+((((((Chimpanzee_Mx #0.284141 , Human_Mx #0.284141 ) #0.284141 , Orangutan_Mx #0.284141 ) #0.284141 , Rhesus_macaque_Mx #0.284141 ) #0.284141 , (((Sheep_Mx #0.284141 , Cow_Mx #0.284141 ) #0.284141 , Pig_Mx #0.284141 ) #0.284141 , Dog_Mx #0.284141 ) #0.284141 ) #0.284141 , (Mouse_Mx #0.284141 , Rat_Mx #0.284141 ) #0.284141 ) #0.284141 , Duck_Mx #0.760311 , Chicken_Mx #0.760311 );
+```
+
+<details>
+<summary><b>[ Click here only when you have finished thinking about the results and proposed an interpretation to those ]</b></summary>
+<br>
+
+When the chicken and the duck lineages are both labelled as the foreground branches (Q1), the estimates are $\omega_{0} = 0.284141$ and $\omega_{1} = 0.760311$, the same estimates we get for our second test (Q2) when all three branches in the bird clade are labelled as foreground branches and the tree is rooted. The results suggest that the chicken and duck lineages have higher $\omega$ ratios than the other lineages, indicating possible positive selection.
+
+According to the LRTs, we conclude that the branch model better fits the data than the `M0` model for all the hypotheses tested. In other words, the $\omega$ ratios for the lineages tested under each hypothesis are significantly different from the $\omega$ ratios for the background branches.
+
+</details>
+
+> [!IMPORTANT]
+> Sometimes, you may get estimates for foreground branches such as $\omega{1} = 999$. **The value 999 is the upper limit set in the program and means infinity**. Such extreme estimates can occur if there is a lack of synonymous substitutions along the concerned branch ([Hou et al. 2007](https://doi.org/10.1016/j.gene.2007.03.017)). Note that, in such cases, the LRT is still valid even though it is hard to estimate the precise value of $\omega_{1}$.
+
 #### Branch-site models
+
+Lastly, we will analyse our dataset under the most complex models we will cover in this practical session: branch-site models! Their assumption is that **$\omega$ varies both among lineages and across sites**. This type of models may be used to detect positive selection affecting specific amino acid sites along prespecified *foreground* branches.
+
+The tree file will have the same format as that the branch models, with the foreground branches tagged with `#1` -- remember that label `#0` is the default and does not need to be used to label the background branches!
+
+The branch-site model implemented in `CODEML` that we will use is `branch-site model A`, which has one site class with $0 < \omega_{0} < 1$ for conserved sites (i.e., $\omega_{0}$ will be estimated, this site class is called "2a") and another class (site class "2b") with $\omega_{1} = 1$ (fixed value) to account for sites that are nearly neutral or under weak constraint ([Yang et al. 2000](https://doi.org/10.1093/genetics/155.1.431), [2005](https://doi.org/10.1093/molbev/msi097); [Zhang et al. 2005](https://doi.org/10.1093/molbev/msi237)). This model is enabled by updating variables `model` and `NSsites` in the control file to `model = 2` and `NSsites = 2`. The null model that we will use to compare the branch-site model A to is a branch-site model in which the site class 2a has $\omega = 1$ (fixed). To enable this setting, we can keep `model = 2` and `NSsites = 2` but modify `fix_omega = 1` and `omega = 1`: the $\omega$ ratio will now be fixed to 1 and not estimated.
+
+We now have everything we need: input sequence alignment, input tree files with foreground labels, and our pre-specified control file! We will test the same hypotheses as per the branch model but, under the branch-site model, we will be testing for $\omega$ varying across sites too:
+
+* Q1: **Are the lineages leading to duck and chicken and relevant alignment sites under a different selective pressure than the rest of lineages in the phylogeny and sites in the alignment?**
+  * Foreground branches: duck and chicken branches.
+  * Unrooted tree.
+  * Newick tree: `((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),Duck_Mx #1,Chicken_Mx #1);`.
+  * Tree file: already prepared and labelled, available in `inp_data/Mx_branch_duckchicken.tree`.
+  * Control file (alternative model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` (i.e., `model = 2` and `NSsites = 2` enables the branch-site model A implemented in `CODEML`). You can locate the control file in `03_branchsite_models/Branchsite_model_duckchicken_alt/codeml-branchsite-duckchicken-alt.ctl`.
+  * Control file (null model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` for setting the branch-site model A (i.e., `model = 2` and `NSsites = 0` ) and variables `omega` and `fix_omega` to fix the $\omega$ ratio to 1 (i.e., `fix_omega = 1` and `omega = 1`). You can locate the control file in `03_branchsite_models/Branchsite_model_duckchicken_null/codeml-branchsite-duckchicken-null.ctl`.
+* Q2: **Are the bird lineage and relevant alignment sites under a different selective pressure to the rest of lineages in the phylogeny and alignment sites?**
+  * Foreground branches: branch leading to bird clade, duck branch, and chicken branch.
+  * Rooted tree.
+  * Newick tree: `((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),(Duck_Mx #1,Chicken_Mx #1) #1);`.
+  * Tree file: already prepared and labelled, available in `inp_data/Mx_branch_bird.tree`.
+  * Control file (alternative model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` (i.e., `model = 2` and `NSsites = 2` enables the branch-site model A implemented in `CODEML`). You can locate the control file in `03_branchsite_models/Branchsite_model_bird_alt/codeml-branchsite-bird-alt.ctl`.
+  * Control file (null model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` for setting the branch-site model A (i.e., `model = 2` and `NSsites = 0` ) and variables `omega` and `fix_omega` to fix the $\omega$ ratio to 1 (i.e., `fix_omega = 1` and `omega = 1`). You can locate the control file in `03_branchsite_models/Branchsite_model_bird_null/codeml-branchsite-bird-null.ctl`.
+
+Now that we are familiar with the hypotheses we will be testing and have all input files and control files ready, we can run `CODEML`!
+
+```sh
+# Run from "03_branchsite_models"
+# Change directories if you are not
+# there yet
+
+# We will run `CODEML` under each model
+# but will not let the screen output show
+# We will use `&` at the end of the command
+# that runs `CODEML` so that we can keep using
+# the command line!
+cd Branchsite_model_bird_alt
+codeml codeml-branchsite-bird-alt.ctl > logfile_codeml-branchsite-bird-alt.txt 2>&1 &
+# Note down the number you will see on your screen because, 
+# if something goes wrong, this is the number you need to
+# know to kill the job!
+cd ../Branchsite_model_bird_null
+codeml codeml-branchsite-bird-null.ctl > logfile_codeml-branchsite-bird-null.txt 2>&1 &
+cd ../Branchsite_model_duckchicken_alt
+codeml codeml-branchsite-duckchicken-alt.ctl > logfile_codeml-branchsite-duckchicken-alt.txt 2>&1 &
+cd ../Branchsite_model_duckchicken_null
+codeml codeml-branchsite-duckchicken-null.ctl > logfile_codeml-branchsite-duckcicken-null.txt 2>&1 &
+```
+
+When you press the return key, you can check whether analyses have finished -- if so, you will see something like the following suddenly printed on your terminal screen:
+
+```txt
+[1]   Done                    codeml codeml-branchsite-bird-alt.ctl > logfile_codeml-branchsite-bird-alt.txt 2>&1  (wd: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_bird_alt)
+(wd now: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_duckchicken_null)
+[2]   Done                    codeml codeml-branchsite-bird-null.ctl > logfile_codeml-branchsite-bird-null.txt 2>&1  (wd: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_bird_null)
+(wd now: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_duckchicken_null)
+[4]   Done                    codeml codeml-branchsite-duckchicken-alt.ctl > logfile_codeml-branchsite-duckchicken-alt.txt 2>&1  (wd: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_duckchicken_alt)
+(wd now: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_duckchicken_null)
+[5]-  Done                    codeml codeml-branchsite-duckchicken-null.ctl > logfile_codeml-branchsite-duckcicken-null.txt 2>&1  (wd: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_duckchicken_null)
+(wd now: /home/your_UCL_ID/my_session/day3/03_branchsite_models/Branchsite_model_duckchicken_null)
+```
+
+> [!NOTE]
+> Analyses were run on a PC with the following specs:
+>
+> * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
+> * 23.0GB RAM
+> * WSL: Ubuntu 22.04.4 LTRS (jammy)
+>
+> Each analysis took the following:
+>
+> * `Branchsite_model_bird_alt`: 00:25:28 (HH:MM:SS)
+> * `Branchsite_model_bird_null`: 00:25:28 (HH:MM:SS)
+> * `Branchsite_model_duckchicken_alt`: 00:19:16 (HH:MM:SS)
+> * `Branchsite_model_duckchicken_null`: 00:19:08 (HH:MM:SS)
+>
+> We will not have time to run this analysis during the practical session, so please continue analysing the results obtained under the abovementioned branch-site models from the following directories:
+>
+> * `my_session/day3/03_branchsite_models/out_of_time_bird_bsalt` (equivalent to being inside `Branchsite_model_bird_alt`!).
+> * `my_session/day3/03_branchsite_models/out_of_time_bird_bsnull` (equivalent to being inside `Branchsite_model_bird_null`!).
+> * `my_session/day3/03_branchsite_models/out_of_time_duckchicken_bsalt` (equivalent to being inside `Branchsite_model_duckchicken_alt`!).
+> * `my_session/day3/03_branchsite_models/out_of_time_duckchicken_bsnull` (equivalent to being inside `Branchsite_model_duckchicken_null`!).
+
+Now... Let's extract some relevant information that we will need for the LRTs!
+
+```sh
+# Run from "03_branchsite_models"
+# Change directories if you are not
+# there yet
+
+# First, remove unnecessary files 
+rm Branchsite_model*/2N*
+# [NOTE]: if you did not have time to run
+# this analysis, then run the following 
+# command instead:
+#
+# rm out_of_time*/2N*
+
+# Then, extract the likelihood values to then
+# calculate LRT statistic
+# Alphanumerical order for files being read:
+# bird_alt > bird_null > duckchicken_alt > duckchicken_null
+lnL_vals_branch=$( grep 'lnL' Branchsite_model_*/out_branchsite*.txt | sed 's/..*\:\ *//' | sed 's/\ ..*//' )
+lnL_vals_branch=$( echo $lnL_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+echo "$lnL_vals_branch" > lnL_branchsite_mods.txt
+np_vals_branch=$( grep 'lnL' Branchsite_model_*/out_branchsite*.txt  | sed 's/..*np\:\ //' | sed 's/)..*//' )
+np_vals_branch=$( echo $np_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+echo "$np_vals_branch" >> lnL_branchsite_mods.txt
+# [NOTE]: if you did not have time to run
+# this analysis, then run the following 
+# command instead:
+#
+# lnL_vals_branch=$( grep 'lnL' out_of_time_*/out_branchsite*.txt | sed 's/..*\:\ *//' | sed 's/\ ..*//' )
+# lnL_vals_branch=$( echo $lnL_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+# echo "$lnL_vals_branch" > lnL_branchsite_mods.txt
+# np_vals_branch=$( grep 'lnL' out_of_time_*/out_branchsite*.txt  | sed 's/..*np\:\ //' | sed 's/)..*//' )
+# np_vals_branch=$( echo $np_vals_branch | tr '\n' ' ' | sed 's/  / /' )
+# echo "$np_vals_branch" >> lnL_branchsite_mods.txt
+```
+
+Now, you are ready to run the R script that we have prepared for you to run all model comparisons! In order to run `Find_best_branchsite_model.R`, you will need to do the following:
+
+* Go to the bottom right panel and navigate to `my_session/day3/03_branchsite_models`, then click `Find_best_branchsite_model.R` to open the R script on your top left panel.
+* Go through the R script and ask questions about commands you do not understand. Basically, this script will do the following general tasks:
+  * Set your working directory
+  * Read the `lnL_sites.txt` file that you have just created with the log-likelihood values and model parameters for each of branch-site model under each hypothesis.
+  * Calculate the LRT statistic and the alpha-critical values at 5% and 1% for each test considering the degree of freedom (i.e., this is calculated based on the difference of model parameters!).
+  * Plot the LRT statistic, the alpha-critical values at 5% and 1%, and the p-value for the $\chi^2$ test with the calculated degree of freedom -- there is one plot per model comparison.
+
+When you obtain the final plot, you can click `Plots > Export > Save as PDF...` on the bottom right panel, and then choose "Landscape" and directory `~/my_session/day3/03_branchsite_models` in the last pop-up window. You can save the output file as `LRT_site_models.pdf`. If you want to see the plot after saving it, then tick the box `View plot after saving`.
+
+> [!IMPORTANT]
+> Positive selection or the presence of sites with $\omega_{2} > 1$ is tested by comparing this model (branch-site model A) with a null model in which $\omega_{2} = 1$ is fixed, using a 50:50 mixture of 0 and $\chi_{1}^2$ as the null distribution ([Yang et al. 2000](https://doi.org/10.1093/genetics/155.1.431); [Zhang et al. 2005](https://doi.org/10.1093/molbev/msi237)). Nevertheless, you will see that in the R script we do not do this. Instead of dividing the value obtained from R function `pchisq` into 2 and use this as a p-value, we use critical values $\chi_{1,5\%}^2=3.84$ and $\chi_{1,1\%}^2=5.99$ to guide against violations of model assumptions as recommended in the PAML documentation.
+
+It is somewhat hard to compile the output results for the branch-site models, and so you can find the table below summarises the $\omega$ ratios for both the background and foreground branches (as well as the proportion of sites in each class) for each hypothesis.
+
+> [!TIP]
+> You can search for pattern `MLEs of dN/dS` to extract the relevant $\omega$ ratios for both the foreground and background branches using command `grep`!
+
+<table>
+
+<!-- HEADER -->
+<tr>
+<th>Foreground branch/es in model</th>
+<th>Site class</sub></th>
+<th>Proportion</th>
+<th>Background &omega; ratio</th>
+<th>Foreground &omega; ratio</th>
+</tr>
+
+<!-- FIRST ROW -->
+<tr>
+<td>Duck and Chicken</td>
+<td>0<br>1<br>2a<br>2b</td>
+<td>p<sub>0</sub> = 0.42886<br>
+p<sub>1</sub> = 0.32500<br>
+p<sub>2a</sub> = 0.14002<br>
+p<sub>2b</sub> = 0.10611</td>
+<td>&omega;<sub>0</sub> = 0.06669<br>
+&omega;<sub>1</sub> = 1.00000<br>
+&omega;<sub>0</sub> = 0.06669<br>
+&omega;<sub>1</sub> = 1.00000</td>
+<td>&omega;<sub>0</sub> = 0.06669<br>
+&omega;<sub>1</sub> = 1.00000<br>
+&omega;<sub>2</sub> = 2.68970<br>
+&omega;<sub>2</sub> = 2.68970</td>
+</tr>
+<!-- SECOND ROW -->
+<tr>
+<td>Bird</td>
+<td>0<br>1<br>2a<br>2b</td>
+<td>p<sub>0</sub> = 0.42062<br>
+p<sub>1</sub> = 0.30953<br>
+p<sub>2a</sub> = 0.15546<br>
+p<sub>2b</sub> = 0.11440</td>
+<td>&omega;<sub>0</sub> = 0.06459<br>
+&omega;<sub>1</sub> = 1.00000<br>
+&omega;<sub>0</sub> = 0.06459<br>
+&omega;<sub>1</sub> = 1.00000</td>
+<td>&omega;<sub>0</sub> = 0.06459<br>
+&omega;<sub>1</sub> = 1.00000<br>
+&omega;<sub>2</sub> = 2.19629<br>
+&omega;<sub>2</sub> = 2.19629</td>
+</tr>
+
+</table>
+
+> [IMPORTANT]
+> The branch-site model assumes four site classes (0, 1, 2a, 2b), with different $\omega$ ratios for the foreground and background lineages. Sites from **site class 0 are under purifying selection along all branches** with $0 < $\omega_{0} < 1$, while all **branches in site class 1 are undergoing neutral evolution** with $\omega{1} = 1$. In site **classes 2a and b, there is positive selection along foreground branches** with $\omega_{2} > 1$, while the background branches are under purifying selection with $0 < $\omega_{0} < 1$ or undergoing neutral evolution with $\omega_{1} = 1$.
+
+> **[ EXERCISE ]**<br>
+> Open a text editor or any other program you feel comfortable with and create a table summarising the following:
+>
+> * Table 1: table summarising the log-likelihood values for each of the models being compared, the estimates for the $\omega$ ratio, the degree of freedom, and the LRT statistic. The header could be the following: "Model comparison", "Log-likelihood values, $ℓ_{0}$ and $ℓ_{1}$", "Free parameters", "d.f", "LRT statistic".
+
+> [!TIP]
+> Remember that you can use bash scripting to quickly parse the output files when searching for specific lines that would have information about estimates of model parameters! Think of the pattern you want to look for in the output files that leads to that information.
+
+<details>
+<summary><b>[ Click here only when you have finished compiling the first table to check its content ]</b></summary>
+<br>
+
+<table>
+
+<!-- HEADER -->
+<tr>
+<th>Model comparison</th>
+<th>Log-likelihood values, ℓ<sub>0</sub> and ℓ<sub>1</sub></sub></th>
+<th>Free parameters</th>
+<th>d.f</th>
+<th>LRT statistic<br>
+(2&Delta;ℓ)</th>
+</tr>
+
+<!-- FIRST ROW -->
+<tr>
+<td>Branch-site model with chicken and duck simultaneously as <i>foreground</i> (fixed &omega;<sub>2</sub> = 1, null model, unrooted tree)</td>
+<td>ℓ<sub>0</sub> = −14,400.06</td>
+<td>28</td>
+<td rowspan="2">1</td>
+<td rowspan="2">15.82</td>
+</tr>
+<!-- SECOND ROW -->
+<tr>
+<td>Branch model with chicken and duck simultaneously as <i>foreground</i> (Alternative model, unrooted tree)</td>
+<td>ℓ<sub>1</sub> = −14,392.15<br>
+<td>29</td>
+</tr>
+<!-- THIRD ROW -->
+<tr>
+<td>Branch model with bird clade as <i>foreground</i> (fixed &omega;<sub>2</sub>, null model, rooted tree)</td>
+<td>ℓ<sub>0</sub> = −14,395.14</td>
+<td>29</td>
+<td rowspan="2">1</td>
+<td rowspan="2">11.07</td>
+</tr>
+<!-- FOURTH ROW -->
+<tr>
+<td>Branch model with bird clade as <i>foreground</i> (Alternative model, rooted tree)</td>
+<td>ℓ<sub>1</sub> = −14,389.60<br>
+<td>30</td>
+</tr>
+
+</table>
+
+</details><br>
+
+As with site models, the BEB method can be used to identify codon sites potentially under positive selection on the foreground branches when data are analysed under branch-site models. If we check the BEB results under each hypotheses:
+
+* Q1 (Duck and Chicken): there are 107 sites that have been listed in the output file with a posterior probability for the site being from the positive-selection class (i.e., with $\omega > 1$) of at least 50%. Out of those, there are 6 sites with a Prob($\omega>1$) >= 95% and 4 with Prob($\omega>1$) >= 99%:
+
+   ```txt
+   191 S 0.993**
+   246 K 0.953*
+   253 S 0.980*
+   255 D 0.988*
+   328 I 0.993**
+   404 R 0.986*
+   407 R 0.966*
+   495 L 0.996**
+   761 S 0.989*
+   772 M 0.990**
+   ```
+
+* Q2 (Bird): there are 109 sites that have been listed in the output file with a posterior probability for the site being from the positive-selection class (i.e., with $\omega > 1$) of at least 50%. Out of those, there are 7 sites with a Prob($\omega>1$) >= 95% and 4 with Prob($\omega>1$) >= 99%:
+
+   ```txt
+   191 S 0.993**
+   253 S 0.981*
+   255 D 0.985*
+   277 K 0.974*
+   328 I 0.991**
+   404 R 0.978*
+   407 R 0.969*
+   484 R 0.951*
+   495 L 0.993**
+   761 S 0.995**
+   772 M 0.988*
+   ```
+
+Subsequent analyses would now focus on checking the sites that have been identified with a probability larger than 95% under the BEB method of coming from the positive-selection class with $\omega > 1$. Structural analyses may reveal whether there is some structural functionality related to these sites that must have been favoured by a selective pressure.
+
+---
+---
+
+<br>
+
+This is the end of day 3! Hope you have enjoyed applying the theoretical concepts you have learnt during the lectures to studying the evolution of a specific gene (Mx gene) across 12 species (10 mammals and 2 birds). We have navigated the phylogenetics workflow: from data download, filtering, and assembly to alignment and phylogeny inference, followed by subsequent tests for detecting positive selection under different hypotheses.
+
+While this is the end of our phylogenetics journey together, this is just the begining for you! There are many other phylogenetic analyses that we have not had time to cover or fall outside of the scope of this module. If you are curious... Keep reading and practising and... All will come in due time :muscle: :smile:
