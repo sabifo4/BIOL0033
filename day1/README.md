@@ -760,7 +760,7 @@ There are various tools that you can use to align your nucleotide sequences agai
 # Copy `pal2nal` software and give executable
 # permissions
 cp -R ~/biol0033-tutorial/day1/scripts/pal2nal.v14 scripts/
-chmod 775 scripts/
+chmod 775 scripts/*
 ```
 
 To keep it simple, we will only align the nucleotide sequences to one of the three protein-based alignments:
