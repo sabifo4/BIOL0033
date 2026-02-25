@@ -287,7 +287,7 @@ Now... Let's get started!
 
 #### Input data
 
-Firstly, we will be looking at the different commands needed to define a sequence alignment in NEXUS format. In [directory `data`](data), you will find a NEXUS file called [`conifer_dna.nex`](data/conifer_dna.nex). You can visualise this file here on the GitHub repository or, if you have cloned this repository, you may open this file with your preferred text editor. The main commands to be highlighted are the following:
+Firstly, we will be looking at the different commands needed to define a sequence alignment in NEXUS format. In [directory `mrbayes/inp_data`](mrbayes/inp_data), you will find a NEXUS file called [`aln_dna.nex`](inp_data/aln_dna.nex). You can visualise this file here on the GitHub repository or, if you have cloned this repository, you may open this file with your preferred text editor. The main commands to be highlighted are the following:
 
 * `begin data`: this command specifies the beginning of the data block. More details [in the `MrBayes` documentation](https://github.com/NBISweden/MrBayes/blob/develop/doc/manual/Manual_MrBayes_v3.2.pdf).
 * `dimensions`: after this command, you define the number of taxa (`ntax`) and the number of characters in your alignment (`nchar`). More details [in the `MrBayes` documentation](https://github.com/NBISweden/MrBayes/blob/develop/doc/manual/Manual_MrBayes_v3.2.pdf).
@@ -495,4 +495,4 @@ Now, you can launch `FigTree` to view the file with the consensus tree that `MrB
 
 ---
 
-This is the end of day 2! Hope you have enjoyed reconstructing phylogenies under different approaches, models of evolution, and datasets!
+This is the end of day 2! Hope you have enjoyed reconstructing phylogenies under different approaches, models of evolution, and datasets! :smiley:
