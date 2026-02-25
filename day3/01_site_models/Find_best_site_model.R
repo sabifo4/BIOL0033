@@ -30,10 +30,10 @@ lnL_vals <- read.table( file = "Site_models/lnL_sites.txt", sep= " ",
 diff_M0vsM1a <- 2*( lnL_vals$NSsites_1[1] - lnL_vals$NSsites_0[1] )
 diff_M0vsM1a
 # diff = 912.0554
-# Find degree of freedom
+# Find degrees of freedom
 df_M0vsM1a <- lnL_vals$NSsites_1[2] - lnL_vals$NSsites_0[2]
 df_M0vsM1a
-# 1 degre of freedom
+# 1 degree of freedom
 pchisq( diff_M0vsM1a, df = df_M0vsM1a, lower.tail=F )
 # p-val = 2.350442e-200 < 0.05
 Chisq.crit.M0vsM1a <- qchisq( p = 0.95, df = df_M0vsM1a )
@@ -85,10 +85,10 @@ par( mfrow = c(1, 3) )
 # M0 vs M1a
 curve( dchisq( x, df = 1 ), from = 0, to =  930 )
 abline( v = c( Chisq.crit.M0vsM1a, Chisq.crit.M0vsM1a_2, diff_M0vsM1a ), col = c( "darkgray", "brown", "red" ) )
-coords_dev    <- c( 407, 0.008 )
-coords_pval   <- c( 410.4, 0.0075 )
-coords_alphac <- c( 390, 0.0068 )
-coords_alphac2 <- c( 390, 0.0064 )
+coords_dev    <- c( 407, 0.0012 )
+coords_pval   <- c( 410.4, 0.0011 )
+coords_alphac <- c( 390, 0.0010 )
+coords_alphac2 <- c( 390, 0.0009 )
 text( x = coords_dev[1], y = coords_dev[2],
       labels = expression( atop( paste( '2', Delta, 'l = 912.0554', sep = "" ) ) ),
       cex = 1.2, col = "red" )
@@ -127,10 +127,10 @@ title( "B) M1a vs M2a" )
 # M7 vs M8
 curve( dchisq( x, df = 2 ), from = 0, to =  42 )
 abline( v = c( Chisq.crit.M7vsM8, Chisq.crit.M7vsM8_2, diff_M7vsM8 ), col = c( "darkgray", "brown", "red" ) )
-coords_dev     <- c( 3.5, 0.48 )
-coords_pval    <- c( 3.8, 0.45 )
-coords_alphac  <- c( 3.4, 0.41 )
-coords_alphac2 <- c( 3.4, 0.38 )
+coords_dev     <- c( 20, 0.48 )
+coords_pval    <- c( 19, 0.45 )
+coords_alphac  <- c( 20, 0.41 )
+coords_alphac2 <- c( 20, 0.38 )
 text( x = coords_dev[1], y = coords_dev[2],
       labels = expression( atop( paste( '2', Delta, 'l = 39.14911', sep = "" ) ) ),
       cex = 1.2, col = "red" )

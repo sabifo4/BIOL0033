@@ -470,7 +470,7 @@ codeml codeml-sites.ctl | tee logfile_codeml-sites.txt
 > * 23.0GB RAM
 > * WSL: Ubuntu 22.04.4 LTRS (jammy)
 >
-> We will not have time to run this analysis during the practical session, so please continue analysing the results under `M0` and the rest of site models from directory `my_session/day3/01_site_models/out_of_time` (this would be equivalent as being inside `Site_models`!).
+> We will not have time to run this analysis during the practical session, so please continue analysing the results under `M0` and the rest of site models from directory `my_session/day3/01_site_models/out_of_time` (this is equivalent to being inside `Site_models`!).
 
 The output file follows the same format as described above for the homogeneous model. The only difference is that now we will have one block of summarising tree scores and model parameters for each of the models under which the data were analysed (i.e., 5 blocks).
 
@@ -531,7 +531,7 @@ When you obtain the final plot, you can click `Plots > Export > Save as PDF...` 
 
 > [!TIP]
 > You can use bash scripting to quickly parse the output files when searching for specific lines that would have information about estimates of model parameters:
-> Example 1: which specific line under the output block for each model can we use to extract information about the $\omega$ ratio? Well, the line starting with " branch" is then followed by two lines that allow us to see the first value of estimated $\omega$ ratio. The estimated $d_{N}/d_{S} value is the same for each branch, thus we only need to see the first line. We can use the following command to find the five instances that match this pattern using command `grep` and option `-A2` (prints two lines after the line that matches the pattern to be found in the file):
+> Example 1: which specific line under the output block for each model can we use to extract information about the $\omega$ ratio? Well, the line starting with " branch" (note there is a space before the word branch) is then followed by two lines that allow us to see the first value of estimated $\omega$ ratio. The estimated $d_{N}/d_{S} value is the same for each branch, thus we only need to see the first line. We can use the following command to find the five instances that match this pattern using command `grep` and option `-A2` (prints two lines after the line that matches the pattern to be found in the file):
 `grep '^ branch' -A2 out_sites.txt`:
 >
 > ```txt
@@ -556,7 +556,7 @@ When you obtain the final plot, you can click `Plots > Export > Save as PDF...` 
 >  13..14     2.505  1759.0   638.0  0.4858  0.6515  1.3412 1146.0 855.6
 > ```
 >
-> Each time the pattern has been found is separated with `--`!
+> Each time the pattern has been found is separated with `--`! What do you think the `^` symbol indicates?
 >
 > Now, your turn! How would you find model parameters for the site proportions and the estimated $\omega$ ratios for each site class?
 
@@ -778,10 +778,10 @@ Site 6 in the alignment has a posterior probability of 96.8% of coming from the 
 > [!NOTE]
 > In the `CODEML` output, posterior probabilities $P > 0.95$ are indicated with an asterisk, while those with $P > 0.99$ are indicated with two asterisks. You can look at section [“BEB Analysis” Supplementary Material of Álvarez-Carretero et al. 2023](https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/mbe/40/4/10.1093_molbev_msad041/2/msad041_supplementary_data.pdf?Expires=1774651114&Signature=phKHDR~EitWyE~wSuNTBeR1jhwChp3q7E5SFRBv~u9Z1uVP~Q7gUJNs-4vRJxxYdgg7uBidCOFxKOotoLJeJMmFdqTs3AC3VLROgn~mSVgrICce7C6OOE-LqS4Dh3uM9NLhSKEOqtxKMfaTpcgTNXTHW2woP9WHwIP2i-QVV~W9z96ZuDFBg6HhqT3xFyyYmhI2JNDe~L8TGuSLDjI-k2kACz3GBt46-GYSS9dPJ75GexYd-hJ1G-s4Ravm329wSba4UmYdyeNHCV0QB4GKrAx1tIRoE6NOdWMS-4YDJuMdAyq2IdIvOK-xJF2MFFgx5vB5Ip-HJqAWAAlPIFO4RXw__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA) for more details about this test.
 
-Now, what was the outcome of our LRTs? The test for positive selection when comparing "M1a-M2a" was not significant, while the "M7-M8" comparison resulted in the null hypothesis (`M7`) being rejected and model `M8` fitting the data better at both 5% and 1% significant levels. Considering that the first test is more stringent, if only a few sites are under weak positive selection, then the "M1a-M2a" comparison might fail to reach significance, while the "M7-M8" comparison may detect it. In our case, the estimated $\omega$ ratio under `M8` is quite low ($\omega = 2.05744$), which could explain the abovementioned. Nevertheless, we can verify this evidence by further doing some of these checks (there are always more!):
+Now, what was the outcome of our LRTs? The test for positive selection when comparing "M1a-M2a" was not significant, while the "M7-M8" comparison resulted in the null hypothesis (`M7`) being rejected and model `M8` fitting the data better at both 5% and 1% significant levels. Considering that the first test is more stringent, if only a few sites are under weak positive selection, then the "M1a-M2a" comparison might fail to reach significance, while the "M7-M8" comparison may detect it. In our case, the estimated $\omega$ ratio under `M8` is quite low ($\omega = 2.05744$), which could explain this discrepancy. Nevertheless, we can verify this evidence by further doing some of these checks (there are always more!):
 
 * Running `CODEML` with different starting values for $\omega$ to make sure that the MLEs converge to the same estimated values.
-* Check the sites that have been identified with a probability larger than 95% under the BEB method of coming from the positive-selection class with $\omega > 1$. Structural analyses may reveal whether there is some structural functionality related to these sites that must have been favoured by a selective pressure.
+* Check the sites that have been identified with a probability larger than 95% under the BEB method of coming from the positive-selection class with $\omega > 1$. Structural analyses may reveal whether there is some structural functionality related to these sites that may have been under positive selection.
 
 Overall, we could say that there seems to be some evidence for sites under positive selection in the Mx gene, although this evidence could be further verified.
 
@@ -789,10 +789,10 @@ Overall, we could say that there seems to be some evidence for sites under posit
 
 Now, we are ready to analyse our dataset under the next type of codon models: branch models! Their assumption is that **$\omega$ varies among the branches of the tree**. A branch model is specified by **labelling branches in the tree file using tags**. In `CODEML`, these tags are the following: `#0` (default), `#1`, etc. The model currently allows a maximum of 8 branch types with different $\omega$ ratios (i.e., you cannot have more than 7 different labels!).
 
-When analysing our dataset, we will consider two labels to identify the distinguish the following types of branches:
+When analysing our dataset, we will consider two labels to distinguish the following types of branches:
 
-* **Foreground branches**: these are the branches (lineages) that we hypothesis to be under positive selection (i.e., the reason for $\omega$ being different from other branches!). We will use tag `#1`, which assigns the ratio $\omega_{1}$ matching index "1".
-* **Background branches**: there are the rest of the branches (lineages) that we do not believe to be undergoing selection, which we shall then mark with tag `#0`, thus assigning the ratio $\omega_{0}. This tag (`#0`) is the default, and users do not need to include them. In other words, you do not need to label all your background branches with `#0`! :smile:
+* **Foreground branches**: these are the branches (lineages) that we hypothesize to be under positive selection (i.e., the reason for $\omega$ being different from other branches!). We will use tag `#1`, which assigns the ratio $\omega_{1}$ matching index "1".
+* **Background branches**: these are the rest of the branches (lineages) that we do not believe to be undergoing selection, which we shall then mark with tag `#0`, thus assigning the ratio $\omega_{0}$. This tag (`#0`) is the default, and users do not need to include them. In other words, you do not need to label all your background branches with `#0`! :smile:
 
 In order to label the foreground branches in your phylogeny, you will need to locate the relevant lineage in the Newick-formatted tree in your input file. You can either do this manually, with in-house scripts, or using graphical tools such as `PhyloTree` ([Shank et al. 2018](https://doi.org/10.1186/s12859-018-2283-2)) or `EasyCodeML` ([Gao et al. 2019](https://doi.org/10.1002/ece3.5015)) to easily locate and label the foreground branches. Some of these online tools might output a Newick tree with different tags to those used in `CODEML`, so please make sure that you reformat the input tree accordingly -- otherwise, you will have data formatting issues and `CODEML` will not run!
 
@@ -840,7 +840,7 @@ Now that we are familiar with the hypotheses we will be testing and have the inp
 cd Branch_model_duckchicken
 codeml codeml-branch-duckchicken.ctl | tee logfile_codeml-branch-duckchicken.txt
 
-# Now, do the same but for hypothesis Q1
+# Now, do the same but for hypothesis Q2
 cd ../Branch_model_bird
 codeml codeml-branch-bird.ctl | tee logfile_codeml-branch-bird.txt
 ```
@@ -1021,11 +1021,11 @@ According to the LRTs, we conclude that the branch model better fits the data th
 
 #### Branch-site models
 
-Lastly, we will analyse our dataset under the most complex models we will cover in this practical session: branch-site models! Their assumption is that **$\omega$ varies both among lineages and across sites**. This type of models may be used to detect positive selection affecting specific amino acid sites along prespecified _foreground_ branches.
+Lastly, we will analyse our dataset under the most complex models we will cover in this practical session: branch-site models! Their assumption is that **$\omega$ varies both among lineages and across sites**. This type of model may be used to detect positive selection affecting specific amino acid sites along prespecified _foreground_ branches.
 
 The tree file will have the same format as that the branch models, with the foreground branches tagged with `#1` -- remember that label `#0` is the default and does not need to be used to label the background branches!
 
-The branch-site model implemented in `CODEML` that we will use is `branch-site model A`, which has one site class with $0 < \omega_{0} < 1$ for conserved sites (i.e., $\omega_{0}$ will be estimated, this site class is called "2a") and another class (site class "2b") with $\omega_{1} = 1$ (fixed value) to account for sites that are nearly neutral or under weak constraint ([Yang et al. 2000](https://doi.org/10.1093/genetics/155.1.431), [2005](https://doi.org/10.1093/molbev/msi097); [Zhang et al. 2005](https://doi.org/10.1093/molbev/msi237)). This model is enabled by updating variables `model` and `NSsites` in the control file to `model = 2` and `NSsites = 2`. The null model that we will use to compare the branch-site model A to is a branch-site model in which the site class 2a has $\omega = 1$ (fixed). To enable this setting, we can keep `model = 2` and `NSsites = 2` but modify `fix_omega = 1` and `omega = 1`: the $\omega$ ratio will now be fixed to 1 and not estimated.
+The branch-site model implemented in `CODEML` that we will use is `branch-site model A`, which has four site classes.  Site class 0 has $0 < \omega_{0} < 1$ for conserved sites (i.e., $\omega_{0}$ will be estimated, this site class is called "0").  Site class 1 with $\omega_{1} = 1$ (fixed value) to account for sites that are nearly neutral or under weak constraint.  In site classes 2a and 2b, the foreground branches are under positive selection with $\omega_{2} \ge 1$.  For class 2a, the background branches have $0 < \omega_{0} < 1$ and in class 2b, the background branches have $\omega_{1} = 1$ (fixed value)  ([Yang et al. 2000](https://doi.org/10.1093/genetics/155.1.431), [2005](https://doi.org/10.1093/molbev/msi097); [Zhang et al. 2005](https://doi.org/10.1093/molbev/msi237)). This model is enabled by updating variables `model` and `NSsites` in the control file to `model = 2` and `NSsites = 2`. The null model that we will use to compare the branch-site model A to is a branch-site model in which there is no positive selection on the foreground branches.  That is, site classes 2a and 2b have $\omega_{2} = 1$ (fixed). To enable this setting, we can keep `model = 2` and `NSsites = 2` but modify `fix_omega = 1` and `omega = 1`: the $\omega_{2}$ ratio will now be fixed to 1 and not estimated.
 
 We now have everything we need: input sequence alignment, input tree files with foreground labels, and our pre-specified control file! We will test the same hypotheses as per the branch model but, under the branch-site model, we will be testing for $\omega$ varying across sites too:
 
@@ -1035,14 +1035,14 @@ We now have everything we need: input sequence alignment, input tree files with 
   * Newick tree: `((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),Duck_Mx #1,Chicken_Mx #1);`.
   * Tree file: already prepared and labelled, available in `inp_data/Mx_branch_duckchicken.tree`.
   * Control file (alternative model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` (i.e., `model = 2` and `NSsites = 2` enables the branch-site model A implemented in `CODEML`). You can locate the control file in `03_branchsite_models/Branchsite_model_duckchicken_alt/codeml-branchsite-duckchicken-alt.ctl`.
-  * Control file (null model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` for setting the branch-site model A (i.e., `model = 2` and `NSsites = 0` ) and variables `omega` and `fix_omega` to fix the $\omega$ ratio to 1 (i.e., `fix_omega = 1` and `omega = 1`). You can locate the control file in `03_branchsite_models/Branchsite_model_duckchicken_null/codeml-branchsite-duckchicken-null.ctl`.
+  * Control file (null model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` for setting the branch-site model A (i.e., `model = 2` and `NSsites = 2` ) and variables `omega` and `fix_omega` to fix the $\omega$ ratio to 1 (i.e., `fix_omega = 1` and `omega = 1`). You can locate the control file in `03_branchsite_models/Branchsite_model_duckchicken_null/codeml-branchsite-duckchicken-null.ctl`.
 * **Q2: Are the bird lineage and relevant alignment sites under a different selective pressure to the rest of lineages in the phylogeny and alignment sites?**
   * Foreground branches: branch leading to bird clade, duck branch, and chicken branch.
   * Rooted tree.
   * Newick tree: `((((((Chimpanzee_Mx,Human_Mx),Orangutan_Mx),Rhesus_macaque_Mx),(((Sheep_Mx,Cow_Mx),Pig_Mx),Dog_Mx)),(Mouse_Mx,Rat_Mx)),(Duck_Mx #1,Chicken_Mx #1) #1);`.
   * Tree file: already prepared and labelled, available in `inp_data/Mx_branch_bird.tree`.
   * Control file (alternative model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` (i.e., `model = 2` and `NSsites = 2` enables the branch-site model A implemented in `CODEML`). You can locate the control file in `03_branchsite_models/Branchsite_model_bird_alt/codeml-branchsite-bird-alt.ctl`.
-  * Control file (null model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` for setting the branch-site model A (i.e., `model = 2` and `NSsites = 0` ) and variables `omega` and `fix_omega` to fix the $\omega$ ratio to 1 (i.e., `fix_omega = 1` and `omega = 1`). You can locate the control file in `03_branchsite_models/Branchsite_model_bird_null/codeml-branchsite-bird-null.ctl`.
+  * Control file (null model): already prepared, with `treefile` and `outfile` updated to point to the correct input tree file and the location of the output file as well as variables `model` and `NSsites` for setting the branch-site model A (i.e., `model = 2` and `NSsites = 2` ) and variables `omega` and `fix_omega` to fix the $\omega$ ratio to 1 (i.e., `fix_omega = 1` and `omega = 1`). You can locate the control file in `03_branchsite_models/Branchsite_model_bird_null/codeml-branchsite-bird-null.ctl`.
 
 Now that we are familiar with the hypotheses we will be testing and have all input files and control files ready, we can run `CODEML`!
 
