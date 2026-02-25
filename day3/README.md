@@ -238,11 +238,11 @@ To run `CODEML` with these settings, please do the following:
 cd 00_homogeneous_model/Model_M0
 # Run CODEML but also save a copy of the 
 # screen output in a log file
-codeml codeml-M0.ctl >(tee logfile_codemlM0.txt >&2)
+codeml codeml-M0.ctl | tee logfile_codemlM0.txt
 ```
 
 > [!NOTE]
-> This analysis took 00:03:40 (HH:MM:SS) to run on a PC with the following specs:
+> This analysis took 00:02:01 (HH:MM:SS) to run on a PC with the following specs:
 >
 > * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
 > * 23.0GB RAM
@@ -460,11 +460,11 @@ Note that we have updated the name of the output file (`out_sites.txt`) and we a
 
 # Run CODEML but also save a copy of the 
 # screen output in a log file
-codeml codeml-sites.ctl >(tee logfile_codeml-sites.txt >&2)
+codeml codeml-sites.ctl | tee logfile_codeml-sites.txt
 ```
 
 > [!NOTE]
-> This analysis took 01:13:58 (HH:MM:SS) to run on a PC with the following specs:
+> This analysis took 01:18:08 (HH:MM:SS) to run on a PC with the following specs:
 >
 > * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
 > * 23.0GB RAM
@@ -838,15 +838,15 @@ Now that we are familiar with the hypotheses we will be testing and have the inp
 # First, we will run CODEML under a
 # branch model assuming hypothesis Q1
 cd Branch_model_duckchicken
-codeml codeml-branch-duckchicken.ctl >(tee logfile_codeml-branch-duckchicken.txt >&2)
+codeml codeml-branch-duckchicken.ctl | tee logfile_codeml-branch-duckchicken.txt
 
 # Now, do the same but for hypothesis Q1
 cd ../Branch_model_bird
-codeml codeml-branch-bird.ctl >(tee logfile_codeml-branch-bird.txt >&2)
+codeml codeml-branch-bird.ctl | tee logfile_codeml-branch-bird.txt
 ```
 
 > [!NOTE]
-> These analysis took 00:02:19 (HH:MM:SS) for Q1 and 00:03:29 (HH:MM:SS) for Q2 to run on a PC with the following specs:
+> These analysis took 00:04:21 (HH:MM:SS) for Q1 and 00:04:43 (HH:MM:SS) for Q2 to run on a PC with the following specs while simultaneously running other processes:
 >
 > * 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz (2.80 GHz)
 > * 23.0GB RAM
