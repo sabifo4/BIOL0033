@@ -1,0 +1,5 @@
+#nexus
+begin sets;
+  charset CP12 = 1-.\3 2-.\3;
+  charset CP3  = 3-.\3;
+end;

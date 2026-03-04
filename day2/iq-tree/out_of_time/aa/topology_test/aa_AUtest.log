@@ -1,0 +1,177 @@
+IQ-TREE multicore version 2.4.0 for Linux x86 64-bit built Feb  7 2025
+Developed by Bui Quang Minh, Nguyen Lam Tung, Olga Chernomor, Heiko Schmidt,
+Dominik Schrempf, Michael Woodhams, Ly Trong Nhan, Thomas Wong
+
+Host:    rstudio-biol0033 (AVX512, FMA3, 31 GB RAM)
+Command: iqtree2 -s ../aln_aa.fasta -m Q.plant+I+R3 -z ../../candidates.tree -n 0 -zb 10000 -au -pre aa_AUtest
+Seed:    14483 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Wed Feb 11 18:05:18 2026
+Kernel:  AVX+FMA - 1 threads (16 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 16 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+Reading alignment file ../aln_aa.fasta ... Fasta format detected
+Reading fasta file: done in 0.000718094 secs using 91.35% CPU
+Alignment most likely contains protein sequences
+Alignment has 12 sequences with 991 columns, 691 distinct patterns
+279 parsimony-informative, 281 singleton sites, 431 constant sites
+                   Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 7.1222e-05 secs using 98.28% CPU
+   1  Chicken_Mx          28.86%    passed     49.31%
+   2  Chimpanzee_Mx       27.85%    passed     20.98%
+   3  Cow_Mx              34.61%    passed     97.06%
+   4  Dog_Mx              33.70%    passed    100.00%
+   5  Duck_Mx             27.25%    passed     81.79%
+   6  Human_Mx            33.20%    passed    100.00%
+   7  Mouse_Mx            36.33%    passed     99.81%
+   8  Orangutan_Mx        33.20%    passed     99.99%
+   9  Pig_Mx              33.10%    passed     99.99%
+  10  Rat_Mx              34.21%    passed     99.90%
+  11  Rhesus_macaque_Mx   33.30%    passed    100.00%
+  12  Sheep_Mx            34.01%    passed     80.71%
+****  TOTAL               32.47%  0 sequences failed composition chi2 test (p-value<5%; df=19)
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.002 seconds
+WARNING: Normalizing state frequencies so that sum of them equals to 1
+
+NOTE: 3 MB RAM (0 GB) is required!
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -10135.054
+2. Current log-likelihood: -9863.356
+3. Current log-likelihood: -9857.630
+4. Current log-likelihood: -9853.629
+5. Current log-likelihood: -9848.935
+6. Current log-likelihood: -9843.129
+7. Current log-likelihood: -9837.295
+8. Current log-likelihood: -9835.649
+9. Current log-likelihood: -9835.041
+10. Current log-likelihood: -9834.628
+11. Current log-likelihood: -9834.280
+12. Current log-likelihood: -9833.971
+13. Current log-likelihood: -9833.690
+14. Current log-likelihood: -9833.431
+15. Current log-likelihood: -9833.189
+16. Current log-likelihood: -9832.962
+17. Current log-likelihood: -9832.748
+18. Current log-likelihood: -9832.546
+19. Current log-likelihood: -9832.354
+20. Current log-likelihood: -9832.172
+21. Current log-likelihood: -9831.999
+22. Current log-likelihood: -9831.834
+23. Current log-likelihood: -9831.676
+24. Current log-likelihood: -9831.526
+25. Current log-likelihood: -9831.383
+26. Current log-likelihood: -9831.246
+27. Current log-likelihood: -9831.123
+28. Current log-likelihood: -9831.005
+29. Current log-likelihood: -9830.891
+30. Current log-likelihood: -9830.781
+31. Current log-likelihood: -9830.675
+32. Current log-likelihood: -9830.574
+33. Current log-likelihood: -9830.476
+34. Current log-likelihood: -9830.382
+35. Current log-likelihood: -9830.291
+36. Current log-likelihood: -9830.204
+37. Current log-likelihood: -9830.120
+38. Current log-likelihood: -9830.039
+39. Current log-likelihood: -9829.961
+40. Current log-likelihood: -9829.886
+41. Current log-likelihood: -9829.813
+42. Current log-likelihood: -9829.743
+43. Current log-likelihood: -9829.676
+44. Current log-likelihood: -9829.612
+45. Current log-likelihood: -9829.549
+46. Current log-likelihood: -9829.488
+47. Current log-likelihood: -9829.429
+48. Current log-likelihood: -9829.373
+49. Current log-likelihood: -9829.318
+50. Current log-likelihood: -9829.265
+51. Current log-likelihood: -9829.213
+52. Current log-likelihood: -9829.164
+53. Current log-likelihood: -9829.116
+54. Current log-likelihood: -9829.070
+55. Current log-likelihood: -9829.025
+56. Current log-likelihood: -9828.983
+57. Current log-likelihood: -9828.943
+58. Current log-likelihood: -9828.904
+59. Current log-likelihood: -9828.866
+60. Current log-likelihood: -9828.829
+61. Current log-likelihood: -9828.793
+62. Current log-likelihood: -9828.758
+63. Current log-likelihood: -9828.724
+64. Current log-likelihood: -9828.692
+65. Current log-likelihood: -9828.660
+66. Current log-likelihood: -9828.629
+67. Current log-likelihood: -9828.607
+68. Current log-likelihood: -9828.576
+69. Current log-likelihood: -9828.555
+70. Current log-likelihood: -9828.525
+71. Current log-likelihood: -9828.506
+72. Current log-likelihood: -9828.478
+73. Current log-likelihood: -9828.459
+74. Current log-likelihood: -9828.440
+75. Current log-likelihood: -9828.414
+76. Current log-likelihood: -9828.397
+77. Current log-likelihood: -9828.379
+78. Current log-likelihood: -9828.361
+79. Current log-likelihood: -9828.344
+80. Current log-likelihood: -9828.327
+81. Current log-likelihood: -9828.311
+82. Current log-likelihood: -9828.294
+83. Current log-likelihood: -9828.278
+84. Current log-likelihood: -9828.263
+85. Current log-likelihood: -9828.247
+86. Current log-likelihood: -9828.233
+87. Current log-likelihood: -9828.218
+88. Current log-likelihood: -9828.204
+89. Current log-likelihood: -9828.191
+90. Current log-likelihood: -9828.178
+91. Current log-likelihood: -9828.166
+92. Current log-likelihood: -9828.153
+93. Current log-likelihood: -9828.142
+94. Current log-likelihood: -9828.131
+95. Current log-likelihood: -9828.120
+96. Current log-likelihood: -9828.110
+97. Current log-likelihood: -9828.099
+98. Current log-likelihood: -9828.089
+Optimal log-likelihood: -9828.074
+Proportion of invariable sites: 0.160
+Site proportion and rates:  (0.403,0.153) (0.383,0.780) (0.055,11.720)
+Parameters optimization took 98 rounds (12.577 sec)
+Wrote distance file to... 
+BEST SCORE FOUND : -9828.074
+Total tree length: 11.944
+
+Total number of iterations: 0
+CPU time used for tree search: 0.000 sec (0h:0m:0s)
+Wall-clock time used for tree search: 0.000 sec (0h:0m:0s)
+Total CPU time used: 12.514 sec (0h:0m:12s)
+Total wall-clock time used: 12.597 sec (0h:0m:12s)
+Reading trees in ../../candidates.tree ...
+
+2 trees detected
+Note: 26.670 MB of RAM required!
+Creating 10000 bootstrap replicates...
+done
+Tree 1 / LogL: -9831.978
+Tree 2 / LogL: -9828.073
+Performing RELL-BP test...
+Performing KH and SH test...
+Performing ELW test...
+Performing approximately unbiased (AU) test...
+1 MB required for AU test
+Generating 10 x 10000 multiscale bootstrap replicates... 0.949 seconds
+TreeID	AU	RSS	d	c
+1	0.198	4.125	0.778	-0.070
+2	0.802	4.125	-0.778	0.070
+Time for AU test: 0.950 seconds
+Time for evaluating all trees: 1.261 sec.
+
+Analysis results written to: 
+  IQ-TREE report:                aa_AUtest.iqtree
+  Maximum-likelihood tree:       aa_AUtest.treefile
+  Evaluated user trees:          aa_AUtest.trees
+  Screen log file:               aa_AUtest.log
+
+Date and Time: Wed Feb 11 18:05:31 2026

@@ -1,0 +1,10 @@
+Metric_name, phykit_command, metric_type
+Pairwise Identity, pairwise_identity, alignment
+Alignment Length, aln_len, alignment
+Relative Composition Variability, relative_composition_variability, alignment
+Internal Branch Statistics, internal_branch_stats, tree
+Terminal Branch Statistics, terminal_branch_stats, tree
+Tree length, total_tree_length, tree
+Treeness, treeness, tree
+Treeness/RCV, treeness_over_rcv, both
+Saturation, saturation, both

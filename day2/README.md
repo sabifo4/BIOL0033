@@ -86,7 +86,7 @@ Most protein-coding genes in vertebrates tend to present different rates for A�
 
 #### AA alignment
 
-The preferred model for the DNA alignment is `Q.plant+I+R3`. Let's evaluate each part:
+The preferred model for the AA alignment is `Q.plant+I+R3`. Let's evaluate each part:
 
 * `Q.plant`: this model is not linked to plant datasets. Instead, the AA substitution matrix designed for this model ([Minh et al. 2021](https://doi.org/10.1093/sysbio/syab010)) was inferred from large sets of plant nuclear proteins, many of which are structurally constrained (e.g., suppression of radical changes; preference for conservative substitutions such as I↔L, D↔E, K↔R; etc.). In other words, **`Q.plant` captures fold-driven evolution, not taxonomy**, which is exactly what fits a folded, dynamic GTPase domain with extremely conserved core residues such as the one we are analysing! A structure-based alignment tends to focus on better aligning secondary structures such as helices and sheets. Nevertheless, spurious homology in loops will be removed. To this end, there may be a strong signal of structural constraint and fewer apparent radical AA changes.  This is the main reason why this matrix outperforms other general models.
 * `I`: it seems that there are many positions that remain invariant across the alignment. `IQ-TREE` models these positions as a truly invariant class and not just slow rates.
@@ -492,6 +492,542 @@ figtree1.4.4
 </details><br>
 
 Now, you can launch `FigTree` to view the file with the consensus tree that `MrBayes` has output (i.e., file names that end with `*con.tre`). The tree will be displayed in the `FigTree` window. On the left hand side, you can find the options and settings which control how the tree is displayed. We will see together the main options you can use to display the tree.
+
+
+## Tree and Alignment Comparison with Phykit
+
+There are various methods one can use to evaluate trees and alignments.  One package that contains a number of useful comparison metrics is [Phykit](https://jlsteenwyk.com/PhyKIT/).  
+
+We will demonstrate how to use Phykit to compare Maximum Likelihood trees based on trimmed and untrimmed AA alignments between structural and sequence alignments.
+
+First we need to create the trees.  
+
+Earlier you created a tree for the structure-based AA alignment.  The alignment is saved in `~/my_session/day2/iq-tree/aa/aln_aa.fasta`.  We will now make another alignment based on the protein tree created by Muscle5 on day1 from `my_session/day1/aln/aln_prot_super5_muscle.fasta aa_seq/aln_aa_seq.fasta` 
+
+```sh
+# Run from my_session/day2/iq-tree
+
+#Make a directory aa_seq and then copy the muscle alignment file into that folder
+mkdir aa_seq
+cp ../../day1/aln/aln_prot_super5_muscle.fasta aa_seq/aln_aa_seq.fasta
+
+#run iqtree
+cd aa_seq
+iqtree2 -s aln_aa_seq.fasta -B 1000 -T AUTO
+
+```
+
+For this alignment notice that a different model of evolution was determined to be most appropriate to construct the tree than the structure-based alignment: `Q.plant+G4` rather than `Q.plant+I+R3`, which does not include an invariant class, and uses a discrete gamma distribution with 4 categories for rate heterogeneity rather than a free rate model with 3 categories.
+
+Phykit has a number of functions to compare alignments, trees, or both.  Here are a few that might be useful to you and more can be found in the [phykit documentation](https://jlsteenwyk.com/PhyKIT/usage/index.html)
+
+<table>
+<!-- HEADER -->
+<tr>
+<th>Comparison Name</th>
+<th>Data Used</th>
+<th>Phykit function </th>
+<th>Description</th>
+</tr>
+
+<!-- 1st ROW -->
+<tr>
+<td>Pairwise Identity</td>
+<td>alignment</td>
+<td>pairwise_identity</td>
+<td>Average pairwise identity among sequences.  Defined as the number of identical columns (including gaps) between two aligned sequences divided by the number of columns in the alignment.  </td>
+</tr>
+<!-- 2nd ROW -->
+<tr>
+<td>Alignment Length</td>
+<td>alignment</td>
+<td>aln_len</td>
+<td>Length of alignment</td>
+</tr>
+<!-- 3rd ROW -->
+<tr>
+<td>Relative composition variability</td>
+<td>alignment</td>
+<td>relative_composition_variability</td>
+<td>Describes the average variability in sequence composition among taxa.</td>
+</tr>
+<!-- 4th ROW -->
+<tr>
+<td>Column score</td>
+<td>alignment</td>
+<td>column_score</td>
+<td>Compare an alignment to a reference alignment.  Ratio of correctly aligned columns to total number of columns in an alignment.</td>
+</tr>
+<!-- 5th ROW -->
+<tr>
+<td>Internal Branch Statistics</td>
+<td>tree</td>
+<td>internal_branch_stats</td>
+<td>Summary statistics for internal branch lengths.</td>
+</tr>
+<!-- 6th ROW -->
+<tr>
+<td>Terminal Branch Statistics</td>
+<td>tree</td>
+<td>terminal_branch_stats</td>
+<td>Summary statistics for terminal branch lengths.</td>
+</tr>
+<!-- 8th ROW -->
+<tr>
+<td>Total Tree length</td>
+<td>tree</td>
+<td>total_tree_length</td>
+<td>Sum of all branches.</td>
+</tr>
+<!-- 7th ROW -->
+<tr>
+<td>Treeness</td>
+<td>tree</td>
+<td>treeness</td>
+<td>Sum of internal branch lengths divided by the total tree length.</td>
+</tr>
+<!-- 9th ROW -->
+<tr>
+<td>Robinson foulds distance</td>
+<td>tree</td>
+<td>robinson_foulds_distance</td>
+<td>After pruning to include only shared tips, provides a metric to compare two phylogenies.  A low RF distance indicates the two trees are similar.  The function provides a plain RF value and a normalized RF value (divided by 2(N-3) where N is the number of tips). </td>
+</tr>
+<!-- 10th ROW -->
+<tr>
+<td>Treeness/RCV</td>
+<td>tree and aligment</td>
+<td>treeness_over_rcv</td>
+<td>Divides the Treeness (a tree-based value) by the RCV (an alignment-based value).  High values indicate a high signal to noise ratio (higher treeness) and low composition bias (lower RCV)</td>
+</tr>
+<!-- 11th ROW -->
+<tr>
+<td>Saturation</td>
+<td>tree and alignment</td>
+<td>saturation</td>
+<td>Assesses how much the sequences in the alignment have undergone numerous substitutions such that the distances between taxa are underestimated.  Compares the patristic distance (that is the distance between two sequences based on the branches of the phylogenetic tree which take multiple substitutions into account) and the raw uncorrected distance computed between the two sequences in the alignment.  See [Philippe et al. 2011](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1000602).</td>
+</tr>
+</table>
+
+We will start by comparing both alignments based on column score and both trees based on Robinson-Foulds distance. 
+
+For column score to work correctly, the sequences in the alignment should be in the same order.  We have provided a small python script that puts the sequences from aln_aa_seq.fasta into the same order as aln_aa.fasta. 
+
+```sh
+# Run from my_session/day2/iq-tree
+
+cp ../../../biol0033-tutorial/day2/scripts ../
+chmod 775 ../scripts/* 
+
+
+# Phykit is installed in the virtual environment py-env along with biopython which is used in the python script.  You need to activate the environment.   
+source /opt/py-env/bin/activate
+
+../scripts/reorder_aln.py aa_seq/aln_aa_seq.fasta aa/aln_aa.fasta aa_seq
+
+#Get Column Score with the sequence-based alignment as the reference
+phykit column_score aa/aln_aa.fasta --reference aa_seq/aln_aa_seq_reordered.fasta
+
+#Get Column Score with the structure-based alignment as the reference
+phykit column_score aa_seq/aln_aa_seq_reordered.fasta --reference aa/aln_aa.fasta
+```
+
+You should get something like: 
+
+```sh
+(py-env) [<username>@rstudio-biol0033 iq-tree]$ phykit column_score aa/aln_aa.fasta --reference aa_seq/aln_aa_seq_reordered.fasta
+0.3249
+(py-env) [<username>@rstudio-biol0033 iq-tree]$ phykit column_score aa_seq/aln_aa_seq_reordered.fasta --reference aa/aln_aa.fasta
+0.403
+```
+
+An identical alignment would have a column score of 1, but when we do this, we see a number less than 1. 
+
+
+```sh
+# Run from my_session/day2/iq-tree
+
+#Get Column Score with the sequence-based alignment as the reference
+phykit column_score aa/aln_aa.fasta --reference aa/aln_aa.fasta
+
+#Get Column Score with the structure-based alignment as the reference
+phykit column_score aa_seq/aln_aa_seq_reordered.fasta --reference aa_seq/aln_aa_seq_reordered.fasta
+
+```
+
+```sh
+(py-env) [<username>@rstudio-biol0033 iq-tree]$ phykit column_score aa/aln_aa.fasta --reference aa/aln_aa.fasta
+0.6973
+(py-env) [<username>@rstudio-biol0033 iq-tree]$ phykit column_score aa_seq/aln_aa_seq_reordered.fasta --reference aa_seq/aln_aa_seq_reordered.fasta
+0.6796
+```
+This is because columns with gaps incur a penalty in the column score.  For more information see [Thompson et al. 1999](https://academic.oup.com/nar/article/27/13/2682/2376831).
+
+
+Now calculate the Robinson-Foulds Distance based on the trees.  You do not need to reorder the leaves or designate a reference to calculate the Robinson Foulds Distance. The output is two values, the raw RF distance and the normalized RF distance (See [Robinson & Foulds 1981](https://www.sciencedirect.com/science/article/pii/0025556481900432) for details)
+
+```sh
+# Run from my_session/day2/iq-tree
+# Get Robinson Foulds distance between the structure and sequence generated trees
+phykit robinson_foulds_distance aa/aln_aa.fasta.treefile aa_seq/aln_aa_seq.fasta.treefile
+
+```
+
+We get 0 for both values, as both of these trees are topologically equivlent (that is not to say their branch lengths are the same). 
+
+```sh
+(py-env) [<username>@rstudio-biol0033 iq-tree]$ phykit robinson_foulds_distance aa/aln_aa.fasta.treefile aa_seq/aln_aa_seq.fasta.treefile
+0       0.0
+```
+
+Now we will gather some more metrics about each tree and alignment.  For this we will make a directory to save the data and use a small script, `my_session/day2/scripts/phykit_comparisons.py` that takes a file listing input alignments and trees that we want to analyze and another file listing the metrics we want to calculate and prints the output to a text file.  The inputs are provided in the day2 directory.   
+
+
+```sh
+# Run from my_session/day2
+# If not already there change to that directory
+
+cp /biol0033/day2/phykit_comparisons -R .
+
+scripts/phykit_comparisons.py phykit_comparisons/seq_struct_to_compare.txt phykit_comparisons/phykit_metrics.csv phykit_comparisons/seq_struct.txt
+
+```
+
+This produces the file  `my_session/day2/phykit_comparisons/seq_struct.txt`
+
+Which has a number of metrics including: 
+
+```sh
+Metric: Alignment Length
+========================================
+
+Input: aa_struct
+----------------------------------------
+991
+
+Input: aa_seq
+----------------------------------------
+799
+```
+
+```sh
+Metric: Terminal Branch Statistics
+========================================
+
+Input: aa_struct
+----------------------------------------
+mean: 0.6264
+median: 0.2954
+25th percentile: 0.0803
+75th percentile: 0.4813
+minimum: 0.0263
+maximum: 4.1386
+standard deviation: 1.1462
+variance: 1.3137
+
+Input: aa_seq
+----------------------------------------
+mean: 0.1634
+median: 0.1235
+25th percentile: 0.0339
+75th percentile: 0.1938
+minimum: 0.0098
+maximum: 0.5198
+standard deviation: 0.1748
+variance: 0.0305
+```
+
+```sh
+Metric: Tree length
+========================================
+
+Input: aa_struct
+----------------------------------------
+11.9309
+
+Input: aa_seq
+----------------------------------------
+3.8441
+```
+
+```sh
+Metric: Treeness/RCV
+========================================
+
+Input: aa_struct
+----------------------------------------
+4.7599	0.37	0.0777
+
+Input: aa_seq
+----------------------------------------
+5.0645	0.49	0.0968
+```
+
+We see in particular that the alignment length for the structure-based alignment is much longer than the sequence based alignment.  It is likely that this is due to the large gaps in the beginning of the alignment which occur because of non-overlapping disordered N-terminal regions. 
+
+### Trimming Alignments
+
+We can try to tidy up the alignment by clipping out very gappy regions.  
+
+To do this we will use the software, [ClipKit](https://jlsteenwyk.com/ClipKIT/) 
+
+We will use the default mode which implements the smart-gap dynamic algorithm, but there are various other modes available. 
+
+The flag `-l` ensures that a log is printed out that tracks which alignment columns were trimmed. 
+
+The output is a multi-line fasta so we change it to a single line with our `one_line_fasta.pl` script
+
+```sh
+# Run from my_session/day2
+# If not already there change to that directory
+mkdir {aa,aa_seq}_trimmed
+
+#trim structural alignment
+clipkit aa/aln_aa.fasta -o aa_trimmed/aln_aa_trimmed.fasta -l
+
+#Convert the fasta file to have one line per sequence
+../../day1/scripts/one_line_fasta.pl aa_trimmed/aln_aa_trimmed.fasta
+mv aa_trimmed/aln_aa_trimmed_one_line.fa aa_trimmed/aln_aa_trimmed.fasta
+
+#trim sequence alignment
+clipkit aa_seq/aln_aa_seq.fasta -o aa_seq_trimmed/aln_aa_seq_trimmed.fasta -l
+
+#Convert the fasta file to have one line per sequence
+../../day1/scripts/one_line_fasta.pl aa_seq_trimmed/aln_aa_seq_trimmed.fasta
+mv aa_seq_trimmed/aln_aa_seq_trimmed_one_line.fa aa_seq_trimmed/aln_aa_seq_trimmed.fasta
+
+```
+
+You should get an output that provides details on the clipping, such as this one for the structural alignment
+
+```sh
+-------------
+| Arguments |
+-------------
+Input file: aa/aln_aa.fasta (format: fasta)
+Output file: aa_trimmed/aln_aa_trimmed.fasta (format: fasta)
+Sequence type: Protein
+Gaps threshold: 0.9167
+Gap characters: ['-', '?', '*', 'X', 'x']
+Trimming mode: smart-gap
+Create complementary output: False
+Process as codons: False
+Trim ends only: False
+Create log file: True
+
+
+------------------------
+| Writing output files |
+------------------------
+Trimmed alignment: aa_trimmed/aln_aa_trimmed.fasta
+Complement file: False
+Log file: aa_trimmed/aln_aa_trimmed.fasta.log
+
+
+---------------------
+| Output Statistics |
+---------------------
+Original length: 991
+Number of sites kept: 740
+Number of sites trimmed: 251
+Percentage of alignment trimmed: 25.328%
+
+Execution time: 0.046s
+```
+
+The trimming for the sequence alignment removed fewer sites, and ended up with fewer columns.  
+```sh
+---------------------
+| Output Statistics |
+---------------------
+Original length: 799
+Number of sites kept: 699
+Number of sites trimmed: 100
+Percentage of alignment trimmed: 12.516%
+```
+
+Now we build new trees with the Trimmed alignments: 
+
+
+```sh
+# Run from my_session/day2/iq-tree
+
+#run iqtree
+cd aa_trimmed
+iqtree2 -s aln_aa_trimmed.fasta -B 1000 -T AUTO
+
+cd ../aa_seq_trimmed
+iqtree2 -s aln_aa_seq_trimmed.fasta -B 1000 -T AUTO
+
+```
+
+IQ-tree generated the same evolutionary model for trees generated with the trimmed alignments as it did for the untrimmed alignments:  `Q.plant+I+R3` for the structure-based tree and `Q.plant+G4` for the sequence-based tree. 
+
+Now we can compare the various metrics between trimmed and untrimmed alignments
+
+
+```sh
+# Run from my_session/day2
+# If not already there change to that directory
+
+scripts/phykit_comparisons.py phykit_comparisons/seq_struct_trim_to_compare.txt phykit_comparisons/phykit_metrics.csv phykit_comparisons/seq_struct_trim.txt
+
+```
+
+We see that, besides alignment length, many of these metrics are similar between trimmed and untrimmed alignments.  Indeed, for the tree-based metrics the values are almost identical: 
+
+```sh
+
+Metric: Alignment Length
+========================================
+
+Input: aa_struct
+----------------------------------------
+991
+
+Input: aa_seq
+----------------------------------------
+799
+
+Input: aa_struct_trimmed
+----------------------------------------
+740
+
+Input: aa_seq_trimmed
+----------------------------------------
+699
+
+
+Metric: Internal Branch Statistics
+========================================
+
+Input: aa_struct
+----------------------------------------
+mean: 0.4905
+median: 0.2775
+25th percentile: 0.1503
+75th percentile: 0.6303
+minimum: 0.0538
+maximum: 1.9568
+standard deviation: 0.5952
+variance: 0.3543
+
+Input: aa_seq
+----------------------------------------
+mean: 0.2093
+median: 0.1176
+25th percentile: 0.0767
+75th percentile: 0.2451
+minimum: 0.0199
+maximum: 0.8393
+standard deviation: 0.2542
+variance: 0.0646
+
+Input: aa_struct_trimmed
+----------------------------------------
+mean: 0.4904
+median: 0.2775
+25th percentile: 0.1503
+75th percentile: 0.6302
+minimum: 0.0538
+maximum: 1.9564
+standard deviation: 0.5951
+variance: 0.3541
+
+Input: aa_seq_trimmed
+----------------------------------------
+mean: 0.2093
+median: 0.1176
+25th percentile: 0.0767
+75th percentile: 0.2451
+minimum: 0.0199
+maximum: 0.8393
+standard deviation: 0.2542
+variance: 0.0646
+
+Metric: Tree length
+========================================
+
+Input: aa_struct
+----------------------------------------
+11.9309
+
+Input: aa_seq
+----------------------------------------
+3.8441
+
+Input: aa_struct_trimmed
+----------------------------------------
+11.9285
+
+Input: aa_seq_trimmed
+----------------------------------------
+3.844
+```
+
+What about the column score?  After reordering the trimmed sequence based tree we can recalculate the column score with the trimmed alignments.  
+
+
+```sh
+# Run from my_session/day2
+
+# reorder sequence-based trimmed alignment to match structure based trimmed alignment so we can compare them with column score. 
+scripts/reorder_aln.py iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed.fasta iq-tree/aa_trimmed/aln_aa_trimmed.fasta iq-tree/aa_seq_trimmed/
+
+#Get Column Score with the sequence-based alignment as the reference
+phykit column_score iq-tree/aa_trimmed/aln_aa_trimmed.fasta --reference iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed_reordered.fasta
+
+#Get Column Score with the structure-based alignment as the reference
+phykit column_score iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed_reordered.fasta --reference iq-tree/aa_trimmed/aln_aa_trimmed.fasta
+
+#Get the baseline Column Score for the structure-based alignment vs itself 
+phykit column_score iq-tree/aa_trimmed/aln_aa_trimmed.fasta --reference iq-tree/aa_trimmed/aln_aa_trimmed.fasta
+
+#Get the baseline Column Score with the sequence-based alignment vs itself 
+phykit column_score iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed_reordered.fasta --reference iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed_reordered.fasta
+
+```
+
+We see that for the trimmed structure-based alignment, there seems to be an increased similarity with the sequence-based alignment.  Also the control baseline column score is much higher for the trimmed structure-based tree. 
+
+<table>
+<!-- HEADER -->
+<tr>
+<th>Comparison for Column Score</th>
+<th>Untrimmed</th>
+<th>Trimmed </th>
+</tr>
+
+<!-- 1st ROW -->
+<tr>
+<td>Structure-based vs Sequence-based (ref)</td>
+<td>0.3249</td>
+<td>0.377</td>
+</tr>
+<!-- 2nd ROW -->
+<tr>
+<td>Sequence-based vs Structure-based (ref)</td>
+<td>0.403</td>
+<td>0.3991</td>
+</tr>
+<!-- 3rd ROW -->
+<tr>
+<td>Structure-based vs Structure-based</td>
+<td>0.6973</td>
+<td>0.773</td>
+</tr>
+<!-- 4th ROW -->
+<tr>
+<td>Sequence-based vs Sequence-based</td>
+<td>0.6796</td>
+<td>0.7082</td>
+</tr>
+</table>
+
+
+Which alignment / tree is better will depend on what you prioritize in your analysis as each metric measures different properties.  It appears that in this case, the structure-based tree gives longer branches and has higher saturation.  Treeness measures the internal branch lengths divided by the total tree length and the sequence-based trees had a higher value than the structure-based trees (0.49 vs 0.37) which would tend to indicate a higher signal to noise ratio.  Relative Compositional Variability measures bias in the composition of amino acids between sequences and high RCV indicates that some branches have specific amino acids overrepresented which could lead to systematic errors.  It is lower in structure-based alignments than in sequence-based alignments (0.0777/0.0782 vs 0.0968/0.0906).  Treeness/RCV is the ratio between these two metrics and was better for the sequence-based alignments. 
+
+
 
 ---
 

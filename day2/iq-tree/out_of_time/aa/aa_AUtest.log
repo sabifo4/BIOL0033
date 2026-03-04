@@ -1,0 +1,14 @@
+IQ-TREE multicore version 2.4.0 for Linux x86 64-bit built Feb  7 2025
+Developed by Bui Quang Minh, Nguyen Lam Tung, Olga Chernomor, Heiko Schmidt,
+Dominik Schrempf, Michael Woodhams, Ly Trong Nhan, Thomas Wong
+
+Host:    rstudio-biol0033 (AVX512, FMA3, 31 GB RAM)
+Command: iqtree2 -s ../aln_aa.fasta -m Q.plant+I+R3 -z ../../candidates.tree -n 0 -zb 10000 -au -pre aa_AUtest
+Seed:    430529 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Wed Feb 11 18:04:37 2026
+Kernel:  AVX+FMA - 1 threads (16 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 16 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+Reading alignment file ../aln_aa.fasta ... ERROR: File not found ../aln_aa.fasta

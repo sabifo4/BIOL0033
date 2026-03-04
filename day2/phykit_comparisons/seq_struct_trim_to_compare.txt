@@ -1,0 +1,19 @@
+index: 0
+name: aa_struct
+alignment_filename: ~/my_session/day2/iq-tree/aa/aln_aa.fasta
+tree_filename: ~/my_session/day2/iq-tree/aa/aln_aa.fasta.treefile
+
+index: 1
+name: aa_seq
+alignment_filename: ~/my_session/day2/iq-tree/aa_seq/aln_aa_seq.fasta
+tree_filename: ~/my_session/day2/iq-tree/aa_seq/aln_aa_seq.fasta.treefile
+
+index: 3
+name: aa_struct_trimmed
+alignment_filename: ~/my_session/day2/iq-tree/aa_trimmed/aln_aa_trimmed.fasta
+tree_filename: ~/my_session/day2/iq-tree/aa_trimmed/aln_aa_trimmed.fasta.treefile
+
+index: 4
+name: aa_seq_trimmed
+alignment_filename: ~/my_session/day2/iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed.fasta
+tree_filename: ~/my_session/day2/iq-tree/aa_seq_trimmed/aln_aa_seq_trimmed.fasta.treefile

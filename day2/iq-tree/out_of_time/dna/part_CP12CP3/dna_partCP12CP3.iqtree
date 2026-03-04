@@ -1,0 +1,188 @@
+IQ-TREE 2.4.0 built Feb  7 2025
+
+Partition file name: part12_3.nex
+Input file name: ../aln_dna.fasta
+Type of analysis: ModelFinder + tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 993529
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Bui Quang Minh, Heiko A. Schmidt, Olga Chernomor, Dominik Schrempf,
+Michael D. Woodhams, Arndt von Haeseler, and Robert Lanfear (2020)
+IQ-TREE 2: New models and efficient methods for phylogenetic inference
+in the genomic era. Mol. Biol. Evol., in press.
+https://doi.org/10.1093/molbev/msaa015
+
+To cite ModelFinder please use: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+Since you used partition models please also cite:
+
+Olga Chernomor, Arndt von Haeseler, and Bui Quang Minh (2016)
+Terrace aware data structure for phylogenomic inference from
+supermatrices. Syst. Biol., 65:997-1008.
+https://doi.org/10.1093/sysbio/syw037
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 12 taxa with 2 partitions and 2397 total sites (0% missing data)
+
+  ID	Type	Seq	Site	Unique	Infor	Invar	Const	Name
+   1	DNA	12	1598	563	506	810	810	CP12
+   2	DNA	12	799	541	507	157	157	CP3
+
+Column meanings:
+  Unique: Number of unique site patterns
+  Infor:  Number of parsimony-informative sites
+  Invar:  Number of invariant sites
+  Const:  Number of constant sites (can be subset of invariant sites)
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: TPM3u+F+G4:CP12,TNe+G4:CP3
+
+List of best-fit models per partition:
+
+  ID  Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+   1  TPM3u+F+G4        -8547.630   17109.260 + 2.43e-316   17109.331 - 5.4e-317   17146.896 - 7.38e-317
+   2  TNe+G4            -6424.738   12857.476 + 2.43e-316   12857.527 - 5.4e-317   12876.210 - 7.38e-317
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Edge-linked-proportional partition model with separate substitution models and separate rates across sites
+
+  ID  Model           Speed  Parameters
+   1  TPM3u+F+G4     0.7238  TPM3u{1.98889,3.6824}+F{0.35,0.203362,0.233686,0.212951}+G4{0.574877}
+   2  TNe+G4         1.5523  TNe{3.44929,4.5744}+FQ+G4{2.87986}
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -14971.3285 (s.e. 217.4066)
+Unconstrained log-likelihood (without tree): -12444.0019
+Number of free parameters (#branches + #model parameters): 31
+Akaike information criterion (AIC) score: 30004.6569
+Corrected Akaike information criterion (AICc) score: 30005.4958
+Bayesian information criterion (BIC) score: 30183.8981
+
+Total tree length (sum of branch lengths): 2.6533
+Sum of internal branch lengths: 1.4439 (54.4185% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Duck_Mx' is drawn at root
+Numbers in parentheses are  ultrafast bootstrap support (%)
+
++---Duck_Mx
+|
+|                                    +-----------------Chimpanzee_Mx
++------------------------------------| (100)
+|                                    |               +--Orangutan_Mx
+|                                    |            +--| (99)
+|                                    |            |  +--Human_Mx
+|                                    |        +---| (100)
+|                                    |        |   +--Rhesus_macaque_Mx
+|                                    |     +--| (84)
+|                                    |     |  |     +---Pig_Mx
+|                                    |     |  |  +--| (100)
+|                                    |     |  |  |  |    +--Sheep_Mx
+|                                    |     |  |  |  +----| (100)
+|                                    |     |  |  |       +--Cow_Mx
+|                                    |     |  +--| (80)
+|                                    |     |     +------Dog_Mx
+|                                    +-----| (98)
+|                                          |          +---Rat_Mx
+|                                          +----------| (100)
+|                                                     +---Mouse_Mx
+|
++------------Chicken_Mx
+
+Tree in newick format:
+
+(Duck_Mx:0.0883373976,(Chimpanzee_Mx:0.3647807538,((((Orangutan_Mx:0.0085187217,Human_Mx:0.0134177592)99:0.0153351223,Rhesus_macaque_Mx:0.0225455859)100:0.0887935940,((Pig_Mx:0.0797005600,(Sheep_Mx:0.0229626636,Cow_Mx:0.0174753187)100:0.1020506855)100:0.0657267395,Dog_Mx:0.1494779581)80:0.0245031707)84:0.0458287138,(Rat_Mx:0.0852044519,Mouse_Mx:0.0932002869)100:0.2211208564)98:0.1300205822)100:0.7505095495,Chicken_Mx:0.2637958259);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -14971.328519
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with support >0.000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++---Duck_Mx
+|
+|                                    +-----------------Chimpanzee_Mx
++------------------------------------| (100)
+|                                    |               +--Orangutan_Mx
+|                                    |            +--| (99)
+|                                    |            |  +--Human_Mx
+|                                    |        +---| (100)
+|                                    |        |   +--Rhesus_macaque_Mx
+|                                    |     +--| (84)
+|                                    |     |  |     +---Pig_Mx
+|                                    |     |  |  +--| (100)
+|                                    |     |  |  |  |    +--Sheep_Mx
+|                                    |     |  |  |  +----| (100)
+|                                    |     |  |  |       +--Cow_Mx
+|                                    |     |  +--| (80)
+|                                    |     |     +------Dog_Mx
+|                                    +-----| (98)
+|                                          |          +---Rat_Mx
+|                                          +----------| (100)
+|                                                     +---Mouse_Mx
+|
++------------Chicken_Mx
+
+
+Consensus tree in newick format: 
+
+(Duck_Mx:0.0885728120,(Chimpanzee_Mx:0.3648224693,((((Orangutan_Mx:0.0085200266,Human_Mx:0.0134176645)99:0.0153340657,Rhesus_macaque_Mx:0.0225484400)100:0.0887931769,((Pig_Mx:0.0797019192,(Sheep_Mx:0.0229661294,Cow_Mx:0.0174707541)100:0.1020505679)100:0.0657343232,Dog_Mx:0.1494811419)80:0.0245106994)84:0.0458082025,(Rat_Mx:0.0852255365,Mouse_Mx:0.0931981794)100:0.2211503350)98:0.1300050071)100:0.7503435338,Chicken_Mx:0.2636164579);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t dna_partCP12CP3.treefile -p dna_partCP12CP3.best_model.nex
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s ../aln_dna.fasta --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s ../aln_dna.fasta --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Wed Feb 11 18:15:49 2026
+Total CPU time used: 8.114939 seconds (0h:0m:8s)
+Total wall-clock time used: 8.335834498 seconds (0h:0m:8s)
+

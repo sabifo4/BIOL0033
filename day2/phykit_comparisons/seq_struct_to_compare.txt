@@ -1,0 +1,9 @@
+index: 0
+name: aa_struct
+alignment_filename: ~/my_session/day2/iq-tree/aa/aln_aa.fasta
+tree_filename: ~/my_session/day2/iq-tree/aa/aln_aa.fasta.treefile
+
+index: 1
+name: aa_seq
+alignment_filename: ~/my_session/day2/iq-tree/aa_seq/aln_aa_seq.fasta
+tree_filename: ~/my_session/day2/iq-tree/aa_seq/aln_aa_seq.fasta.treefile
